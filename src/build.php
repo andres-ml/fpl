@@ -13,6 +13,8 @@ use PhpParser\{
     PrettyPrinter,
 };
 
+use Aml\Fpl;
+
 require_once __DIR__ . '/../vendor/autoload.php';
 
 $namespace = 'Aml\Fpl';
@@ -27,45 +29,49 @@ $shouldCopy = function(Function_ $function) {
     return $name[0] !== '_';
 };
 
-$curryFunction = function(Function_ $function) use($namespace, $factory) {
+$functionToCurriedCall = function(Function_ $function) use($namespace, $factory) {
     $path = "$namespace\\functions\\$function->name";
     $curryCall = $factory->funcCall("\\$namespace\\functions\\curry", [$path]);
     $curryCall = $factory->funcCall($curryCall, [new Arg(new Expr\Variable('args'), false, true)]);
     return $factory->function((string) $function->name)
         ->addParam($factory->param('args')->makeVariadic())
-        ->addStmt(new Stmt\Return_($curryCall));
+        ->addStmt(new Stmt\Return_($curryCall))
+        ->setDocComment($function->getDocComment() ?: '');
 };
 
 $functionToConst = function(Function_ $function) use($namespace) {
     $path = "$namespace\\$function->name";
-    return new Stmt\Const_([new Const_($function->name, BuilderHelpers::normalizeValue($path))]);
+    $const = new Stmt\Const_([new Const_($function->name, BuilderHelpers::normalizeValue($path))]);
+    $const->setDocComment($function->getDocComment() ?: new Comment\Doc(''));
+    return $const;
 };
 
 $parser = (new ParserFactory)->create(ParserFactory::PREFER_PHP7);
 $functions = [];
-$apiFiles = \Aml\Fpl\slice(2, INF, scandir(__DIR__ . '/api'));
 
-foreach ($apiFiles as $file) {
-    $AST = $parser->parse(file_get_contents(__DIR__ . "/api/$file"));
-    $functions = array_merge($functions, array_filter($AST[0]->stmts, function($statement) use($shouldCopy) {
-        return ($statement instanceof Function_) && $shouldCopy($statement);
-    }));
-}
+$fileToStatements = Fpl\compose(
+    Fpl\filter($shouldCopy),
+    Fpl\filter(function($statement) {
+        return $statement instanceof Function_;
+    }),
+    Fpl\prop('stmts'),
+    Fpl\index(0),
+    [$parser, 'parse'],
+    'file_get_contents',
+    function($file) {
+        return __DIR__ . "/api/$file";
+    }
+);
 
-// alphabetical sort
-usort($functions, function($f1, $f2) {
-    return $f1->name <=> $f2->name;
-});
+$apiFiles = Fpl\slice(2, INF, scandir(__DIR__ . '/api'));
+$functions = Fpl\compose(
+    Fpl\sortBy(Fpl\prop('name')),
+    Fpl\flatten(1),
+    Fpl\map($fileToStatements)
+)($apiFiles);
 
-foreach ($functions as $function) {
-    $node->addStmt($functionToConst($function));
-}
-
-// add a separator by injecting a comment to the 1st definition
-$node->addStmt($curryFunction($functions[0])->setDocComment(new Comment\Doc('/* ----------------- */')));
-foreach (array_slice($functions, 1) as $function) {
-    $node->addStmt($curryFunction($function));
-}
+Fpl\each(Fpl\compose([$node, 'addStmt'], $functionToConst), $functions);
+Fpl\each(Fpl\compose([$node, 'addStmt'], $functionToCurriedCall), $functions);
 
 $code = (new PrettyPrinter\Standard)->prettyPrintFile([$node->getNode()]);
 file_put_contents(__DIR__ . '/../' . $argv[1], $code);
