@@ -8,6 +8,9 @@ use const Aml\Fpl{partial, map};
 $multiplyItemsBy2 = partial(map, function($x) { return $x * 2; });
 $multiplyItemsBy2([1, 2, 3]); // [2, 4, 6]
 ```
+ Full api documentation can be found in [docs/api.md](docs/api.md)
+ 
+#
 
 List-related functions return an array when they receive an array parameter, but they return iterators when receiving iterators (and can thus behave lazily). You can force laziness over an initial array by previously using `toIterator` or finish off with an array by ending with `toArray`:
 ```php
@@ -21,7 +24,7 @@ $pickLowerThan4 = compose(toArray, takeWhile($lowerThan4), counter);
 $pickLowerThan4(); // [0, 1, 2, 3]
 ```
 
-If you want, you can use the original function definitions instead. Note that these are not curried and cannot be used as parameters (like `map` in the example above), but do play well with code hinting.
+If you want, you can use the original function definitions instead. Note that these are not curried and cannot be used as parameters (like `map` in the first example), but do play well with code hinting.
 
 ```php
 use function Aml\Fpl\functions{map};
@@ -30,31 +33,26 @@ use const Aml\Fpl\{partial};
 partial();  // hinted as ' Aml\Fpl\partial'
 map(...);   // hinted as function map($callable, $items)
 ```
-#
 
-Todo:
-* Code generation
-* Test framework
-* Doc generation
+#
 
 Missing functions
 * keys, values
 * flip
-* toArray, toList
+* toList
 * reduce
 * prop, propOr
 * index, indexOr
 * invoker
-* slice
-* head, last, tail, init
+* slice, head, last, tail, init
 * chunk
 * groupBy
 * zip
 * flatten
 * fromPairs
 * toPairs
-* any
-* all
+* any, all
 * search
 * filter
 * each
+* construct

@@ -4,4 +4,4 @@ code:
 	php build.php
 
 test:
-	php test/test.php
+	./vendor/bin/phpunit tests

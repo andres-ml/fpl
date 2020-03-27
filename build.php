@@ -4,6 +4,7 @@ use PhpParser\{
     BuilderFactory,
     BuilderHelpers,
     Comment,
+    Node\Arg,
     Node\Expr,
     Node\Const_,
     Node\Stmt,
@@ -11,7 +12,6 @@ use PhpParser\{
     ParserFactory,
     PrettyPrinter,
 };
-use PhpParser\Node\Arg;
 
 require_once __DIR__ . '/vendor/autoload.php';
 
@@ -52,7 +52,7 @@ $parser = (new ParserFactory)->create(ParserFactory::PREFER_PHP7);
 
 $functions = [];
 foreach ($scopes as $scope) {
-    $AST = $parser->parse(file_get_contents(__DIR__ . "/src/api.$scope.php"));
+    $AST = $parser->parse(file_get_contents(__DIR__ . "/src/api/$scope.php"));
     $functions = array_merge($functions, array_filter($AST[0]->stmts, function($statement) use($shouldCopy) {
         return ($statement instanceof Function_) && $shouldCopy($statement);
     }));
@@ -67,6 +67,7 @@ foreach ($functions as $function) {
     $node->addStmt($functionToConst($function));
 }
 
+// add a separator by injecting a comment to the 1st definition
 $node->addStmt($curryFunction($functions[0])->setDocComment(new Comment\Doc('/* ----------------- */')));
 foreach (array_slice($functions, 1) as $function) {
     $node->addStmt($curryFunction($function));
