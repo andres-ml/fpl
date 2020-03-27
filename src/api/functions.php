@@ -2,8 +2,7 @@
 
 namespace Aml\Fpl\functions;
 
-
-function complement($function)
+function complement($function) : callable
 {
     return function(...$args) use($function) {
         return !call_user_func_array($function, $args);
@@ -16,7 +15,7 @@ function compose(...$functions) : callable
         $reducer = function($arguments, $function) {
             return [call_user_func_array($function, $arguments)];
         };
-        return array_reduce(array_reverse($functions), $reducer, $args)[0];
+        return reduce($reducer, $args, array_reverse($functions))[0];
     };
 }
 
@@ -35,6 +34,20 @@ function curryN(int $N, $function) : callable
             return curryN($N - \count($args), partial($function, ...$args));
         }
         return $function(...$args);
+    };
+}
+
+function flip($function) : callable
+{
+    return function($a, $b, ...$args) use($function) {
+        return call_user_func($function, $b, $a, ...$args);
+    };
+}
+
+function nAry(int $arity, callable $function) : callable
+{
+    return function(...$args) use($arity, $function) {
+        return call_user_func_array($function, slice(0, $arity, $args));
     };
 }
 

@@ -14,13 +14,18 @@ $multiplyItemsBy2([1, 2, 3]); // [2, 4, 6]
 
 List-related functions return an array when they receive an array parameter, but they return iterators when receiving iterators (and can thus behave lazily). You can force laziness over an initial array by previously using `toIterator` or finish off with an array by ending with `toArray`:
 ```php
-use const Aml\Fpl{takeWhile, counter};
+use Aml\Fpl;
 
 $lowerThan4 = function($x) { return $x < 4; };
 
-takeWhile($lowerThan4, [0, 1, 2, 3, 4, 5]); // [0, 1, 2, 3]
+Fpl\takeWhile($lowerThan4, [0, 1, 2, 3, 4, 5]); // [0, 1, 2, 3]
 
-$pickLowerThan4 = compose(toArray, takeWhile($lowerThan4), counter);
+$pickLowerThan4 = Fpl\compose(
+    Fpl\toArray
+    Fpl\takeWhile($lowerThan4),
+    Fpl\counter
+);
+
 $pickLowerThan4(); // [0, 1, 2, 3]
 ```
 
@@ -34,25 +39,11 @@ partial();  // hinted as ' Aml\Fpl\partial'
 map(...);   // hinted as function map($callable, $items)
 ```
 
-#
+## Testing
 
-Missing functions
-* keys, values
-* flip
-* toList
-* reduce
-* prop, propOr
-* index, indexOr
-* invoker
-* slice, head, last, tail, init
-* chunk
-* groupBy
-* zip
-* flatten
-* fromPairs
-* toPairs
-* any, all
-* search
-* filter
-* each
-* construct
+Testing is done through phpunit: `./vendor/bin/phpunit tests`
+
+## Note on performance
+
+Automatic currying and automatic array/iter support have a performance overhead. Be wary of using them in a time-critical loop; a native `array_map` will always be faster than other implementations of `map`.
+
