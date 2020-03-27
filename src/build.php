@@ -13,16 +13,9 @@ use PhpParser\{
     PrettyPrinter,
 };
 
-require_once __DIR__ . '/vendor/autoload.php';
+require_once __DIR__ . '/../vendor/autoload.php';
 
 $namespace = 'Aml\Fpl';
-
-$scopes = [
-    'functions',
-    'generators',
-    'lists',
-    'utils',
-];
 
 $factory = new BuilderFactory;
 $node = $factory
@@ -49,10 +42,11 @@ $functionToConst = function(Function_ $function) use($namespace) {
 };
 
 $parser = (new ParserFactory)->create(ParserFactory::PREFER_PHP7);
-
 $functions = [];
-foreach ($scopes as $scope) {
-    $AST = $parser->parse(file_get_contents(__DIR__ . "/src/api/$scope.php"));
+$apiFiles = \Aml\Fpl\slice(2, INF, scandir(__DIR__ . '/api'));
+
+foreach ($apiFiles as $file) {
+    $AST = $parser->parse(file_get_contents(__DIR__ . "/api/$file"));
     $functions = array_merge($functions, array_filter($AST[0]->stmts, function($statement) use($shouldCopy) {
         return ($statement instanceof Function_) && $shouldCopy($statement);
     }));
@@ -74,4 +68,4 @@ foreach (array_slice($functions, 1) as $function) {
 }
 
 $code = (new PrettyPrinter\Standard)->prettyPrintFile([$node->getNode()]);
-file_put_contents(__DIR__ . '/build/code.php', $code);
+file_put_contents(__DIR__ . '/../' . $argv[1], $code);

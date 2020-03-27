@@ -16,7 +16,7 @@
             "Aml\\Fpl\\": "build"
         },
         "files": [
-            "build/code.php",
+            "build/api.php",
             "src/api/functions.php",
             "src/api/lists.php",
             "src/api/generators.php",
