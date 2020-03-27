@@ -39,10 +39,14 @@ const propOr = 'Aml\\Fpl\\propOr';
 const reduce = 'Aml\\Fpl\\reduce';
 const search = 'Aml\\Fpl\\search';
 const slice = 'Aml\\Fpl\\slice';
+const sort = 'Aml\\Fpl\\sort';
+const sortBy = 'Aml\\Fpl\\sortBy';
+const spaceship = 'Aml\\Fpl\\spaceship';
 const takeWhile = 'Aml\\Fpl\\takeWhile';
 const toArray = 'Aml\\Fpl\\toArray';
 const toIterator = 'Aml\\Fpl\\toIterator';
 const toPairs = 'Aml\\Fpl\\toPairs';
+const useWith = 'Aml\\Fpl\\useWith';
 const values = 'Aml\\Fpl\\values';
 const zip = 'Aml\\Fpl\\zip';
 /* ----------------- */
@@ -190,6 +194,18 @@ function slice(...$args)
 {
     return \Aml\Fpl\functions\curry('Aml\\Fpl\\functions\\slice')(...$args);
 }
+function sort(...$args)
+{
+    return \Aml\Fpl\functions\curry('Aml\\Fpl\\functions\\sort')(...$args);
+}
+function sortBy(...$args)
+{
+    return \Aml\Fpl\functions\curry('Aml\\Fpl\\functions\\sortBy')(...$args);
+}
+function spaceship(...$args)
+{
+    return \Aml\Fpl\functions\curry('Aml\\Fpl\\functions\\spaceship')(...$args);
+}
 function takeWhile(...$args)
 {
     return \Aml\Fpl\functions\curry('Aml\\Fpl\\functions\\takeWhile')(...$args);
@@ -205,6 +221,10 @@ function toIterator(...$args)
 function toPairs(...$args)
 {
     return \Aml\Fpl\functions\curry('Aml\\Fpl\\functions\\toPairs')(...$args);
+}
+function useWith(...$args)
+{
+    return \Aml\Fpl\functions\curry('Aml\\Fpl\\functions\\useWith')(...$args);
 }
 function values(...$args)
 {

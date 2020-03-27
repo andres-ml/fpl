@@ -38,3 +38,8 @@ function propOr(string $property, $else, $object)
 {
     return $object->{$property} ?? $else;
 }
+
+function spaceship($a, $b) : int
+{
+    return $a <=> $b;
+}

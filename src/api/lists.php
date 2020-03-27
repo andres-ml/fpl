@@ -173,6 +173,18 @@ function reduce($function, $initial, iterable $items) : iterable
     return $initial;
 }
 
+function sort($comparator, iterable $items) : array
+{
+    $array = toArray($items);
+    usort($array, $comparator);
+    return $array;
+}
+
+function sortBy($function, iterable $items) : array
+{
+    return Fpl\sort(Fpl\useWith([$function, $function], Fpl\spaceship), $items);
+}
+
 function search($callback, iterable $items)
 {
     return compose(Fpl\head, Fpl\filter($callback), Fpl\toIterator)($items);

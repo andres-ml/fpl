@@ -62,3 +62,13 @@ function pipe(...$functions) : callable
 {
     return compose(...array_reverse($functions));
 }
+
+function useWith(array $argCallbacks, $function) : callable
+{
+    return function(...$args) use($argCallbacks, $function) {
+        $modifyArgument = function($arg, $index) use($argCallbacks) {
+            return call_user_func($argCallbacks[$index], $arg);
+        };
+        return call_user_func_array($function, map($modifyArgument, $args));
+    };
+}

@@ -40,4 +40,16 @@ class FunctionsTest extends TestCase
         $this->assertEquals(10, $curried(1, 2, 3, 4));
     }
 
+    /**
+     * 
+     */
+    public function testUseWith() : void
+    {
+        $multiplyBy = curry(function($x, $y) { return $x*$y; });
+        $sum = function($a, $b) { return $a + $b; };
+
+        $sumDuplicates = useWith([$multiplyBy(3), $multiplyBy(4)], $sum);
+        $this->assertEquals(11, $sumDuplicates(1, 2));
+    }
+
 }
