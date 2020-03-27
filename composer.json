@@ -1,0 +1,31 @@
+{
+    "name": "andres-ml/fpl",
+    "description": "Functional PHP library",
+    "keywords": ["functional", "php"],
+    "type": "library",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Andrés ML",
+            "email": "andres.mingorance@gmail.com"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+            "Aml\\Fpl\\functions\\": "src",
+            "Aml\\Fpl\\": "build"
+        },
+        "files": [
+            "build/code.php",
+            "src/api.functions.php",
+            "src/api.lists.php",
+            "src/api.generators.php",
+            "src/api.utils.php"
+        ]
+    },
+    "require": {
+    },
+    "require-dev": {
+        "nikic/php-parser": "^4.3"
+    }
+}
