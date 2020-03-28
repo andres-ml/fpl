@@ -7,6 +7,7 @@ use PhpParser\{
     Node\Arg,
     Node\Expr,
     Node\Const_,
+    Node\Name,
     Node\Stmt,
     Node\Stmt\Function_,
     ParserFactory,
@@ -30,11 +31,12 @@ $shouldCopy = function(Function_ $function) {
 };
 
 $functionToCurriedCall = function(Function_ $function) use($namespace, $factory) {
-    $path = "$namespace\\functions\\$function->name";
-    $curryCall = $factory->funcCall("\\$namespace\\functions\\curry", [$path]);
-    $curryCall = $factory->funcCall($curryCall, [new Arg(new Expr\Variable('args'), false, true)]);
+    $curryCall = $factory->funcCall(
+        $factory->funcCall("\\$namespace\\functions\\curry", ["$namespace\\functions\\$function->name"]),
+        [
+            new Arg(new Expr\FuncCall(new Name('func_get_args')), false, true)
+        ]);
     return $factory->function((string) $function->name)
-        ->addParam($factory->param('args')->makeVariadic())
         ->addStmt(new Stmt\Return_($curryCall))
         ->setDocComment($function->getDocComment() ?: '');
 };

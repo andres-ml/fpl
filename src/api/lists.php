@@ -4,17 +4,42 @@ namespace Aml\Fpl\functions;
 
 use Aml\Fpl;
 
+/**
+ * Given an iterator-returning function $generator and a base object,
+ * returns the iterator as is if the base object is also an iterator, or
+ * an array if the base object is an array
+ *
+ * @param iterable $base
+ * @param callable $generator
+ * @return iterable
+ */
 function _arrayOrIterator(iterable $base, callable $generator) : iterable
 {
     $result = $generator($base);
     return is_array($base) ? iterator_to_array($result) : $result;
 }
 
+/**
+ * Returns whether every `$item` in `$items` returns a truthy value for `$callback($item)`.
+ * You can use `identity` to filter by the items themselves.
+ *
+ * @param callable $callback
+ * @param iterable $items
+ * @return boolean
+ */
 function all($callback, iterable $items) : bool
 {
     return !any($callback, $items);
 }
 
+/**
+ * Returns whether any `$item` in `$items` returns a truthy value for `$callback($item)`.
+ * You can use `identity` to filter by the items themselves.
+ *
+ * @param callable $callback
+ * @param iterable $items
+ * @return boolean
+ */
 function any($callback, iterable $items) : bool
 {
     foreach ($items as $item) {
@@ -25,6 +50,13 @@ function any($callback, iterable $items) : bool
     return false;
 }
 
+/**
+ * Groups items in chunks of size `$size`. Note that keys are lost in the process.
+ *
+ * @param integer $size
+ * @param iterable $items
+ * @return iterable
+ */
 function chunk(int $size, iterable $items) : iterable
 {
     return compose(
@@ -36,6 +68,13 @@ function chunk(int $size, iterable $items) : iterable
     )($items);
 }
 
+/**
+ * Drops items from `$items` until `$function($item)` is false.
+ *
+ * @param callable $function
+ * @param iterable $items
+ * @return iterable
+ */
 function dropWhile($function, iterable $items) : iterable
 {
     return _arrayOrIterator($items, function($items) use($function) {
@@ -48,6 +87,14 @@ function dropWhile($function, iterable $items) : iterable
     });
 }
 
+/**
+ * Runs a callback over each item in `$items`.
+ * Returns the same `$items` iterable, which might be useful for chaining.
+ * 
+ * @param callable $callback
+ * @param iterable $items
+ * @return iterable
+ */
 function each($callback, iterable $items) : iterable
 {
     foreach ($items as $item) {
@@ -56,9 +103,17 @@ function each($callback, iterable $items) : iterable
     return $items;
 }
 
+/**
+ * Flattens an iterable up to depth `$depth`. Keys are not preserved.
+ * You can perform a full flatten by using flatten(INF).
+ *
+ * @param number $depth
+ * @param iterable $items
+ * @return iterable
+ */
 function flatten($depth, iterable $items) : iterable
 {
-    $index = 0;
+    $index = 0; // to prevent `yield from` from overriding indices
     $flatten = function($depth, $items) use(&$flatten, &$index) {
         foreach ($items as $value) {
             if (is_iterable($value) && $depth > 0) {
@@ -73,6 +128,13 @@ function flatten($depth, iterable $items) : iterable
     return _arrayOrIterator($items, partial($flatten, $depth));
 }
 
+/**
+ * Filters items that do not return a truthy value for `$function`
+ *
+ * @param callable $function
+ * @param iterable $items
+ * @return iterable
+ */
 function filter($function, iterable $items) : iterable
 {
     return _arrayOrIterator($items, function($items) use($function) {
@@ -84,6 +146,18 @@ function filter($function, iterable $items) : iterable
     });
 }
 
+/**
+ * Builds an associative iterable based on an iterable of pairs.
+ * 
+ * ```
+ * fromPairs([['a', 1], ['b', 2]]); // ['a' => 1, 'b' => 2]
+ * ```
+ * 
+ * This is the inverse of `toPairs`.
+ *
+ * @param iterable $items
+ * @return iterable
+ */
 function fromPairs(iterable $items) : iterable
 {
     return _arrayOrIterator($items, function($items) {
@@ -93,6 +167,34 @@ function fromPairs(iterable $items) : iterable
     });
 }
 
+/**
+ * Groups each item `$item` in `$items` by the value provided by `$grouper($item)`.
+ * 
+ * ```
+ * $grouped = groupBy(index('age'), [
+ *      ['name' => 'Pete', 'age' => 30],
+ *      ['name' => 'Carl', 'age' => 25],
+ *      ['name' => 'Martha', 'age' => 30],
+ * ]);
+ * ```
+ * 
+ * Results in the following array:
+ * ```
+ * [
+ *  30 => [
+ *      ['name' => 'Pete', 'age' => 30],
+ *      ['name' => 'Martha', 'age' => 30],
+ *  ],
+ *  25 => [
+ *      ['name' => 'Carl', 'age' => 25],
+ *  ],
+ * ]
+ * ```
+ * 
+ * @param callable $grouper
+ * @param iterable $items
+ * @return iterable
+ */
 function groupBy($grouper, iterable $items) : iterable
 {
     $grouped = [];
@@ -103,6 +205,12 @@ function groupBy($grouper, iterable $items) : iterable
     return $grouped;
 }
 
+/**
+ * Returns the first element in `$items`, if any
+ *
+ * @param iterable $items
+ * @return mixed
+ */
 function head(iterable $items)
 {
     foreach ($items as $key => $value) {
@@ -110,6 +218,12 @@ function head(iterable $items)
     }
 }
 
+/**
+ * Returns the keys of `$items`
+ *
+ * @param iterable $items
+ * @return iterable
+ */
 function keys(iterable $items) : iterable
 {
     return _arrayOrIterator($items, function($items) {
@@ -119,6 +233,12 @@ function keys(iterable $items) : iterable
     });
 }
 
+/**
+ * Returns the last item in `$items`, if any
+ *
+ * @param iterable $items
+ * @return mixed
+ */
 function last(iterable $items)
 {
     if (is_array($items)) {
@@ -130,6 +250,13 @@ function last(iterable $items)
     }
 }
 
+/**
+ * Maps `$items` with `$function`
+ * 
+ * @param callable $function
+ * @param iterable $items
+ * @return iterable
+ */
 function map($function, iterable $items) : iterable
 {
     return _arrayOrIterator($items, function($items) use($function) {
@@ -139,19 +266,49 @@ function map($function, iterable $items) : iterable
     });
 }
 
-function pick(array $indices, iterable $items) : iterable
+/**
+ * Filters `$items` by keys that belong in `$keys`.
+ * 
+ * ```
+ * pick(['age'], ['age' => 30, 'name' => 'Pete']); // ['age' => 30]
+ * ```
+ *
+ * @param array $indices
+ * @param iterable $items
+ * @return iterable
+ */
+function pick(array $keys, iterable $items) : iterable
 {
-    $indexMatch = function($value, $key) use($indices) {
-        return in_array($key, $indices);
+    $indexMatch = function($value, $key) use($keys) {
+        return in_array($key, $keys);
     };
     return pickBy($indexMatch, $items);
 }
 
+/**
+ * Filters `$items` that pass the specified `$function`.
+ * This function is equivalent to `filter`
+ * 
+ * @param callable $function
+ * @param iterable $items
+ * @return iterable
+ */
 function pickBy(callable $function, iterable $items) : iterable
 {
     return filter($function, $items);
 }
 
+/**
+ * Filters `$items` by keys that do NOT belong in `$keys`.
+ * 
+ * ```
+ * omit(['password'], ['name' => 'Pete', 'password' => 'secret']); // ['name' => 'Pete]
+ * ```
+ *
+ * @param array $indices
+ * @param iterable $items
+ * @return iterable
+ */
 function omit(array $indices, iterable $items) : iterable
 {
     $indexMatch = function($value, $key) use($indices) {
@@ -160,11 +317,41 @@ function omit(array $indices, iterable $items) : iterable
     return omitBy($indexMatch, $items);
 }
 
+
+/**
+ * Filters `$items` by those who do not pass `$function`.
+ * 
+ * ```
+ * omitBy(index('admin'), [
+ *     ['name' => 'Pete', 'admin' => true],
+ *     ['name' => 'Carl', 'admin' => false],
+ * ]);
+ * ```
+ * 
+ * Would result in:
+ * ```
+ * [
+ *     ['name' => 'Carl', 'admin' => false],
+ * ]
+ * ```
+ *
+ * @param callable $function
+ * @param iterable $items
+ * @return iterable
+ */
 function omitBy(callable $function, iterable $items) : iterable
 {
     return pickBy(complement($function), $items);
 }
 
+/**
+ * Array reducing, a.k.a. foldl.
+ *
+ * @param callable $function reducer function
+ * @param mixed $initial initial value
+ * @param iterable $items
+ * @return iterable
+ */
 function reduce($function, $initial, iterable $items) : iterable
 {
     foreach ($items as $item) {
@@ -173,6 +360,14 @@ function reduce($function, $initial, iterable $items) : iterable
     return $initial;
 }
 
+/**
+ * Sorts `$items`. Note that return type will be array regardless of `$items`,
+ * and the array will be sorted in place, since we use php's `usort`
+ *
+ * @param callable $comparator function that takes 2 values and returns an integer -1, 0, 1
+ * @param iterable $items
+ * @return array
+ */
 function sort($comparator, iterable $items) : array
 {
     $array = toArray($items);
@@ -180,16 +375,49 @@ function sort($comparator, iterable $items) : array
     return $array;
 }
 
+/**
+ * Similar to sort, but using a function that returns a value to use as comparison for each item.
+ * 
+ * sortBy(index('age'), [
+ *     ['name' => 'Pete', 'age' => 30],
+ *     ['name' => 'Carl', 'age' => 25],
+ * ]);
+ * 
+ * Would result in:
+ * [
+ *     ['name' => 'Carl', 'age' => 25],
+ *     ['name' => 'Pete', 'age' => 30],
+ * ]
+ *
+ * @param callable $function function that takes an item and returns a value that can be compared with php's spaceship operator <=>
+ * @param iterable $items
+ * @return array
+ */
 function sortBy($function, iterable $items) : array
 {
     return Fpl\sort(Fpl\useWith([$function, $function], Fpl\spaceship), $items);
 }
 
+/**
+ * Returns the first item in `$items` for which `$callback($item)` is truthy
+ *
+ * @param callable $callback
+ * @param iterable $items
+ * @return mixed
+ */
 function search($callback, iterable $items)
 {
     return compose(Fpl\head, Fpl\filter($callback), Fpl\toIterator)($items);
 }
 
+/**
+ * Returns a slice of `$items`, beginning at `$start` and of length `$length`.
+ *
+ * @param integer $start
+ * @param number $length
+ * @param iterable $items
+ * @return iterable
+ */
 function slice(int $start, $length, iterable $items) : iterable
 {
     return _arrayOrIterator($items, function($items) use($start, $length) {
@@ -206,6 +434,13 @@ function slice(int $start, $length, iterable $items) : iterable
     });
 }
 
+/**
+ * Takes items from `$items` until `$function($item)` yields false
+ *
+ * @param callable $function
+ * @param iterable $items
+ * @return iterable
+ */
 function takeWhile($function, iterable $items) : iterable
 {
     return _arrayOrIterator($items, function($items) use($function) {
@@ -218,11 +453,23 @@ function takeWhile($function, iterable $items) : iterable
     });
 }
 
+/**
+ * Iterable to array
+ *
+ * @param iterable $items
+ * @return iterable
+ */
 function toArray(iterable $items) : iterable
 {
     return is_array($items) ? $items : iterator_to_array($items);
 }
 
+/**
+ * Iterable to iterator
+ *
+ * @param iterable $items
+ * @return iterable
+ */
 function toIterator(iterable $items) : iterable
 {
     foreach ($items as $key => $value) {
@@ -230,6 +477,18 @@ function toIterator(iterable $items) : iterable
     }
 }
 
+/**
+ * From associative iterable to a list of pairs.
+ * 
+ * ```
+ * fromPairs(['a' => 1, 'b' => 2]); // [['a', 1], ['b', 2]]
+ * ```
+ * 
+ * This is the inverse of `toPairs`.
+ *
+ * @param iterable $items
+ * @return iterable
+ */
 function toPairs(iterable $items) : iterable
 {
     return _arrayOrIterator($items, function($items) {
@@ -239,6 +498,12 @@ function toPairs(iterable $items) : iterable
     });
 }
 
+/**
+ * Values of an iterable
+ *
+ * @param iterable $items
+ * @return iterable
+ */
 function values(iterable $items) : iterable
 {
     return _arrayOrIterator($items, function($items) {
@@ -248,6 +513,13 @@ function values(iterable $items) : iterable
     });
 }
 
+/**
+ * Zips one or more iterables
+ *
+ * @param iterable $first
+ * @param iterable[] ...$rest
+ * @return iterable
+ */
 function zip(iterable $first, ...$rest) : iterable
 {
     return _arrayOrIterator($first, function($first) use($rest) {
