@@ -302,6 +302,18 @@ const omit = 'Aml\\Fpl\\omit';
  */
 const omitBy = 'Aml\\Fpl\\omitBy';
 /**
+ * Packs the arguments of a function into an tuple/array
+ * 
+ * ```
+ * $sum = pack('array_sum');
+ * $sum(1, 2, 3);   // 6
+ * ```
+ *
+ * @param callable $function
+ * @return callable
+ */
+const pack = 'Aml\\Fpl\\pack';
+/**
  * Partial application
  *
  * @param callable $function
@@ -450,6 +462,21 @@ const toIterator = 'Aml\\Fpl\\toIterator';
  * @return iterable
  */
 const toPairs = 'Aml\\Fpl\\toPairs';
+/**
+ * Unpacks/spreads arguments of a function
+ * 
+ * ```
+ * $words = compose(
+ *     unpack('array_merge'),
+ *     map(nAry(1, partial('explode', ' ')))
+ * );
+ * $words(['a sentence', 'some other sentence']); // ['a', 'sentence', 'some', 'other', 'sentence']
+ * ```
+ * 
+ * @param callable $function
+ * @return callable
+ */
+const unpack = 'Aml\\Fpl\\unpack';
 /**
  * Wraps a function `$function` so that it's called with transformed arguments, as defined
  * by the `$argCallbacks` array.
@@ -859,6 +886,21 @@ function omitBy()
     return \Aml\Fpl\functions\curry('Aml\\Fpl\\functions\\omitBy')(...func_get_args());
 }
 /**
+ * Packs the arguments of a function into an tuple/array
+ * 
+ * ```
+ * $sum = pack('array_sum');
+ * $sum(1, 2, 3);   // 6
+ * ```
+ *
+ * @param callable $function
+ * @return callable
+ */
+function pack()
+{
+    return \Aml\Fpl\functions\curry('Aml\\Fpl\\functions\\pack')(...func_get_args());
+}
+/**
  * Partial application
  *
  * @param callable $function
@@ -1054,6 +1096,24 @@ function toIterator()
 function toPairs()
 {
     return \Aml\Fpl\functions\curry('Aml\\Fpl\\functions\\toPairs')(...func_get_args());
+}
+/**
+ * Unpacks/spreads arguments of a function
+ * 
+ * ```
+ * $words = compose(
+ *     unpack('array_merge'),
+ *     map(nAry(1, partial('explode', ' ')))
+ * );
+ * $words(['a sentence', 'some other sentence']); // ['a', 'sentence', 'some', 'other', 'sentence']
+ * ```
+ * 
+ * @param callable $function
+ * @return callable
+ */
+function unpack()
+{
+    return \Aml\Fpl\functions\curry('Aml\\Fpl\\functions\\unpack')(...func_get_args());
 }
 /**
  * Wraps a function `$function` so that it's called with transformed arguments, as defined

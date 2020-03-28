@@ -121,6 +121,24 @@ function nAry(int $arity, callable $function) : callable
 }
 
 /**
+ * Packs the arguments of a function into an tuple/array
+ * 
+ * ```
+ * $sum = pack('array_sum');
+ * $sum(1, 2, 3);   // 6
+ * ```
+ *
+ * @param callable $function
+ * @return callable
+ */
+function pack($function) : callable
+{
+    return function(...$args) use($function) {
+        return call_user_func($function, $args);
+    };
+}
+
+/**
  * Partial application
  *
  * @param callable $function
@@ -143,6 +161,25 @@ function partial($function, ...$partialArgs) : callable
 function pipe(...$functions) : callable
 {
     return compose(...array_reverse($functions));
+}
+
+/**
+ * Unpacks/spreads arguments of a function
+ * 
+ * ```
+ * $words = compose(
+ *     unpack('array_merge'),
+ *     map(nAry(1, partial('explode', ' ')))
+ * );
+ * $words(['a sentence', 'some other sentence']); // ['a', 'sentence', 'some', 'other', 'sentence']
+ * ```
+ * 
+ * @param callable $function
+ * @return callable
+ */
+function unpack($function) : callable
+{
+    return partial('call_user_func_array', $function);
 }
 
 /**

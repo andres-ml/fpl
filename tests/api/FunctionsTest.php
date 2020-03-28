@@ -41,6 +41,27 @@ class FunctionsTest extends TestCase
     }
 
     /**
+     * @return void
+     */
+    public function testPack() : void
+    {
+        $sum = pack('array_sum');
+        $this->assertEquals(6, $sum(1, 2, 3));
+    }
+
+    /**
+     * @return void
+     */
+    public function testUnpack() : void
+    {
+        $words = compose(
+            unpack('array_merge'),
+            map(nAry(1, partial('explode', ' ')))
+        );
+        $this->assertEquals(['a', 'sentence', 'some', 'other', 'sentence'], $words(['a sentence', 'some other sentence']));
+    }
+
+    /**
      * 
      */
     public function testUseWith() : void
