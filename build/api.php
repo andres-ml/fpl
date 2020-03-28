@@ -26,7 +26,7 @@ const any = 'Aml\\Fpl\\any';
  *
  * @param integer $size
  * @param iterable $items
- * @return iterable
+ * @return array|iterable
  */
 const chunk = 'Aml\\Fpl\\chunk';
 /**
@@ -107,7 +107,7 @@ const curryN = 'Aml\\Fpl\\curryN';
  *
  * @param callable $function
  * @param iterable $items
- * @return iterable
+ * @return array|iterable
  */
 const dropWhile = 'Aml\\Fpl\\dropWhile';
 /**
@@ -116,7 +116,7 @@ const dropWhile = 'Aml\\Fpl\\dropWhile';
  * 
  * @param callable $callback
  * @param iterable $items
- * @return iterable
+ * @return array|iterable
  */
 const each = 'Aml\\Fpl\\each';
 /**
@@ -124,7 +124,7 @@ const each = 'Aml\\Fpl\\each';
  *
  * @param callable $function
  * @param iterable $items
- * @return iterable
+ * @return array|iterable
  */
 const filter = 'Aml\\Fpl\\filter';
 /**
@@ -133,7 +133,7 @@ const filter = 'Aml\\Fpl\\filter';
  *
  * @param number $depth
  * @param iterable $items
- * @return iterable
+ * @return array|iterable
  */
 const flatten = 'Aml\\Fpl\\flatten';
 /**
@@ -153,7 +153,7 @@ const flip = 'Aml\\Fpl\\flip';
  * This is the inverse of `toPairs`.
  *
  * @param iterable $items
- * @return iterable
+ * @return array|iterable
  */
 const fromPairs = 'Aml\\Fpl\\fromPairs';
 /**
@@ -182,7 +182,7 @@ const fromPairs = 'Aml\\Fpl\\fromPairs';
  * 
  * @param callable $grouper
  * @param iterable $items
- * @return iterable
+ * @return array|iterable
  */
 const groupBy = 'Aml\\Fpl\\groupBy';
 /**
@@ -222,7 +222,7 @@ const index = 'Aml\\Fpl\\index';
  */
 const indexOr = 'Aml\\Fpl\\indexOr';
 /**
- * Returns a callable that will invoke $method on its sole argument, with the specified `$args`
+ * Returns a callable that will invoke `$method` on its sole argument, with the specified `$args`
  * 
  * ```
  * // assuming that Pete and Carl are aged 30 and 25 respectively, and
@@ -239,7 +239,7 @@ const invoker = 'Aml\\Fpl\\invoker';
  * Returns the keys of `$items`
  *
  * @param iterable $items
- * @return iterable
+ * @return array|iterable
  */
 const keys = 'Aml\\Fpl\\keys';
 /**
@@ -254,7 +254,7 @@ const last = 'Aml\\Fpl\\last';
  * 
  * @param callable $function
  * @param iterable $items
- * @return iterable
+ * @return array|iterable
  */
 const map = 'Aml\\Fpl\\map';
 /**
@@ -279,7 +279,7 @@ const nAry = 'Aml\\Fpl\\nAry';
  *
  * @param array $indices
  * @param iterable $items
- * @return iterable
+ * @return array|iterable
  */
 const omit = 'Aml\\Fpl\\omit';
 /**
@@ -301,7 +301,7 @@ const omit = 'Aml\\Fpl\\omit';
  *
  * @param callable $function
  * @param iterable $items
- * @return iterable
+ * @return array|iterable
  */
 const omitBy = 'Aml\\Fpl\\omitBy';
 /**
@@ -333,7 +333,7 @@ const partial = 'Aml\\Fpl\\partial';
  *
  * @param array $indices
  * @param iterable $items
- * @return iterable
+ * @return array|iterable
  */
 const pick = 'Aml\\Fpl\\pick';
 /**
@@ -342,7 +342,7 @@ const pick = 'Aml\\Fpl\\pick';
  * 
  * @param callable $function
  * @param iterable $items
- * @return iterable
+ * @return array|iterable
  */
 const pickBy = 'Aml\\Fpl\\pickBy';
 /**
@@ -374,7 +374,7 @@ const propOr = 'Aml\\Fpl\\propOr';
  * @param callable $function reducer function
  * @param mixed $initial initial value
  * @param iterable $items
- * @return iterable
+ * @return array|iterable
  */
 const reduce = 'Aml\\Fpl\\reduce';
 /**
@@ -391,7 +391,7 @@ const search = 'Aml\\Fpl\\search';
  * @param integer $start
  * @param number $length
  * @param iterable $items
- * @return iterable
+ * @return array|iterable
  */
 const slice = 'Aml\\Fpl\\slice';
 /**
@@ -435,14 +435,14 @@ const spaceship = 'Aml\\Fpl\\spaceship';
  *
  * @param callable $function
  * @param iterable $items
- * @return iterable
+ * @return array|iterable
  */
 const takeWhile = 'Aml\\Fpl\\takeWhile';
 /**
  * Iterable to array
  *
  * @param iterable $items
- * @return iterable
+ * @return array
  */
 const toArray = 'Aml\\Fpl\\toArray';
 /**
@@ -462,7 +462,7 @@ const toIterator = 'Aml\\Fpl\\toIterator';
  * This is the inverse of `toPairs`.
  *
  * @param iterable $items
- * @return iterable
+ * @return array|iterable
  */
 const toPairs = 'Aml\\Fpl\\toPairs';
 /**
@@ -498,7 +498,7 @@ const useWith = 'Aml\\Fpl\\useWith';
  * Values of an iterable
  *
  * @param iterable $items
- * @return iterable
+ * @return array|iterable
  */
 const values = 'Aml\\Fpl\\values';
 /**
@@ -506,7 +506,7 @@ const values = 'Aml\\Fpl\\values';
  *
  * @param iterable $first
  * @param iterable[] ...$rest
- * @return iterable
+ * @return array|iterable
  */
 const zip = 'Aml\\Fpl\\zip';
 /**
@@ -538,7 +538,7 @@ function any()
  *
  * @param integer $size
  * @param iterable $items
- * @return iterable
+ * @return array|iterable
  */
 function chunk()
 {
@@ -640,7 +640,7 @@ function curryN()
  *
  * @param callable $function
  * @param iterable $items
- * @return iterable
+ * @return array|iterable
  */
 function dropWhile()
 {
@@ -652,7 +652,7 @@ function dropWhile()
  * 
  * @param callable $callback
  * @param iterable $items
- * @return iterable
+ * @return array|iterable
  */
 function each()
 {
@@ -663,7 +663,7 @@ function each()
  *
  * @param callable $function
  * @param iterable $items
- * @return iterable
+ * @return array|iterable
  */
 function filter()
 {
@@ -675,7 +675,7 @@ function filter()
  *
  * @param number $depth
  * @param iterable $items
- * @return iterable
+ * @return array|iterable
  */
 function flatten()
 {
@@ -701,7 +701,7 @@ function flip()
  * This is the inverse of `toPairs`.
  *
  * @param iterable $items
- * @return iterable
+ * @return array|iterable
  */
 function fromPairs()
 {
@@ -733,7 +733,7 @@ function fromPairs()
  * 
  * @param callable $grouper
  * @param iterable $items
- * @return iterable
+ * @return array|iterable
  */
 function groupBy()
 {
@@ -788,7 +788,7 @@ function indexOr()
     return \Aml\Fpl\functions\curry('Aml\\Fpl\\functions\\indexOr')(...func_get_args());
 }
 /**
- * Returns a callable that will invoke $method on its sole argument, with the specified `$args`
+ * Returns a callable that will invoke `$method` on its sole argument, with the specified `$args`
  * 
  * ```
  * // assuming that Pete and Carl are aged 30 and 25 respectively, and
@@ -808,7 +808,7 @@ function invoker()
  * Returns the keys of `$items`
  *
  * @param iterable $items
- * @return iterable
+ * @return array|iterable
  */
 function keys()
 {
@@ -829,7 +829,7 @@ function last()
  * 
  * @param callable $function
  * @param iterable $items
- * @return iterable
+ * @return array|iterable
  */
 function map()
 {
@@ -860,7 +860,7 @@ function nAry()
  *
  * @param array $indices
  * @param iterable $items
- * @return iterable
+ * @return array|iterable
  */
 function omit()
 {
@@ -885,7 +885,7 @@ function omit()
  *
  * @param callable $function
  * @param iterable $items
- * @return iterable
+ * @return array|iterable
  */
 function omitBy()
 {
@@ -926,7 +926,7 @@ function partial()
  *
  * @param array $indices
  * @param iterable $items
- * @return iterable
+ * @return array|iterable
  */
 function pick()
 {
@@ -938,7 +938,7 @@ function pick()
  * 
  * @param callable $function
  * @param iterable $items
- * @return iterable
+ * @return array|iterable
  */
 function pickBy()
 {
@@ -982,7 +982,7 @@ function propOr()
  * @param callable $function reducer function
  * @param mixed $initial initial value
  * @param iterable $items
- * @return iterable
+ * @return array|iterable
  */
 function reduce()
 {
@@ -1005,7 +1005,7 @@ function search()
  * @param integer $start
  * @param number $length
  * @param iterable $items
- * @return iterable
+ * @return array|iterable
  */
 function slice()
 {
@@ -1061,7 +1061,7 @@ function spaceship()
  *
  * @param callable $function
  * @param iterable $items
- * @return iterable
+ * @return array|iterable
  */
 function takeWhile()
 {
@@ -1071,7 +1071,7 @@ function takeWhile()
  * Iterable to array
  *
  * @param iterable $items
- * @return iterable
+ * @return array
  */
 function toArray()
 {
@@ -1097,7 +1097,7 @@ function toIterator()
  * This is the inverse of `toPairs`.
  *
  * @param iterable $items
- * @return iterable
+ * @return array|iterable
  */
 function toPairs()
 {
@@ -1142,7 +1142,7 @@ function useWith()
  * Values of an iterable
  *
  * @param iterable $items
- * @return iterable
+ * @return array|iterable
  */
 function values()
 {
@@ -1153,7 +1153,7 @@ function values()
  *
  * @param iterable $first
  * @param iterable[] ...$rest
- * @return iterable
+ * @return array|iterable
  */
 function zip()
 {

@@ -8,7 +8,7 @@ You can use `identity` to filter by the items themselves.
 Returns whether any `$item` in `$items` returns a truthy value for `$callback($item)`.
 You can use `identity` to filter by the items themselves.
 #
-#### `chunk(integer $size, iterable $items) : iterable`
+#### `chunk(integer $size, iterable $items) : array|iterable`
 
 Groups items in chunks of size `$size`. Note that keys are lost in the process.
 #
@@ -59,20 +59,20 @@ $curried(1, 2, 3);       // callable
 $curried(1, 2, 3, 4);    // 10
 ```
 #
-#### `dropWhile(callable $function, iterable $items) : iterable`
+#### `dropWhile(callable $function, iterable $items) : array|iterable`
 
 Drops items from `$items` until `$function($item)` is false.
 #
-#### `each(callable $callback, iterable $items) : iterable`
+#### `each(callable $callback, iterable $items) : array|iterable`
 
 Runs a callback over each item in `$items`.
 Returns the same `$items` iterable, which might be useful for chaining.
 #
-#### `filter(callable $function, iterable $items) : iterable`
+#### `filter(callable $function, iterable $items) : array|iterable`
 
 Filters items that do not return a truthy value for `$function`
 #
-#### `flatten(number $depth, iterable $items) : iterable`
+#### `flatten(number $depth, iterable $items) : array|iterable`
 
 Flattens an iterable up to depth `$depth`. Keys are not preserved.
 You can perform a full flatten by using flatten(INF).
@@ -81,7 +81,7 @@ You can perform a full flatten by using flatten(INF).
 
 Flips the first two arguments of a function
 #
-#### `fromPairs(iterable $items) : iterable`
+#### `fromPairs(iterable $items) : array|iterable`
 
 Builds an associative iterable based on an iterable of pairs.
 ```php
@@ -89,7 +89,7 @@ fromPairs([['a', 1], ['b', 2]]); // ['a' => 1, 'b' => 2]
 ```
 This is the inverse of `toPairs`.
 #
-#### `groupBy(callable $grouper, iterable $items) : iterable`
+#### `groupBy(callable $grouper, iterable $items) : array|iterable`
 
 Groups each item `$item` in `$items` by the value provided by `$grouper($item)`.
 ```php
@@ -132,14 +132,14 @@ Accesses `$array` at its position `$index`, but returns `$else` when the index i
 #
 #### `invoker(string $method, mixed[] ...$args) : callable`
 
-Returns a callable that will invoke $method on its sole argument, with the specified `$args`
+Returns a callable that will invoke `$method` on its sole argument, with the specified `$args`
 ```php
 // assuming that Pete and Carl are aged 30 and 25 respectively, and
 // that $Pete and $Carl are instances of Person, which defines a method getAge():
 map(invoker('getAge'), [$Pete, $Carl]);  // [30, 25]
 ```
 #
-#### `keys(iterable $items) : iterable`
+#### `keys(iterable $items) : array|iterable`
 
 Returns the keys of `$items`
 #
@@ -147,7 +147,7 @@ Returns the keys of `$items`
 
 Returns the last item in `$items`, if any
 #
-#### `map(callable $function, iterable $items) : iterable`
+#### `map(callable $function, iterable $items) : array|iterable`
 
 Maps `$items` with `$function`
 #
@@ -159,14 +159,14 @@ map('get_class', $items);            // Error: get_class expected at most 1 para
 map(nAry(1, 'get_class'), $items);   // [...]
 ```
 #
-#### `omit(array $indices, iterable $items) : iterable`
+#### `omit(array $indices, iterable $items) : array|iterable`
 
 Filters `$items` by keys that do NOT belong in `$keys`.
 ```php
 omit(['password'], ['name' => 'Pete', 'password' => 'secret']); // ['name' => 'Pete]
 ```
 #
-#### `omitBy(callable $function, iterable $items) : iterable`
+#### `omitBy(callable $function, iterable $items) : array|iterable`
 
 Filters `$items` by those who do not pass `$function`.
 ```php
@@ -192,14 +192,14 @@ $sum(1, 2, 3);   // 6
 
 Partial application
 #
-#### `pick(array $indices, iterable $items) : iterable`
+#### `pick(array $indices, iterable $items) : array|iterable`
 
 Filters `$items` by keys that belong in `$keys`.
 ```php
 pick(['age'], ['age' => 30, 'name' => 'Pete']); // ['age' => 30]
 ```
 #
-#### `pickBy(callable $function, iterable $items) : iterable`
+#### `pickBy(callable $function, iterable $items) : array|iterable`
 
 Filters `$items` that pass the specified `$function`.
 This function is equivalent to `filter`
@@ -216,7 +216,7 @@ Attempts to get property `$property` from object `$object`.
 
 Attempts to get property `$property` from object `$object`, but returns `$else` when the property is not set or is null.
 #
-#### `reduce(callable $function, mixed $initial, iterable $items) : iterable`
+#### `reduce(callable $function, mixed $initial, iterable $items) : array|iterable`
 
 Array reducing, a.k.a. foldl.
 #
@@ -224,7 +224,7 @@ Array reducing, a.k.a. foldl.
 
 Returns the first item in `$items` for which `$callback($item)` is truthy
 #
-#### `slice(integer $start, number $length, iterable $items) : iterable`
+#### `slice(integer $start, number $length, iterable $items) : array|iterable`
 
 Returns a slice of `$items`, beginning at `$start` and of length `$length`.
 #
@@ -248,11 +248,11 @@ Would result in:
 
 Applies the spaceship operator on its two arguments
 #
-#### `takeWhile(callable $function, iterable $items) : iterable`
+#### `takeWhile(callable $function, iterable $items) : array|iterable`
 
 Takes items from `$items` until `$function($item)` yields false
 #
-#### `toArray(iterable $items) : iterable`
+#### `toArray(iterable $items) : array`
 
 Iterable to array
 #
@@ -260,7 +260,7 @@ Iterable to array
 
 Iterable to iterator
 #
-#### `toPairs(iterable $items) : iterable`
+#### `toPairs(iterable $items) : array|iterable`
 
 From associative iterable to a list of pairs.
 ```php
@@ -288,10 +288,10 @@ $mergeFirst2 = useWith([slice(0, 2), slice(0, 2)], 'array_merge');
 $mergeFirst2([1,2,3,4], [5,6,7,8]);  // [1,2,5,6]
 ```
 #
-#### `values(iterable $items) : iterable`
+#### `values(iterable $items) : array|iterable`
 
 Values of an iterable
 #
-#### `zip(iterable $first, iterable[] ...$rest) : iterable`
+#### `zip(iterable $first, iterable[] ...$rest) : array|iterable`
 
 Zips one or more iterables

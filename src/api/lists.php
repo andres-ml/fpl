@@ -11,7 +11,7 @@ use Aml\Fpl;
  *
  * @param iterable $base
  * @param callable $generator
- * @return iterable
+ * @return array|iterable
  */
 function _arrayOrIterator(iterable $base, callable $generator) : iterable
 {
@@ -55,7 +55,7 @@ function any($callback, iterable $items) : bool
  *
  * @param integer $size
  * @param iterable $items
- * @return iterable
+ * @return array|iterable
  */
 function chunk(int $size, iterable $items) : iterable
 {
@@ -73,7 +73,7 @@ function chunk(int $size, iterable $items) : iterable
  *
  * @param callable $function
  * @param iterable $items
- * @return iterable
+ * @return array|iterable
  */
 function dropWhile($function, iterable $items) : iterable
 {
@@ -93,7 +93,7 @@ function dropWhile($function, iterable $items) : iterable
  * 
  * @param callable $callback
  * @param iterable $items
- * @return iterable
+ * @return array|iterable
  */
 function each($callback, iterable $items) : iterable
 {
@@ -109,7 +109,7 @@ function each($callback, iterable $items) : iterable
  *
  * @param number $depth
  * @param iterable $items
- * @return iterable
+ * @return array|iterable
  */
 function flatten($depth, iterable $items) : iterable
 {
@@ -133,7 +133,7 @@ function flatten($depth, iterable $items) : iterable
  *
  * @param callable $function
  * @param iterable $items
- * @return iterable
+ * @return array|iterable
  */
 function filter($function, iterable $items) : iterable
 {
@@ -156,7 +156,7 @@ function filter($function, iterable $items) : iterable
  * This is the inverse of `toPairs`.
  *
  * @param iterable $items
- * @return iterable
+ * @return array|iterable
  */
 function fromPairs(iterable $items) : iterable
 {
@@ -193,7 +193,7 @@ function fromPairs(iterable $items) : iterable
  * 
  * @param callable $grouper
  * @param iterable $items
- * @return iterable
+ * @return array|iterable
  */
 function groupBy($grouper, iterable $items) : iterable
 {
@@ -222,7 +222,7 @@ function head(iterable $items)
  * Returns the keys of `$items`
  *
  * @param iterable $items
- * @return iterable
+ * @return array|iterable
  */
 function keys(iterable $items) : iterable
 {
@@ -255,7 +255,7 @@ function last(iterable $items)
  * 
  * @param callable $function
  * @param iterable $items
- * @return iterable
+ * @return array|iterable
  */
 function map($function, iterable $items) : iterable
 {
@@ -275,7 +275,7 @@ function map($function, iterable $items) : iterable
  *
  * @param array $indices
  * @param iterable $items
- * @return iterable
+ * @return array|iterable
  */
 function pick(array $keys, iterable $items) : iterable
 {
@@ -291,7 +291,7 @@ function pick(array $keys, iterable $items) : iterable
  * 
  * @param callable $function
  * @param iterable $items
- * @return iterable
+ * @return array|iterable
  */
 function pickBy(callable $function, iterable $items) : iterable
 {
@@ -307,7 +307,7 @@ function pickBy(callable $function, iterable $items) : iterable
  *
  * @param array $indices
  * @param iterable $items
- * @return iterable
+ * @return array|iterable
  */
 function omit(array $indices, iterable $items) : iterable
 {
@@ -337,7 +337,7 @@ function omit(array $indices, iterable $items) : iterable
  *
  * @param callable $function
  * @param iterable $items
- * @return iterable
+ * @return array|iterable
  */
 function omitBy(callable $function, iterable $items) : iterable
 {
@@ -350,7 +350,7 @@ function omitBy(callable $function, iterable $items) : iterable
  * @param callable $function reducer function
  * @param mixed $initial initial value
  * @param iterable $items
- * @return iterable
+ * @return array|iterable
  */
 function reduce($function, $initial, iterable $items) : iterable
 {
@@ -416,7 +416,7 @@ function search($callback, iterable $items)
  * @param integer $start
  * @param number $length
  * @param iterable $items
- * @return iterable
+ * @return array|iterable
  */
 function slice(int $start, $length, iterable $items) : iterable
 {
@@ -439,7 +439,7 @@ function slice(int $start, $length, iterable $items) : iterable
  *
  * @param callable $function
  * @param iterable $items
- * @return iterable
+ * @return array|iterable
  */
 function takeWhile($function, iterable $items) : iterable
 {
@@ -457,9 +457,9 @@ function takeWhile($function, iterable $items) : iterable
  * Iterable to array
  *
  * @param iterable $items
- * @return iterable
+ * @return array
  */
-function toArray(iterable $items) : iterable
+function toArray(iterable $items) : array
 {
     return is_array($items) ? $items : iterator_to_array($items);
 }
@@ -487,7 +487,7 @@ function toIterator(iterable $items) : iterable
  * This is the inverse of `toPairs`.
  *
  * @param iterable $items
- * @return iterable
+ * @return array|iterable
  */
 function toPairs(iterable $items) : iterable
 {
@@ -502,7 +502,7 @@ function toPairs(iterable $items) : iterable
  * Values of an iterable
  *
  * @param iterable $items
- * @return iterable
+ * @return array|iterable
  */
 function values(iterable $items) : iterable
 {
@@ -518,7 +518,7 @@ function values(iterable $items) : iterable
  *
  * @param iterable $first
  * @param iterable[] ...$rest
- * @return iterable
+ * @return array|iterable
  */
 function zip(iterable $first, ...$rest) : iterable
 {
