@@ -8,7 +8,31 @@ class FunctionsTest extends TestCase
 {
 
     /**
-     * 
+     * @return void
+     */
+    public function testComplement() : void
+    {
+        $isEven = function($x) {
+            return $x % 2 === 0;
+        };
+        $isOdd = complement($isEven);
+        $this->assertFalse($isOdd(2));
+        $this->assertTrue($isOdd(3));
+    }
+
+    /**
+     * @return void
+     */
+    public function testCompose() : void
+    {
+        $this->assertEquals(10, compose(
+            function($x) { return $x * 2; },
+            function($x) { return $x + 4; }
+        )(1));
+    }
+
+    /**
+     * @return void
      */
     public function testCurry() : void
     {
@@ -24,7 +48,7 @@ class FunctionsTest extends TestCase
     }
 
     /**
-     * 
+     * @return void
      */
     public function testCurryN() : void
     {
@@ -43,10 +67,63 @@ class FunctionsTest extends TestCase
     /**
      * @return void
      */
+    public function testFlip() : void
+    {
+        $pow = function($a, $b) {
+            return $a ** $b;
+        };
+        $this->assertEquals(8, flip($pow)(3, 2));
+    }
+
+    /**
+     * @return void
+     */
+    public function testInvoker() : void
+    {
+        $a = new \ArrayObject(['a' => 1]);
+        $b = new \ArrayObject(['b' => 2]);
+        $hasA = invoker('offsetExists', 'a');
+        $this->assertEquals([true, false], map($hasA, [$a, $b]));
+    }
+
+    /**
+     * @return void
+     */
+    public function testNAry() : void
+    {
+        $sum = function($a, $b = 0) {
+            return $a + $b;
+        };
+        $this->assertEquals(3, nAry(1, $sum)(3, 4));
+    }
+
+    /**
+     * @return void
+     */
     public function testPack() : void
     {
         $sum = pack('array_sum');
         $this->assertEquals(6, $sum(1, 2, 3));
+    }
+
+    /**
+     * @return void
+     */
+    public function testPartial() : void
+    {
+        $prepend1 = partial('array_merge', [1]);
+        $this->assertEquals([1, 2, 3], $prepend1([2, 3]));
+    }
+
+    /**
+     * @return void
+     */
+    public function testPipe() : void
+    {
+        $this->assertEquals(6, pipe(
+            function($x) { return $x * 2; },
+            function($x) { return $x + 4; }
+        )(1));
     }
 
     /**
@@ -62,7 +139,7 @@ class FunctionsTest extends TestCase
     }
 
     /**
-     * 
+     * @return void
      */
     public function testUseWith() : void
     {

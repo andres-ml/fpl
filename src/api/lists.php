@@ -29,7 +29,7 @@ function _arrayOrIterator(iterable $base, callable $generator) : iterable
  */
 function all($callback, iterable $items) : bool
 {
-    return !any($callback, $items);
+    return !any(complement($callback), $items);
 }
 
 /**
@@ -78,10 +78,12 @@ function chunk(int $size, iterable $items) : iterable
 function dropWhile($function, iterable $items) : iterable
 {
     return _arrayOrIterator($items, function($items) use($function) {
+        $dropped = false;
         foreach ($items as $key => $value) {
-            if ($function($value, $key)) {
+            if (!$dropped && $function($value, $key)) {
                 continue;
             }
+            $dropped = true;
             yield $key => $value;
         }
     });
@@ -350,14 +352,26 @@ function omitBy(callable $function, iterable $items) : iterable
  * @param callable $function reducer function
  * @param mixed $initial initial value
  * @param iterable $items
- * @return array|iterable
+ * @return mixed
  */
-function reduce($function, $initial, iterable $items) : iterable
+function reduce($function, $initial, iterable $items)
 {
     foreach ($items as $item) {
         $initial = $function($initial, $item);
     }
     return $initial;
+}
+
+/**
+ * Returns the first item in `$items` for which `$callback($item)` is truthy
+ *
+ * @param callable $callback
+ * @param iterable $items
+ * @return mixed
+ */
+function search($callback, iterable $items)
+{
+    return compose(Fpl\head, Fpl\filter($callback), Fpl\toIterator)($items);
 }
 
 /**
@@ -396,18 +410,6 @@ function sort($comparator, iterable $items) : array
 function sortBy($function, iterable $items) : array
 {
     return Fpl\sort(Fpl\useWith([$function, $function], Fpl\spaceship), $items);
-}
-
-/**
- * Returns the first item in `$items` for which `$callback($item)` is truthy
- *
- * @param callable $callback
- * @param iterable $items
- * @return mixed
- */
-function search($callback, iterable $items)
-{
-    return compose(Fpl\head, Fpl\filter($callback), Fpl\toIterator)($items);
 }
 
 /**
@@ -481,7 +483,7 @@ function toIterator(iterable $items) : iterable
  * From associative iterable to a list of pairs.
  * 
  * ```
- * fromPairs(['a' => 1, 'b' => 2]); // [['a', 1], ['b', 2]]
+ * toPairs(['a' => 1, 'b' => 2]); // [['a', 1], ['b', 2]]
  * ```
  * 
  * This is the inverse of `toPairs`.

@@ -4,11 +4,16 @@ namespace Aml\Fpl;
 
 use PHPUnit\Framework\TestCase;
 
+/**
+ * Includes tests related to the api as a whole, not specific functions
+ */
 class ApiTest extends TestCase
 {
 
     /**
      * Test that generated functions are automatically curried
+     * 
+     * @return void
      */
     public function testAutoCurrying() : void
     {
@@ -24,6 +29,8 @@ class ApiTest extends TestCase
 
     /**
      * Test that function consts are available
+     * 
+     * @return void
      */
     public function testConstAvailable() : void
     {
