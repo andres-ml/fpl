@@ -56,23 +56,6 @@ function indexOr($index, $else, $array)
 }
 
 /**
- * Returns a callable that will invoke $method on its sole argument, with the specified `$args`
- * 
- * Assuming `$Pete`, `$Carl` are instances of `Person`, which defines a method `getAge()`:
- * map(invoker('getAge'), [$Pete, $Carl]);  // [30, 25]
- *
- * @param string $method
- * @param mixed[] ...$args
- * @return callable
- */
-function invoker(string $method, ...$args) : callable
-{
-    return function($object) use($method, $args) {
-        return call_user_func_array([$object, $method], $args);
-    };
-}
-
-/**
  * Attempts to get property `$property` from object `$object`.
  *
  * @param string $property

@@ -102,6 +102,26 @@ function flip($function) : callable
 }
 
 /**
+ * Returns a callable that will invoke `$method` on its sole argument, with the specified `$args`
+ * 
+ * ```
+ * // assuming that Pete and Carl are aged 30 and 25 respectively, and
+ * // that $Pete and $Carl are instances of Person, which defines a method getAge():
+ * map(invoker('getAge'), [$Pete, $Carl]);  // [30, 25]
+ * ```
+ *
+ * @param string $method
+ * @param mixed[] ...$args
+ * @return callable
+ */
+function invoker(string $method, ...$args) : callable
+{
+    return function($object) use($method, $args) {
+        return call_user_func_array([$object, $method], $args);
+    };
+}
+
+/**
  * Transforms a function into a fixed arity.
  * 
  * ```

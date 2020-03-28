@@ -224,8 +224,11 @@ const indexOr = 'Aml\\Fpl\\indexOr';
 /**
  * Returns a callable that will invoke $method on its sole argument, with the specified `$args`
  * 
- * Assuming `$Pete`, `$Carl` are instances of `Person`, which defines a method `getAge()`:
+ * ```
+ * // assuming that Pete and Carl are aged 30 and 25 respectively, and
+ * // that $Pete and $Carl are instances of Person, which defines a method getAge():
  * map(invoker('getAge'), [$Pete, $Carl]);  // [30, 25]
+ * ```
  *
  * @param string $method
  * @param mixed[] ...$args
@@ -787,8 +790,11 @@ function indexOr()
 /**
  * Returns a callable that will invoke $method on its sole argument, with the specified `$args`
  * 
- * Assuming `$Pete`, `$Carl` are instances of `Person`, which defines a method `getAge()`:
+ * ```
+ * // assuming that Pete and Carl are aged 30 and 25 respectively, and
+ * // that $Pete and $Carl are instances of Person, which defines a method getAge():
  * map(invoker('getAge'), [$Pete, $Carl]);  // [30, 25]
+ * ```
  *
  * @param string $method
  * @param mixed[] ...$args
