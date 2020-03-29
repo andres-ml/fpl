@@ -31,7 +31,7 @@ $toMarkdownSnippet = function($function) : string {
         return $matches;
     };
 
-    $docTextRegex = '/^ \* ([^@\n].+)/m';
+    $docTextRegex = '/^ \* ([^@\n].*)/m';
     $paramRegex = '/@param (\S+) (\S+)/';
     $returnRegex = '/@return (\S+)/';
 

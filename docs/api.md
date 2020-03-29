@@ -149,6 +149,7 @@ $grouped = groupBy(index('age'), [
 ```
 Results in the following array:
 ```php
+[
  30 => [
      ['name' => 'Pete', 'age' => 30],
      ['name' => 'Martha', 'age' => 30],
@@ -156,6 +157,7 @@ Results in the following array:
  25 => [
      ['name' => 'Carl', 'age' => 25],
  ],
+]
 ```
 #
 #### `head(iterable $items) : mixed`
@@ -247,7 +249,9 @@ omitBy(index('admin'), [
 ```
 Would result in:
 ```php
+[
     ['name' => 'Carl', 'admin' => false],
+]
 ```
 #
 #### `pack(callable $function) : callable`
@@ -346,8 +350,10 @@ $sorted = sort($sortByName, [
 ```
 Results in:
 ```php
+[
     ['name' => 'Carl', 'age' => 25],
     ['name' => 'Pete', 'age' => 30],
+]
 ```
 #
 #### `sortBy(callable $function, iterable $items) : array`
@@ -361,8 +367,10 @@ sortBy(index('age'), [
 ```
 Would result in:
 ```php
+[
     ['name' => 'Carl', 'age' => 25],
     ['name' => 'Pete', 'age' => 30],
+]
 ```
 #
 #### `spaceship(mixed $a, mixed $b) : integer`
