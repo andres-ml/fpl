@@ -1,5 +1,8 @@
 <?php 
 
+require_once __DIR__ . '/../vendor/autoload.php';
+require 'reflection.php';
+
 use PhpParser\{
     BuilderFactory,
     BuilderHelpers,
@@ -10,13 +13,10 @@ use PhpParser\{
     Node\Name,
     Node\Stmt,
     Node\Stmt\Function_,
-    ParserFactory,
     PrettyPrinter,
 };
 
 use Aml\Fpl;
-
-require_once __DIR__ . '/../vendor/autoload.php';
 
 $namespace = 'Aml\Fpl';
 
@@ -24,11 +24,6 @@ $factory = new BuilderFactory;
 $node = $factory
     ->namespace($namespace)
     ->setDocComment('/* This file was automatically generated */');
-
-$shouldCopy = function(Function_ $function) {
-    $name = (string) $function->name;
-    return $name[0] !== '_';
-};
 
 $functionToCurriedCall = function(Function_ $function) use($namespace, $factory) {
     $curryCall = $factory->funcCall(
@@ -48,30 +43,7 @@ $functionToConst = function(Function_ $function) use($namespace) {
     return $const;
 };
 
-$parser = (new ParserFactory)->create(ParserFactory::PREFER_PHP7);
-$functions = [];
-
-$fileToStatements = Fpl\compose(
-    Fpl\filter($shouldCopy),
-    Fpl\filter(function($statement) {
-        return $statement instanceof Function_;
-    }),
-    Fpl\prop('stmts'),
-    Fpl\index(0),
-    [$parser, 'parse'],
-    'file_get_contents',
-    function($file) {
-        return __DIR__ . "/api/$file";
-    }
-);
-
-$apiFiles = Fpl\slice(2, INF, scandir(__DIR__ . '/api'));
-$functions = Fpl\compose(
-    Fpl\sortBy(Fpl\prop('name')),
-    Fpl\flatten(1),
-    Fpl\map($fileToStatements)
-)($apiFiles);
-
+$functions = getApiFunctions();
 Fpl\each(Fpl\compose([$node, 'addStmt'], $functionToConst), $functions);
 Fpl\each(Fpl\compose([$node, 'addStmt'], $functionToCurriedCall), $functions);
 

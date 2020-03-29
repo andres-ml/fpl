@@ -1,55 +1,32 @@
 <?php 
 
+require 'reflection.php';
 require_once __DIR__ . '/../vendor/autoload.php';
 
-use PhpParser\{
-    Node\Stmt\Function_,
-    ParserFactory,
-};
-
 use Aml\Fpl;
+use PhpParser\PrettyPrinter;
 
-$parser = (new ParserFactory)->create(ParserFactory::PREFER_PHP7);
+$printer = (new PrettyPrinter\Standard);
 
-$fileToStatements = Fpl\compose(
-    Fpl\filter(function($statement) {
-        return $statement instanceof Function_;
-    }),
-    Fpl\prop('stmts'),
-    Fpl\index(0),
-    [$parser, 'parse'],
-    'file_get_contents',
-);
-
-$functions = $fileToStatements(__DIR__ . '/../' . $argv[1]);
-
-$toMarkdownSnippet = function($function) : string {
-    $docComment = (string) $function->getDocComment();
-    $matchAll = function($pattern) use($docComment) {
+$toMarkdownSnippet = function($function) use($printer) : string
+{
+    $matchAll = function($pattern, $string) {
         $matches = [];
-        preg_match_all($pattern, $docComment, $matches);
+        preg_match_all($pattern, $string, $matches);
         return $matches;
     };
 
     $docTextRegex = '/^ \* ([^@\n].*)/m';
-    $paramRegex = '/@param (\S+) (\S+)/';
-    $returnRegex = '/@return (\S+)/';
+    $headerRegex = '/^function (.+)/m';
 
-    $extractArg = Fpl\compose(
-        Fpl\map(Fpl\nAry(1, Fpl\partial('implode', ' '))),
-        Fpl\unpack(Fpl\zip),
-        Fpl\slice(1, INF),
-        $matchAll
-    );
-    
-    // extract text and hint php on code snippets: ``` -> ```php
-    $text = implode(PHP_EOL, $matchAll($docTextRegex)[1]);
+    // extract doc comments
+    $docComment = (string) $function->getDocComment();
+    $text = implode(PHP_EOL, $matchAll($docTextRegex, $docComment)[1]);
+    // hint php on code snippets: ``` -> ```php
     $text = preg_replace('/(```)((?:.|\n)*?)(```)/', '```php${2}${3}', $text);
 
-    $params = $extractArg($paramRegex);
-    $return = $extractArg($returnRegex)[0];
-
-    $signature = $function->name . '(' . implode(', ', $params) . ') : ' . $return;
+    $functionString = $printer->prettyPrintFile([$function]);
+    $signature = $matchAll($headerRegex, $functionString)[1][0];
     
     return <<<MD
 #### `$signature`
@@ -58,4 +35,6 @@ $text
 MD;
 };
 
-echo implode(PHP_EOL.'#'.PHP_EOL, Fpl\map($toMarkdownSnippet, $functions));
+$separator = PHP_EOL . '#' . PHP_EOL;
+$markdown = implode($separator, Fpl\map($toMarkdownSnippet, getApiFunctions()));
+echo $markdown;
