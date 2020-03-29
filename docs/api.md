@@ -104,6 +104,14 @@ each($addToNumber, [1, 2, 3]); // [1, 2, 3]
 $number; // 10
 ```
 #
+#### `eq($cmp, $value) : bool`
+
+`===` operator
+```php
+eq(3, 3); // true
+eq(3, '3'); // false
+```
+#
 #### `filter(callable $function, iterable $items) : iterable`
 
 Filters items that do not return a truthy value for `$function`
@@ -158,6 +166,23 @@ Results in the following array:
      ['name' => 'Carl', 'age' => 25],
  ],
 ]
+```
+#
+#### `gt($cmp, $value) : bool`
+
+`>` operator
+```php
+gt(3, 1); // false
+gt(3, 3); // false
+gt('a', 'b'); // true
+```
+#
+#### `gte($cmp, $value) : bool`
+
+`>=` operator
+```php
+gte(3, 1); // false
+gte(3, 3); // true
 ```
 #
 #### `head(iterable $items)`
@@ -216,6 +241,22 @@ last([1, 2, 3]); // 3
 last(counter(4, 6)); // 5
 ```
 #
+#### `lt($cmp, $value) : bool`
+
+`<` operator
+```php
+lt(3, 1); // true
+lt(3, 3); // false
+```
+#
+#### `lte($cmp, $value) : bool`
+
+`<=` operator
+```php
+lte(3, 1); // true
+lte(3, 3); // true
+```
+#
 #### `map(callable $function, iterable $items) : iterable`
 
 Maps `$items` with `$function`
@@ -229,6 +270,14 @@ Transforms a function into a fixed arity.
 ```php
 map('get_class', $items); // Error: get_class expected at most 1 parameter but 2 were given
 map(nAry(1, 'get_class'), $items); // [...]
+```
+#
+#### `not($cmp) : bool`
+
+`!` operator
+```php
+not(1); // false
+not(''); // true
 ```
 #
 #### `omit(array $indices, iterable $items) : iterable`

@@ -109,22 +109,3 @@ function propOr(string $property, $else, $object)
 {
     return $object->{$property} ?? $else;
 }
-
-/**
- * Applies the spaceship operator on its two arguments
- * 
- * ```
- * spaceship(1, 3); // -1
- * spaceship(1, 1); // 0
- * spaceship(3, 1); // 1
- * spaceship('b', 'a'); // 1
- * ```
- *
- * @param mixed $a
- * @param mixed $b
- * @return integer
- */
-function spaceship($a, $b) : int
-{
-    return $a <=> $b;
-}

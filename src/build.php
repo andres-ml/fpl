@@ -27,7 +27,7 @@ $node = $factory
 
 $functionToCurriedCall = function(Function_ $function) use($namespace, $factory) {
     $curryCall = $factory->funcCall(
-        $factory->funcCall("\\$namespace\\functions\\curry", ["$namespace\\functions\\$function->name"]),
+        $factory->funcCall("\\$namespace\\functions\\curry", ["\\$namespace\\functions\\$function->name"]),
         [
             new Arg(new Expr\FuncCall(new Name('func_get_args')), false, true)
         ]);

@@ -72,19 +72,6 @@ class UtilsTest extends TestCase
         $this->assertEquals(3, propOr('c', 3, $object));
     }
 
-    /**
-     * @return void
-     */
-    public function testSpaceship() : void
-    {
-        $this->assertEquals(0, spaceship(1, 1));
-        $this->assertEquals(1, spaceship(2, 1));
-        $this->assertEquals(-1, spaceship(1, 2));
-        $this->assertEquals(0, spaceship('a', 'a'));
-        $this->assertEquals(1, spaceship('b', 'a'));
-        $this->assertEquals(-1, spaceship('a', 'b'));
-    }
-
 }
 
 

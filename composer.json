@@ -20,6 +20,7 @@
             "src/api/functions.php",
             "src/api/lists.php",
             "src/api/generators.php",
+            "src/api/operators.php",
             "src/api/utils.php"
         ]
     },

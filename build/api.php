@@ -164,6 +164,19 @@ const dropWhile = 'Aml\\Fpl\\dropWhile';
  */
 const each = 'Aml\\Fpl\\each';
 /**
+ * `===` operator
+ * 
+ * ```
+ * eq(3, 3); // true
+ * eq(3, '3'); // false
+ * ```
+ *
+ * @param number $cmp
+ * @param number $value
+ * @return boolean
+ */
+const eq = 'Aml\\Fpl\\eq';
+/**
  * Filters items that do not return a truthy value for `$function`
  * 
  * ```
@@ -244,6 +257,33 @@ const fromPairs = 'Aml\\Fpl\\fromPairs';
  * @return array|iterable
  */
 const groupBy = 'Aml\\Fpl\\groupBy';
+/**
+ * `>` operator
+ * 
+ * ```
+ * gt(3, 1); // false
+ * gt(3, 3); // false
+ * gt('a', 'b'); // true
+ * ```
+ *
+ * @param mixed $cmp
+ * @param mixed $value
+ * @return boolean
+ */
+const gt = 'Aml\\Fpl\\gt';
+/**
+ * `>=` operator
+ * 
+ * ```
+ * gte(3, 1); // false
+ * gte(3, 3); // true
+ * ```
+ *
+ * @param mixed $cmp
+ * @param mixed $value
+ * @return boolean
+ */
+const gte = 'Aml\\Fpl\\gte';
 /**
  * Returns the first element in `$items`, if any
  * 
@@ -333,6 +373,32 @@ const keys = 'Aml\\Fpl\\keys';
  */
 const last = 'Aml\\Fpl\\last';
 /**
+ * `<` operator
+ * 
+ * ```
+ * lt(3, 1); // true
+ * lt(3, 3); // false
+ * ```
+ *
+ * @param mixed $cmp
+ * @param mixed $value
+ * @return boolean
+ */
+const lt = 'Aml\\Fpl\\lt';
+/**
+ * `<=` operator
+ * 
+ * ```
+ * lte(3, 1); // true
+ * lte(3, 3); // true
+ * ```
+ *
+ * @param mixed $cmp
+ * @param mixed $value
+ * @return boolean
+ */
+const lte = 'Aml\\Fpl\\lte';
+/**
  * Maps `$items` with `$function`
  * 
  * ```
@@ -357,6 +423,18 @@ const map = 'Aml\\Fpl\\map';
  * @return callable
  */
 const nAry = 'Aml\\Fpl\\nAry';
+/**
+ * `!` operator
+ * 
+ * ```
+ * not(1); // false
+ * not(''); // true
+ * ```
+ *
+ * @param mixed $cmp
+ * @return boolean
+ */
+const not = 'Aml\\Fpl\\not';
 /**
  * Filters `$items` by keys that do NOT belong in `$keys`.
  * 
@@ -694,7 +772,7 @@ const zip = 'Aml\\Fpl\\zip';
  */
 function all()
 {
-    return \Aml\Fpl\functions\curry('Aml\\Fpl\\functions\\all')(...func_get_args());
+    return \Aml\Fpl\functions\curry('\\Aml\\Fpl\\functions\\all')(...func_get_args());
 }
 /**
  * Returns whether any `$item` in `$items` returns a truthy value for `$callback($item)`.
@@ -710,7 +788,7 @@ function all()
  */
 function any()
 {
-    return \Aml\Fpl\functions\curry('Aml\\Fpl\\functions\\any')(...func_get_args());
+    return \Aml\Fpl\functions\curry('\\Aml\\Fpl\\functions\\any')(...func_get_args());
 }
 /**
  * Groups items in chunks of size `$size`. Note that keys are lost in the process.
@@ -725,7 +803,7 @@ function any()
  */
 function chunk()
 {
-    return \Aml\Fpl\functions\curry('Aml\\Fpl\\functions\\chunk')(...func_get_args());
+    return \Aml\Fpl\functions\curry('\\Aml\\Fpl\\functions\\chunk')(...func_get_args());
 }
 /**
  * Returns a function that negates the result of calling its argument.
@@ -739,7 +817,7 @@ function chunk()
  */
 function complement()
 {
-    return \Aml\Fpl\functions\curry('Aml\\Fpl\\functions\\complement')(...func_get_args());
+    return \Aml\Fpl\functions\curry('\\Aml\\Fpl\\functions\\complement')(...func_get_args());
 }
 /**
  * Function composition
@@ -753,7 +831,7 @@ function complement()
  */
 function compose()
 {
-    return \Aml\Fpl\functions\curry('Aml\\Fpl\\functions\\compose')(...func_get_args());
+    return \Aml\Fpl\functions\curry('\\Aml\\Fpl\\functions\\compose')(...func_get_args());
 }
 /**
  * Instantiates/constructs an instance of `$class` with the specified arguments.
@@ -769,7 +847,7 @@ function compose()
  */
 function construct()
 {
-    return \Aml\Fpl\functions\curry('Aml\\Fpl\\functions\\construct')(...func_get_args());
+    return \Aml\Fpl\functions\curry('\\Aml\\Fpl\\functions\\construct')(...func_get_args());
 }
 /**
  * Generates integers from `$from` (included) to `$to` (excluded) with a step of `$step`.
@@ -787,7 +865,7 @@ function construct()
  */
 function counter()
 {
-    return \Aml\Fpl\functions\curry('Aml\\Fpl\\functions\\counter')(...func_get_args());
+    return \Aml\Fpl\functions\curry('\\Aml\\Fpl\\functions\\counter')(...func_get_args());
 }
 /**
  * Returns the curried version of a function.
@@ -812,7 +890,7 @@ function counter()
  */
 function curry()
 {
-    return \Aml\Fpl\functions\curry('Aml\\Fpl\\functions\\curry')(...func_get_args());
+    return \Aml\Fpl\functions\curry('\\Aml\\Fpl\\functions\\curry')(...func_get_args());
 }
 /**
  * Curries exactly `$N` parameters of the given function:
@@ -834,7 +912,7 @@ function curry()
  */
 function curryN()
 {
-    return \Aml\Fpl\functions\curry('Aml\\Fpl\\functions\\curryN')(...func_get_args());
+    return \Aml\Fpl\functions\curry('\\Aml\\Fpl\\functions\\curryN')(...func_get_args());
 }
 /**
  * Drops items from `$items` until `$function($item)` is false.
@@ -849,7 +927,7 @@ function curryN()
  */
 function dropWhile()
 {
-    return \Aml\Fpl\functions\curry('Aml\\Fpl\\functions\\dropWhile')(...func_get_args());
+    return \Aml\Fpl\functions\curry('\\Aml\\Fpl\\functions\\dropWhile')(...func_get_args());
 }
 /**
  * Runs a callback over each item in `$items`.
@@ -870,7 +948,23 @@ function dropWhile()
  */
 function each()
 {
-    return \Aml\Fpl\functions\curry('Aml\\Fpl\\functions\\each')(...func_get_args());
+    return \Aml\Fpl\functions\curry('\\Aml\\Fpl\\functions\\each')(...func_get_args());
+}
+/**
+ * `===` operator
+ * 
+ * ```
+ * eq(3, 3); // true
+ * eq(3, '3'); // false
+ * ```
+ *
+ * @param number $cmp
+ * @param number $value
+ * @return boolean
+ */
+function eq()
+{
+    return \Aml\Fpl\functions\curry('\\Aml\\Fpl\\functions\\eq')(...func_get_args());
 }
 /**
  * Filters items that do not return a truthy value for `$function`
@@ -885,7 +979,7 @@ function each()
  */
 function filter()
 {
-    return \Aml\Fpl\functions\curry('Aml\\Fpl\\functions\\filter')(...func_get_args());
+    return \Aml\Fpl\functions\curry('\\Aml\\Fpl\\functions\\filter')(...func_get_args());
 }
 /**
  * Flattens an iterable up to depth `$depth`. Keys are not preserved.
@@ -903,7 +997,7 @@ function filter()
  */
 function flatten()
 {
-    return \Aml\Fpl\functions\curry('Aml\\Fpl\\functions\\flatten')(...func_get_args());
+    return \Aml\Fpl\functions\curry('\\Aml\\Fpl\\functions\\flatten')(...func_get_args());
 }
 /**
  * Flips the first two arguments of a function
@@ -918,7 +1012,7 @@ function flatten()
  */
 function flip()
 {
-    return \Aml\Fpl\functions\curry('Aml\\Fpl\\functions\\flip')(...func_get_args());
+    return \Aml\Fpl\functions\curry('\\Aml\\Fpl\\functions\\flip')(...func_get_args());
 }
 /**
  * Builds an associative iterable based on an iterable of pairs.
@@ -934,7 +1028,7 @@ function flip()
  */
 function fromPairs()
 {
-    return \Aml\Fpl\functions\curry('Aml\\Fpl\\functions\\fromPairs')(...func_get_args());
+    return \Aml\Fpl\functions\curry('\\Aml\\Fpl\\functions\\fromPairs')(...func_get_args());
 }
 /**
  * Groups each item `$item` in `$items` by the value provided by `$grouper($item)`.
@@ -966,7 +1060,40 @@ function fromPairs()
  */
 function groupBy()
 {
-    return \Aml\Fpl\functions\curry('Aml\\Fpl\\functions\\groupBy')(...func_get_args());
+    return \Aml\Fpl\functions\curry('\\Aml\\Fpl\\functions\\groupBy')(...func_get_args());
+}
+/**
+ * `>` operator
+ * 
+ * ```
+ * gt(3, 1); // false
+ * gt(3, 3); // false
+ * gt('a', 'b'); // true
+ * ```
+ *
+ * @param mixed $cmp
+ * @param mixed $value
+ * @return boolean
+ */
+function gt()
+{
+    return \Aml\Fpl\functions\curry('\\Aml\\Fpl\\functions\\gt')(...func_get_args());
+}
+/**
+ * `>=` operator
+ * 
+ * ```
+ * gte(3, 1); // false
+ * gte(3, 3); // true
+ * ```
+ *
+ * @param mixed $cmp
+ * @param mixed $value
+ * @return boolean
+ */
+function gte()
+{
+    return \Aml\Fpl\functions\curry('\\Aml\\Fpl\\functions\\gte')(...func_get_args());
 }
 /**
  * Returns the first element in `$items`, if any
@@ -981,7 +1108,7 @@ function groupBy()
  */
 function head()
 {
-    return \Aml\Fpl\functions\curry('Aml\\Fpl\\functions\\head')(...func_get_args());
+    return \Aml\Fpl\functions\curry('\\Aml\\Fpl\\functions\\head')(...func_get_args());
 }
 /**
  * Returns its sole argument as is.
@@ -996,7 +1123,7 @@ function head()
  */
 function identity()
 {
-    return \Aml\Fpl\functions\curry('Aml\\Fpl\\functions\\identity')(...func_get_args());
+    return \Aml\Fpl\functions\curry('\\Aml\\Fpl\\functions\\identity')(...func_get_args());
 }
 /**
  * Accesses `$array` at its position `$index`.
@@ -1012,7 +1139,7 @@ function identity()
  */
 function index()
 {
-    return \Aml\Fpl\functions\curry('Aml\\Fpl\\functions\\index')(...func_get_args());
+    return \Aml\Fpl\functions\curry('\\Aml\\Fpl\\functions\\index')(...func_get_args());
 }
 /**
  * Accesses `$array` at its position `$index`, but returns `$else` when the index is not set or is null.
@@ -1029,7 +1156,7 @@ function index()
  */
 function indexOr()
 {
-    return \Aml\Fpl\functions\curry('Aml\\Fpl\\functions\\indexOr')(...func_get_args());
+    return \Aml\Fpl\functions\curry('\\Aml\\Fpl\\functions\\indexOr')(...func_get_args());
 }
 /**
  * Returns a callable that will invoke `$method` on its sole argument, with the specified `$args`
@@ -1046,7 +1173,7 @@ function indexOr()
  */
 function invoker()
 {
-    return \Aml\Fpl\functions\curry('Aml\\Fpl\\functions\\invoker')(...func_get_args());
+    return \Aml\Fpl\functions\curry('\\Aml\\Fpl\\functions\\invoker')(...func_get_args());
 }
 /**
  * Returns the keys of `$items`
@@ -1060,7 +1187,7 @@ function invoker()
  */
 function keys()
 {
-    return \Aml\Fpl\functions\curry('Aml\\Fpl\\functions\\keys')(...func_get_args());
+    return \Aml\Fpl\functions\curry('\\Aml\\Fpl\\functions\\keys')(...func_get_args());
 }
 /**
  * Returns the last item in `$items`, if any
@@ -1075,7 +1202,39 @@ function keys()
  */
 function last()
 {
-    return \Aml\Fpl\functions\curry('Aml\\Fpl\\functions\\last')(...func_get_args());
+    return \Aml\Fpl\functions\curry('\\Aml\\Fpl\\functions\\last')(...func_get_args());
+}
+/**
+ * `<` operator
+ * 
+ * ```
+ * lt(3, 1); // true
+ * lt(3, 3); // false
+ * ```
+ *
+ * @param mixed $cmp
+ * @param mixed $value
+ * @return boolean
+ */
+function lt()
+{
+    return \Aml\Fpl\functions\curry('\\Aml\\Fpl\\functions\\lt')(...func_get_args());
+}
+/**
+ * `<=` operator
+ * 
+ * ```
+ * lte(3, 1); // true
+ * lte(3, 3); // true
+ * ```
+ *
+ * @param mixed $cmp
+ * @param mixed $value
+ * @return boolean
+ */
+function lte()
+{
+    return \Aml\Fpl\functions\curry('\\Aml\\Fpl\\functions\\lte')(...func_get_args());
 }
 /**
  * Maps `$items` with `$function`
@@ -1090,7 +1249,7 @@ function last()
  */
 function map()
 {
-    return \Aml\Fpl\functions\curry('Aml\\Fpl\\functions\\map')(...func_get_args());
+    return \Aml\Fpl\functions\curry('\\Aml\\Fpl\\functions\\map')(...func_get_args());
 }
 /**
  * Transforms a function into a fixed arity.
@@ -1106,7 +1265,22 @@ function map()
  */
 function nAry()
 {
-    return \Aml\Fpl\functions\curry('Aml\\Fpl\\functions\\nAry')(...func_get_args());
+    return \Aml\Fpl\functions\curry('\\Aml\\Fpl\\functions\\nAry')(...func_get_args());
+}
+/**
+ * `!` operator
+ * 
+ * ```
+ * not(1); // false
+ * not(''); // true
+ * ```
+ *
+ * @param mixed $cmp
+ * @return boolean
+ */
+function not()
+{
+    return \Aml\Fpl\functions\curry('\\Aml\\Fpl\\functions\\not')(...func_get_args());
 }
 /**
  * Filters `$items` by keys that do NOT belong in `$keys`.
@@ -1121,7 +1295,7 @@ function nAry()
  */
 function omit()
 {
-    return \Aml\Fpl\functions\curry('Aml\\Fpl\\functions\\omit')(...func_get_args());
+    return \Aml\Fpl\functions\curry('\\Aml\\Fpl\\functions\\omit')(...func_get_args());
 }
 /**
  * Filters `$items` by those who do not pass `$function`.
@@ -1146,7 +1320,7 @@ function omit()
  */
 function omitBy()
 {
-    return \Aml\Fpl\functions\curry('Aml\\Fpl\\functions\\omitBy')(...func_get_args());
+    return \Aml\Fpl\functions\curry('\\Aml\\Fpl\\functions\\omitBy')(...func_get_args());
 }
 /**
  * Packs the arguments of a function into an tuple/array
@@ -1161,7 +1335,7 @@ function omitBy()
  */
 function pack()
 {
-    return \Aml\Fpl\functions\curry('Aml\\Fpl\\functions\\pack')(...func_get_args());
+    return \Aml\Fpl\functions\curry('\\Aml\\Fpl\\functions\\pack')(...func_get_args());
 }
 /**
  * Partial application
@@ -1177,7 +1351,7 @@ function pack()
  */
 function partial()
 {
-    return \Aml\Fpl\functions\curry('Aml\\Fpl\\functions\\partial')(...func_get_args());
+    return \Aml\Fpl\functions\curry('\\Aml\\Fpl\\functions\\partial')(...func_get_args());
 }
 /**
  * Filters `$items` by keys that belong in `$keys`.
@@ -1192,7 +1366,7 @@ function partial()
  */
 function pick()
 {
-    return \Aml\Fpl\functions\curry('Aml\\Fpl\\functions\\pick')(...func_get_args());
+    return \Aml\Fpl\functions\curry('\\Aml\\Fpl\\functions\\pick')(...func_get_args());
 }
 /**
  * Filters `$items` that pass the specified `$function`.
@@ -1208,7 +1382,7 @@ function pick()
  */
 function pickBy()
 {
-    return \Aml\Fpl\functions\curry('Aml\\Fpl\\functions\\pickBy')(...func_get_args());
+    return \Aml\Fpl\functions\curry('\\Aml\\Fpl\\functions\\pickBy')(...func_get_args());
 }
 /**
  * Function piping. Equivalent to composing with reversed order.
@@ -1222,7 +1396,7 @@ function pickBy()
  */
 function pipe()
 {
-    return \Aml\Fpl\functions\curry('Aml\\Fpl\\functions\\pipe')(...func_get_args());
+    return \Aml\Fpl\functions\curry('\\Aml\\Fpl\\functions\\pipe')(...func_get_args());
 }
 /**
  * Attempts to get property `$property` from object `$object`.
@@ -1240,7 +1414,7 @@ function pipe()
  */
 function prop()
 {
-    return \Aml\Fpl\functions\curry('Aml\\Fpl\\functions\\prop')(...func_get_args());
+    return \Aml\Fpl\functions\curry('\\Aml\\Fpl\\functions\\prop')(...func_get_args());
 }
 /**
  * Attempts to get property `$property` from object `$object`, but returns `$else` when the property is not set or is null.
@@ -1260,7 +1434,7 @@ function prop()
  */
 function propOr()
 {
-    return \Aml\Fpl\functions\curry('Aml\\Fpl\\functions\\propOr')(...func_get_args());
+    return \Aml\Fpl\functions\curry('\\Aml\\Fpl\\functions\\propOr')(...func_get_args());
 }
 /**
  * Array reducing, a.k.a. foldl.
@@ -1276,7 +1450,7 @@ function propOr()
  */
 function reduce()
 {
-    return \Aml\Fpl\functions\curry('Aml\\Fpl\\functions\\reduce')(...func_get_args());
+    return \Aml\Fpl\functions\curry('\\Aml\\Fpl\\functions\\reduce')(...func_get_args());
 }
 /**
  * Returns the first item in `$items` for which `$callback($item)` is truthy
@@ -1291,7 +1465,7 @@ function reduce()
  */
 function search()
 {
-    return \Aml\Fpl\functions\curry('Aml\\Fpl\\functions\\search')(...func_get_args());
+    return \Aml\Fpl\functions\curry('\\Aml\\Fpl\\functions\\search')(...func_get_args());
 }
 /**
  * Returns a slice of `$items`, beginning at `$start` and of length `$length`.
@@ -1307,7 +1481,7 @@ function search()
  */
 function slice()
 {
-    return \Aml\Fpl\functions\curry('Aml\\Fpl\\functions\\slice')(...func_get_args());
+    return \Aml\Fpl\functions\curry('\\Aml\\Fpl\\functions\\slice')(...func_get_args());
 }
 /**
  * Sorts `$items`. Note that return type will be array regardless of `$items`,
@@ -1337,7 +1511,7 @@ function slice()
  */
 function sort()
 {
-    return \Aml\Fpl\functions\curry('Aml\\Fpl\\functions\\sort')(...func_get_args());
+    return \Aml\Fpl\functions\curry('\\Aml\\Fpl\\functions\\sort')(...func_get_args());
 }
 /**
  * Similar to sort, but using a function that returns a value to use as comparison for each item.
@@ -1363,7 +1537,7 @@ function sort()
  */
 function sortBy()
 {
-    return \Aml\Fpl\functions\curry('Aml\\Fpl\\functions\\sortBy')(...func_get_args());
+    return \Aml\Fpl\functions\curry('\\Aml\\Fpl\\functions\\sortBy')(...func_get_args());
 }
 /**
  * Applies the spaceship operator on its two arguments
@@ -1381,7 +1555,7 @@ function sortBy()
  */
 function spaceship()
 {
-    return \Aml\Fpl\functions\curry('Aml\\Fpl\\functions\\spaceship')(...func_get_args());
+    return \Aml\Fpl\functions\curry('\\Aml\\Fpl\\functions\\spaceship')(...func_get_args());
 }
 /**
  * Takes items from `$items` until `$function($item)` yields false
@@ -1396,7 +1570,7 @@ function spaceship()
  */
 function takeWhile()
 {
-    return \Aml\Fpl\functions\curry('Aml\\Fpl\\functions\\takeWhile')(...func_get_args());
+    return \Aml\Fpl\functions\curry('\\Aml\\Fpl\\functions\\takeWhile')(...func_get_args());
 }
 /**
  * Iterable to array
@@ -1406,7 +1580,7 @@ function takeWhile()
  */
 function toArray()
 {
-    return \Aml\Fpl\functions\curry('Aml\\Fpl\\functions\\toArray')(...func_get_args());
+    return \Aml\Fpl\functions\curry('\\Aml\\Fpl\\functions\\toArray')(...func_get_args());
 }
 /**
  * Iterable to iterator
@@ -1416,7 +1590,7 @@ function toArray()
  */
 function toIterator()
 {
-    return \Aml\Fpl\functions\curry('Aml\\Fpl\\functions\\toIterator')(...func_get_args());
+    return \Aml\Fpl\functions\curry('\\Aml\\Fpl\\functions\\toIterator')(...func_get_args());
 }
 /**
  * From associative iterable to a list of pairs.
@@ -1432,7 +1606,7 @@ function toIterator()
  */
 function toPairs()
 {
-    return \Aml\Fpl\functions\curry('Aml\\Fpl\\functions\\toPairs')(...func_get_args());
+    return \Aml\Fpl\functions\curry('\\Aml\\Fpl\\functions\\toPairs')(...func_get_args());
 }
 /**
  * Unpacks/spreads arguments of a function
@@ -1450,7 +1624,7 @@ function toPairs()
  */
 function unpack()
 {
-    return \Aml\Fpl\functions\curry('Aml\\Fpl\\functions\\unpack')(...func_get_args());
+    return \Aml\Fpl\functions\curry('\\Aml\\Fpl\\functions\\unpack')(...func_get_args());
 }
 /**
  * Wraps a function `$function` so that it's called with transformed arguments, as defined
@@ -1467,7 +1641,7 @@ function unpack()
  */
 function useWith()
 {
-    return \Aml\Fpl\functions\curry('Aml\\Fpl\\functions\\useWith')(...func_get_args());
+    return \Aml\Fpl\functions\curry('\\Aml\\Fpl\\functions\\useWith')(...func_get_args());
 }
 /**
  * Values of an iterable
@@ -1481,7 +1655,7 @@ function useWith()
  */
 function values()
 {
-    return \Aml\Fpl\functions\curry('Aml\\Fpl\\functions\\values')(...func_get_args());
+    return \Aml\Fpl\functions\curry('\\Aml\\Fpl\\functions\\values')(...func_get_args());
 }
 /**
  * Zips one or more iterables
@@ -1497,5 +1671,5 @@ function values()
  */
 function zip()
 {
-    return \Aml\Fpl\functions\curry('Aml\\Fpl\\functions\\zip')(...func_get_args());
+    return \Aml\Fpl\functions\curry('\\Aml\\Fpl\\functions\\zip')(...func_get_args());
 }
