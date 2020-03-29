@@ -22,6 +22,11 @@ function _arrayOrIterator(iterable $base, callable $generator) : iterable
 /**
  * Returns whether every `$item` in `$items` returns a truthy value for `$callback($item)`.
  * You can use `identity` to filter by the items themselves.
+ * 
+ * ```
+ * all(identity, [true, 1]); // true
+ * all(head, [[1, 2], [0, 1]]); // false
+ * ```
  *
  * @param callable $callback
  * @param iterable $items
@@ -35,6 +40,10 @@ function all($callback, iterable $items) : bool
 /**
  * Returns whether any `$item` in `$items` returns a truthy value for `$callback($item)`.
  * You can use `identity` to filter by the items themselves.
+ * 
+ * ```
+ * any(identity, [0, 1, 2]); // true
+ * ```
  *
  * @param callable $callback
  * @param iterable $items
@@ -52,6 +61,10 @@ function any($callback, iterable $items) : bool
 
 /**
  * Groups items in chunks of size `$size`. Note that keys are lost in the process.
+ * 
+ * ```
+ * chunk(2, [0, 1, 2]); // [[0, 1], [2]]
+ * ```
  *
  * @param integer $size
  * @param iterable $items
@@ -70,6 +83,10 @@ function chunk(int $size, iterable $items) : iterable
 
 /**
  * Drops items from `$items` until `$function($item)` is false.
+ * 
+ * ```
+ * dropWhile(identity, [0, 1, 2, 0]); // [1, 2, 0]
+ * ```
  *
  * @param callable $function
  * @param iterable $items
@@ -93,6 +110,15 @@ function dropWhile($function, iterable $items) : iterable
  * Runs a callback over each item in `$items`.
  * Returns the same `$items` iterable, which might be useful for chaining.
  * 
+ * ```
+ * $number = 4;
+ * $addToNumber = function($z) use(&$number) {
+ *     $number += $z;
+ * };
+ * each($addToNumber, [1, 2, 3]); // [1, 2, 3]
+ * $number; // 10
+ * ```
+ * 
  * @param callable $callback
  * @param iterable $items
  * @return array|iterable
@@ -107,7 +133,13 @@ function each($callback, iterable $items) : iterable
 
 /**
  * Flattens an iterable up to depth `$depth`. Keys are not preserved.
- * You can perform a full flatten by using flatten(INF).
+ * You can perform a full flatten by using `flatten(INF)`.
+ * 
+ * ```
+ * $array = [1, [2, [3, 4]]];
+ * flatten(1, $array); // [1, 2, [3, 4]]
+ * flatten(INF, $array); // [1, 2, 3, 4]
+ * ```
  *
  * @param number $depth
  * @param iterable $items
@@ -132,6 +164,10 @@ function flatten($depth, iterable $items) : iterable
 
 /**
  * Filters items that do not return a truthy value for `$function`
+ * 
+ * ```
+ * filter(identity, [false, null, 1, 0]); // [1]
+ * ```
  *
  * @param callable $function
  * @param iterable $items
@@ -209,6 +245,11 @@ function groupBy($grouper, iterable $items) : iterable
 
 /**
  * Returns the first element in `$items`, if any
+ * 
+ * ```
+ * head([1, 2, 3]); // 1
+ * head(counter(4)); // 4
+ * ```
  *
  * @param iterable $items
  * @return mixed
@@ -222,7 +263,11 @@ function head(iterable $items)
 
 /**
  * Returns the keys of `$items`
- *
+ * 
+ * ```
+ * keys(['a' => 1, 'b' => 2]); // ['a', 'b']
+ * ```
+ * 
  * @param iterable $items
  * @return array|iterable
  */
@@ -237,6 +282,11 @@ function keys(iterable $items) : iterable
 
 /**
  * Returns the last item in `$items`, if any
+ * 
+ * ```
+ * last([1, 2, 3]); // 3
+ * last(counter(4, 6)); // 5
+ * ```
  *
  * @param iterable $items
  * @return mixed
@@ -254,6 +304,10 @@ function last(iterable $items)
 
 /**
  * Maps `$items` with `$function`
+ * 
+ * ```
+ * map(head, [[0, 1], [2, 3]]); // [0, 2]
+ * ```
  * 
  * @param callable $function
  * @param iterable $items
@@ -290,6 +344,10 @@ function pick(array $keys, iterable $items) : iterable
 /**
  * Filters `$items` that pass the specified `$function`.
  * This function is equivalent to `filter`
+ * 
+ * ```
+ * pickBy(head, [[0, 1], [2, 3], [4, 5]]); // [[2, 3], [4, 5]]
+ * ```
  * 
  * @param callable $function
  * @param iterable $items
@@ -348,6 +406,10 @@ function omitBy(callable $function, iterable $items) : iterable
 
 /**
  * Array reducing, a.k.a. foldl.
+ * 
+ * ```
+ * reduce(pack('array_sum'), 100, [1, 2, 3]); // 106
+ * ```
  *
  * @param callable $function reducer function
  * @param mixed $initial initial value
@@ -364,6 +426,10 @@ function reduce($function, $initial, iterable $items)
 
 /**
  * Returns the first item in `$items` for which `$callback($item)` is truthy
+ * 
+ * ```
+ * search(function($value) { return $value > 0; }, [-1, 0, 1, 2]); // 1
+ * ```
  *
  * @param callable $callback
  * @param iterable $items
@@ -377,6 +443,24 @@ function search($callback, iterable $items)
 /**
  * Sorts `$items`. Note that return type will be array regardless of `$items`,
  * and the array will be sorted in place, since we use php's `usort`
+ * 
+ * ```
+ * $sortByName = function($a, $b) {
+ *     return $a['name'] <=> $b['name'];
+ * };
+ * $sorted = sort($sortByName, [
+ *     ['name' => 'Pete', 'age' => 30],
+ *     ['name' => 'Carl', 'age' => 25],
+ * ]);
+ * ```
+ * 
+ * Results in:
+ * ```
+ * [
+ *     ['name' => 'Carl', 'age' => 25],
+ *     ['name' => 'Pete', 'age' => 30],
+ * ]
+ * ```
  *
  * @param callable $comparator function that takes 2 values and returns an integer -1, 0, 1
  * @param iterable $items
@@ -392,16 +476,20 @@ function sort($comparator, iterable $items) : array
 /**
  * Similar to sort, but using a function that returns a value to use as comparison for each item.
  * 
+ * ```
  * sortBy(index('age'), [
  *     ['name' => 'Pete', 'age' => 30],
  *     ['name' => 'Carl', 'age' => 25],
  * ]);
+ * ```
  * 
  * Would result in:
+ * ```
  * [
  *     ['name' => 'Carl', 'age' => 25],
  *     ['name' => 'Pete', 'age' => 30],
  * ]
+ * ```
  *
  * @param callable $function function that takes an item and returns a value that can be compared with php's spaceship operator <=>
  * @param iterable $items
@@ -414,7 +502,11 @@ function sortBy($function, iterable $items) : array
 
 /**
  * Returns a slice of `$items`, beginning at `$start` and of length `$length`.
- *
+ * 
+ * ```
+ * slice(1, 3, range(0, 5)); // [1 => 1, 2 => 2, 3 => 3]
+ * ```
+ * 
  * @param integer $start
  * @param number $length
  * @param iterable $items
@@ -438,6 +530,10 @@ function slice(int $start, $length, iterable $items) : iterable
 
 /**
  * Takes items from `$items` until `$function($item)` yields false
+ * 
+ * ```
+ * takeWhile(identity, [3, 2, 1, 0, 1, 2, 3])); // [3, 2, 1]
+ * ```
  *
  * @param callable $function
  * @param iterable $items
@@ -502,6 +598,10 @@ function toPairs(iterable $items) : iterable
 
 /**
  * Values of an iterable
+ * 
+ * ```
+ * values(['a' => 1, 'b' => 2]); // [1, 2]
+ * ```
  *
  * @param iterable $items
  * @return array|iterable
@@ -517,6 +617,11 @@ function values(iterable $items) : iterable
 
 /**
  * Zips one or more iterables
+ * 
+ * ```
+ * zip([1, 2], [3, 4]); // [[1, 3], [2, 4]]
+ * head(zip(counter(1), counter(2), counter(3))); // [1, 2, 3]
+ * ```
  *
  * @param iterable $first
  * @param iterable[] ...$rest

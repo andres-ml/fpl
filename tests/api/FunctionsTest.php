@@ -69,10 +69,8 @@ class FunctionsTest extends TestCase
      */
     public function testFlip() : void
     {
-        $pow = function($a, $b) {
-            return $a ** $b;
-        };
-        $this->assertEquals(8, flip($pow)(3, 2));
+        $prepend = flip('array_merge');
+        $this->assertEquals([2, 1, 3], $prepend([1], [2], [3]));
     }
 
     /**

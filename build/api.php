@@ -6,6 +6,11 @@ namespace Aml\Fpl;
 /**
  * Returns whether every `$item` in `$items` returns a truthy value for `$callback($item)`.
  * You can use `identity` to filter by the items themselves.
+ * 
+ * ```
+ * all(identity, [true, 1]); // true
+ * all(head, [[1, 2], [0, 1]]); // false
+ * ```
  *
  * @param callable $callback
  * @param iterable $items
@@ -15,6 +20,10 @@ const all = 'Aml\\Fpl\\all';
 /**
  * Returns whether any `$item` in `$items` returns a truthy value for `$callback($item)`.
  * You can use `identity` to filter by the items themselves.
+ * 
+ * ```
+ * any(identity, [0, 1, 2]); // true
+ * ```
  *
  * @param callable $callback
  * @param iterable $items
@@ -23,6 +32,10 @@ const all = 'Aml\\Fpl\\all';
 const any = 'Aml\\Fpl\\any';
 /**
  * Groups items in chunks of size `$size`. Note that keys are lost in the process.
+ * 
+ * ```
+ * chunk(2, [0, 1, 2]); // [[0, 1], [2]]
+ * ```
  *
  * @param integer $size
  * @param iterable $items
@@ -32,12 +45,20 @@ const chunk = 'Aml\\Fpl\\chunk';
 /**
  * Returns a function that negates the result of calling its argument.
  * 
+ * ```
+ * $isEven = function($x) { return $x % 2 === 0; };
+ * $isOdd = complement($isEven);
+ * ```
  * @param callable $function
  * @return callable
  */
 const complement = 'Aml\\Fpl\\complement';
 /**
  * Function composition
+ * 
+ * ```
+ * compose(last, slice(1, 3), counter)(10); // 13
+ * ```
  * 
  * @param callable[] $function
  * @return callable
@@ -46,14 +67,24 @@ const compose = 'Aml\\Fpl\\compose';
 /**
  * Instantiates/constructs an instance of `$class` with the specified arguments.
  *
+ * ```
+ * $makeArrayObject = partial(construct, \ArrayObject::class);
+ * $makeArrayObject(['a' => 1])->offsetExists('a'); // true
+ * ```
+ * 
  * @param string $class
  * @param mixed[] ...$args
  * @return mixed an instance of $class
  */
 const construct = 'Aml\\Fpl\\construct';
 /**
- * Generates integers from `$from` to `$to` with a step of `$step`.
+ * Generates integers from `$from` (included) to `$to` (excluded) with a step of `$step`.
  * Similar to range() but as a generator.
+ * 
+ * ```
+ * counter();   // 0, 1, 2....
+ * counter(1, 10, 3);  // 1, 4, 7
+ * ```
  *
  * @param integer $from
  * @param integer $to
@@ -104,6 +135,10 @@ const curry = 'Aml\\Fpl\\curry';
 const curryN = 'Aml\\Fpl\\curryN';
 /**
  * Drops items from `$items` until `$function($item)` is false.
+ * 
+ * ```
+ * dropWhile(identity, [0, 1, 2, 0]); // [1, 2, 0]
+ * ```
  *
  * @param callable $function
  * @param iterable $items
@@ -114,6 +149,15 @@ const dropWhile = 'Aml\\Fpl\\dropWhile';
  * Runs a callback over each item in `$items`.
  * Returns the same `$items` iterable, which might be useful for chaining.
  * 
+ * ```
+ * $number = 4;
+ * $addToNumber = function($z) use(&$number) {
+ *     $number += $z;
+ * };
+ * each($addToNumber, [1, 2, 3]); // [1, 2, 3]
+ * $number; // 10
+ * ```
+ * 
  * @param callable $callback
  * @param iterable $items
  * @return array|iterable
@@ -121,6 +165,10 @@ const dropWhile = 'Aml\\Fpl\\dropWhile';
 const each = 'Aml\\Fpl\\each';
 /**
  * Filters items that do not return a truthy value for `$function`
+ * 
+ * ```
+ * filter(identity, [false, null, 1, 0]); // [1]
+ * ```
  *
  * @param callable $function
  * @param iterable $items
@@ -129,7 +177,13 @@ const each = 'Aml\\Fpl\\each';
 const filter = 'Aml\\Fpl\\filter';
 /**
  * Flattens an iterable up to depth `$depth`. Keys are not preserved.
- * You can perform a full flatten by using flatten(INF).
+ * You can perform a full flatten by using `flatten(INF)`.
+ * 
+ * ```
+ * $array = [1, [2, [3, 4]]];
+ * flatten(1, $array); // [1, 2, [3, 4]]
+ * flatten(INF, $array); // [1, 2, 3, 4]
+ * ```
  *
  * @param number $depth
  * @param iterable $items
@@ -138,6 +192,11 @@ const filter = 'Aml\\Fpl\\filter';
 const flatten = 'Aml\\Fpl\\flatten';
 /**
  * Flips the first two arguments of a function
+ * 
+ * ```
+ * $prepend = flip('array_merge');
+ * $prepend([1], [2], [3]]); // [2, 1, 3]
+ * ```
  *
  * @param callable $function
  * @return callable
@@ -187,6 +246,11 @@ const fromPairs = 'Aml\\Fpl\\fromPairs';
 const groupBy = 'Aml\\Fpl\\groupBy';
 /**
  * Returns the first element in `$items`, if any
+ * 
+ * ```
+ * head([1, 2, 3]); // 1
+ * head(counter(4)); // 4
+ * ```
  *
  * @param iterable $items
  * @return mixed
@@ -197,7 +261,7 @@ const head = 'Aml\\Fpl\\head';
  * 
  * Useful as a placeholder filter; e.g.:
  * ```
- * any(identity, [0, 1, 2]);    // [1, 2]
+ * any(identity, [0, 1, 2]); // true
  * ```
  *
  * @param mixed $item
@@ -206,6 +270,11 @@ const head = 'Aml\\Fpl\\head';
 const identity = 'Aml\\Fpl\\identity';
 /**
  * Accesses `$array` at its position `$index`.
+ * 
+ * ```
+ * index(1, [1, 2, 3]); // 2
+ * index('a', new \ArrayObject(['a' => 3])); // 3
+ * ```
  *
  * @param mixed $index
  * @param array|\ArrayAccess $array
@@ -214,6 +283,11 @@ const identity = 'Aml\\Fpl\\identity';
 const index = 'Aml\\Fpl\\index';
 /**
  * Accesses `$array` at its position `$index`, but returns `$else` when the index is not set or is null.
+ * 
+ * ```
+ * indexOr(1, 'foo', [1, 2, 3]); // 2
+ * indexOr(4, 'foo', [1, 2, 3]); // 'foo'
+ * ```
  *
  * @param mixed $index
  * @param mixed $else
@@ -237,13 +311,22 @@ const indexOr = 'Aml\\Fpl\\indexOr';
 const invoker = 'Aml\\Fpl\\invoker';
 /**
  * Returns the keys of `$items`
- *
+ * 
+ * ```
+ * keys(['a' => 1, 'b' => 2]); // ['a', 'b']
+ * ```
+ * 
  * @param iterable $items
  * @return array|iterable
  */
 const keys = 'Aml\\Fpl\\keys';
 /**
  * Returns the last item in `$items`, if any
+ * 
+ * ```
+ * last([1, 2, 3]); // 3
+ * last(counter(4, 6)); // 5
+ * ```
  *
  * @param iterable $items
  * @return mixed
@@ -251,6 +334,10 @@ const keys = 'Aml\\Fpl\\keys';
 const last = 'Aml\\Fpl\\last';
 /**
  * Maps `$items` with `$function`
+ * 
+ * ```
+ * map(head, [[0, 1], [2, 3]]); // [0, 2]
+ * ```
  * 
  * @param callable $function
  * @param iterable $items
@@ -261,8 +348,8 @@ const map = 'Aml\\Fpl\\map';
  * Transforms a function into a fixed arity.
  * 
  * ```
- * map('get_class', $items);            // Error: get_class expected at most 1 parameter but 2 were given
- * map(nAry(1, 'get_class'), $items);   // [...]
+ * map('get_class', $items); // Error: get_class expected at most 1 parameter but 2 were given
+ * map(nAry(1, 'get_class'), $items); // [...]
  * ```
  *
  * @param integer $arity
@@ -309,7 +396,7 @@ const omitBy = 'Aml\\Fpl\\omitBy';
  * 
  * ```
  * $sum = pack('array_sum');
- * $sum(1, 2, 3);   // 6
+ * $sum(1, 2, 3); // 6
  * ```
  *
  * @param callable $function
@@ -318,6 +405,11 @@ const omitBy = 'Aml\\Fpl\\omitBy';
 const pack = 'Aml\\Fpl\\pack';
 /**
  * Partial application
+ * 
+ * ```
+ * $prepend1 = partial('array_merge', [1]);
+ * $prepend1([2, 3]); // [1, 2, 3]
+ * ```
  *
  * @param callable $function
  * @param mixed ...$partialArgs
@@ -340,6 +432,10 @@ const pick = 'Aml\\Fpl\\pick';
  * Filters `$items` that pass the specified `$function`.
  * This function is equivalent to `filter`
  * 
+ * ```
+ * pickBy(head, [[0, 1], [2, 3], [4, 5]]); // [[2, 3], [4, 5]]
+ * ```
+ * 
  * @param callable $function
  * @param iterable $items
  * @return array|iterable
@@ -347,6 +443,10 @@ const pick = 'Aml\\Fpl\\pick';
 const pickBy = 'Aml\\Fpl\\pickBy';
 /**
  * Function piping. Equivalent to composing with reversed order.
+ * 
+ * ```
+ * pipe(counter, head)(3); // 3
+ * ```
  *
  * @param callable[] ...$functions
  * @return callable
@@ -354,6 +454,13 @@ const pickBy = 'Aml\\Fpl\\pickBy';
 const pipe = 'Aml\\Fpl\\pipe';
 /**
  * Attempts to get property `$property` from object `$object`.
+ * Works with magic properties too.
+ * 
+ * ```
+ * $object = new \stdClass();
+ * $object->a = 1;
+ * prop('a', $object); // 1
+ * ```
  *
  * @param string $property
  * @param object $object
@@ -362,6 +469,15 @@ const pipe = 'Aml\\Fpl\\pipe';
 const prop = 'Aml\\Fpl\\prop';
 /**
  * Attempts to get property `$property` from object `$object`, but returns `$else` when the property is not set or is null.
+ * 
+ * ```
+ * $object = new \stdClass();
+ * $object->a = 1;
+ * $object->b = null;
+ * propOr('a', 'foo', $object); // 1
+ * propOr('b', 'foo', $object); // 'foo'
+ * propOr('c', 'foo', $object); // 'foo'
+ * ```
  *
  * @param string $property
  * @param object $object
@@ -370,15 +486,23 @@ const prop = 'Aml\\Fpl\\prop';
 const propOr = 'Aml\\Fpl\\propOr';
 /**
  * Array reducing, a.k.a. foldl.
+ * 
+ * ```
+ * reduce(pack('array_sum'), 100, [1, 2, 3]); // 106
+ * ```
  *
  * @param callable $function reducer function
  * @param mixed $initial initial value
  * @param iterable $items
- * @return array|iterable
+ * @return mixed
  */
 const reduce = 'Aml\\Fpl\\reduce';
 /**
  * Returns the first item in `$items` for which `$callback($item)` is truthy
+ * 
+ * ```
+ * search(function($value) { return $value > 0; }, [-1, 0, 1, 2]); // 1
+ * ```
  *
  * @param callable $callback
  * @param iterable $items
@@ -387,7 +511,11 @@ const reduce = 'Aml\\Fpl\\reduce';
 const search = 'Aml\\Fpl\\search';
 /**
  * Returns a slice of `$items`, beginning at `$start` and of length `$length`.
- *
+ * 
+ * ```
+ * slice(1, 3, range(0, 5)); // [1 => 1, 2 => 2, 3 => 3]
+ * ```
+ * 
  * @param integer $start
  * @param number $length
  * @param iterable $items
@@ -397,6 +525,24 @@ const slice = 'Aml\\Fpl\\slice';
 /**
  * Sorts `$items`. Note that return type will be array regardless of `$items`,
  * and the array will be sorted in place, since we use php's `usort`
+ * 
+ * ```
+ * $sortByName = function($a, $b) {
+ *     return $a['name'] <=> $b['name'];
+ * };
+ * $sorted = sort($sortByName, [
+ *     ['name' => 'Pete', 'age' => 30],
+ *     ['name' => 'Carl', 'age' => 25],
+ * ]);
+ * ```
+ * 
+ * Results in:
+ * ```
+ * [
+ *     ['name' => 'Carl', 'age' => 25],
+ *     ['name' => 'Pete', 'age' => 30],
+ * ]
+ * ```
  *
  * @param callable $comparator function that takes 2 values and returns an integer -1, 0, 1
  * @param iterable $items
@@ -406,16 +552,20 @@ const sort = 'Aml\\Fpl\\sort';
 /**
  * Similar to sort, but using a function that returns a value to use as comparison for each item.
  * 
+ * ```
  * sortBy(index('age'), [
  *     ['name' => 'Pete', 'age' => 30],
  *     ['name' => 'Carl', 'age' => 25],
  * ]);
+ * ```
  * 
  * Would result in:
+ * ```
  * [
  *     ['name' => 'Carl', 'age' => 25],
  *     ['name' => 'Pete', 'age' => 30],
  * ]
+ * ```
  *
  * @param callable $function function that takes an item and returns a value that can be compared with php's spaceship operator <=>
  * @param iterable $items
@@ -424,6 +574,13 @@ const sort = 'Aml\\Fpl\\sort';
 const sortBy = 'Aml\\Fpl\\sortBy';
 /**
  * Applies the spaceship operator on its two arguments
+ * 
+ * ```
+ * spaceship(1, 3); // -1
+ * spaceship(1, 1); // 0
+ * spaceship(3, 1); // 1
+ * spaceship('b', 'a'); // 1
+ * ```
  *
  * @param mixed $a
  * @param mixed $b
@@ -432,6 +589,10 @@ const sortBy = 'Aml\\Fpl\\sortBy';
 const spaceship = 'Aml\\Fpl\\spaceship';
 /**
  * Takes items from `$items` until `$function($item)` yields false
+ * 
+ * ```
+ * takeWhile(identity, [3, 2, 1, 0, 1, 2, 3])); // [3, 2, 1]
+ * ```
  *
  * @param callable $function
  * @param iterable $items
@@ -456,7 +617,7 @@ const toIterator = 'Aml\\Fpl\\toIterator';
  * From associative iterable to a list of pairs.
  * 
  * ```
- * fromPairs(['a' => 1, 'b' => 2]); // [['a', 1], ['b', 2]]
+ * toPairs(['a' => 1, 'b' => 2]); // [['a', 1], ['b', 2]]
  * ```
  * 
  * This is the inverse of `toPairs`.
@@ -496,6 +657,10 @@ const unpack = 'Aml\\Fpl\\unpack';
 const useWith = 'Aml\\Fpl\\useWith';
 /**
  * Values of an iterable
+ * 
+ * ```
+ * values(['a' => 1, 'b' => 2]); // [1, 2]
+ * ```
  *
  * @param iterable $items
  * @return array|iterable
@@ -503,6 +668,11 @@ const useWith = 'Aml\\Fpl\\useWith';
 const values = 'Aml\\Fpl\\values';
 /**
  * Zips one or more iterables
+ * 
+ * ```
+ * zip([1, 2], [3, 4]); // [[1, 3], [2, 4]]
+ * head(zip(counter(1), counter(2), counter(3))); // [1, 2, 3]
+ * ```
  *
  * @param iterable $first
  * @param iterable[] ...$rest
@@ -512,6 +682,11 @@ const zip = 'Aml\\Fpl\\zip';
 /**
  * Returns whether every `$item` in `$items` returns a truthy value for `$callback($item)`.
  * You can use `identity` to filter by the items themselves.
+ * 
+ * ```
+ * all(identity, [true, 1]); // true
+ * all(head, [[1, 2], [0, 1]]); // false
+ * ```
  *
  * @param callable $callback
  * @param iterable $items
@@ -524,6 +699,10 @@ function all()
 /**
  * Returns whether any `$item` in `$items` returns a truthy value for `$callback($item)`.
  * You can use `identity` to filter by the items themselves.
+ * 
+ * ```
+ * any(identity, [0, 1, 2]); // true
+ * ```
  *
  * @param callable $callback
  * @param iterable $items
@@ -535,6 +714,10 @@ function any()
 }
 /**
  * Groups items in chunks of size `$size`. Note that keys are lost in the process.
+ * 
+ * ```
+ * chunk(2, [0, 1, 2]); // [[0, 1], [2]]
+ * ```
  *
  * @param integer $size
  * @param iterable $items
@@ -547,6 +730,10 @@ function chunk()
 /**
  * Returns a function that negates the result of calling its argument.
  * 
+ * ```
+ * $isEven = function($x) { return $x % 2 === 0; };
+ * $isOdd = complement($isEven);
+ * ```
  * @param callable $function
  * @return callable
  */
@@ -556,6 +743,10 @@ function complement()
 }
 /**
  * Function composition
+ * 
+ * ```
+ * compose(last, slice(1, 3), counter)(10); // 13
+ * ```
  * 
  * @param callable[] $function
  * @return callable
@@ -567,6 +758,11 @@ function compose()
 /**
  * Instantiates/constructs an instance of `$class` with the specified arguments.
  *
+ * ```
+ * $makeArrayObject = partial(construct, \ArrayObject::class);
+ * $makeArrayObject(['a' => 1])->offsetExists('a'); // true
+ * ```
+ * 
  * @param string $class
  * @param mixed[] ...$args
  * @return mixed an instance of $class
@@ -576,8 +772,13 @@ function construct()
     return \Aml\Fpl\functions\curry('Aml\\Fpl\\functions\\construct')(...func_get_args());
 }
 /**
- * Generates integers from `$from` to `$to` with a step of `$step`.
+ * Generates integers from `$from` (included) to `$to` (excluded) with a step of `$step`.
  * Similar to range() but as a generator.
+ * 
+ * ```
+ * counter();   // 0, 1, 2....
+ * counter(1, 10, 3);  // 1, 4, 7
+ * ```
  *
  * @param integer $from
  * @param integer $to
@@ -637,6 +838,10 @@ function curryN()
 }
 /**
  * Drops items from `$items` until `$function($item)` is false.
+ * 
+ * ```
+ * dropWhile(identity, [0, 1, 2, 0]); // [1, 2, 0]
+ * ```
  *
  * @param callable $function
  * @param iterable $items
@@ -650,6 +855,15 @@ function dropWhile()
  * Runs a callback over each item in `$items`.
  * Returns the same `$items` iterable, which might be useful for chaining.
  * 
+ * ```
+ * $number = 4;
+ * $addToNumber = function($z) use(&$number) {
+ *     $number += $z;
+ * };
+ * each($addToNumber, [1, 2, 3]); // [1, 2, 3]
+ * $number; // 10
+ * ```
+ * 
  * @param callable $callback
  * @param iterable $items
  * @return array|iterable
@@ -660,6 +874,10 @@ function each()
 }
 /**
  * Filters items that do not return a truthy value for `$function`
+ * 
+ * ```
+ * filter(identity, [false, null, 1, 0]); // [1]
+ * ```
  *
  * @param callable $function
  * @param iterable $items
@@ -671,7 +889,13 @@ function filter()
 }
 /**
  * Flattens an iterable up to depth `$depth`. Keys are not preserved.
- * You can perform a full flatten by using flatten(INF).
+ * You can perform a full flatten by using `flatten(INF)`.
+ * 
+ * ```
+ * $array = [1, [2, [3, 4]]];
+ * flatten(1, $array); // [1, 2, [3, 4]]
+ * flatten(INF, $array); // [1, 2, 3, 4]
+ * ```
  *
  * @param number $depth
  * @param iterable $items
@@ -683,6 +907,11 @@ function flatten()
 }
 /**
  * Flips the first two arguments of a function
+ * 
+ * ```
+ * $prepend = flip('array_merge');
+ * $prepend([1], [2], [3]]); // [2, 1, 3]
+ * ```
  *
  * @param callable $function
  * @return callable
@@ -741,6 +970,11 @@ function groupBy()
 }
 /**
  * Returns the first element in `$items`, if any
+ * 
+ * ```
+ * head([1, 2, 3]); // 1
+ * head(counter(4)); // 4
+ * ```
  *
  * @param iterable $items
  * @return mixed
@@ -754,7 +988,7 @@ function head()
  * 
  * Useful as a placeholder filter; e.g.:
  * ```
- * any(identity, [0, 1, 2]);    // [1, 2]
+ * any(identity, [0, 1, 2]); // true
  * ```
  *
  * @param mixed $item
@@ -766,6 +1000,11 @@ function identity()
 }
 /**
  * Accesses `$array` at its position `$index`.
+ * 
+ * ```
+ * index(1, [1, 2, 3]); // 2
+ * index('a', new \ArrayObject(['a' => 3])); // 3
+ * ```
  *
  * @param mixed $index
  * @param array|\ArrayAccess $array
@@ -777,6 +1016,11 @@ function index()
 }
 /**
  * Accesses `$array` at its position `$index`, but returns `$else` when the index is not set or is null.
+ * 
+ * ```
+ * indexOr(1, 'foo', [1, 2, 3]); // 2
+ * indexOr(4, 'foo', [1, 2, 3]); // 'foo'
+ * ```
  *
  * @param mixed $index
  * @param mixed $else
@@ -806,7 +1050,11 @@ function invoker()
 }
 /**
  * Returns the keys of `$items`
- *
+ * 
+ * ```
+ * keys(['a' => 1, 'b' => 2]); // ['a', 'b']
+ * ```
+ * 
  * @param iterable $items
  * @return array|iterable
  */
@@ -816,6 +1064,11 @@ function keys()
 }
 /**
  * Returns the last item in `$items`, if any
+ * 
+ * ```
+ * last([1, 2, 3]); // 3
+ * last(counter(4, 6)); // 5
+ * ```
  *
  * @param iterable $items
  * @return mixed
@@ -826,6 +1079,10 @@ function last()
 }
 /**
  * Maps `$items` with `$function`
+ * 
+ * ```
+ * map(head, [[0, 1], [2, 3]]); // [0, 2]
+ * ```
  * 
  * @param callable $function
  * @param iterable $items
@@ -839,8 +1096,8 @@ function map()
  * Transforms a function into a fixed arity.
  * 
  * ```
- * map('get_class', $items);            // Error: get_class expected at most 1 parameter but 2 were given
- * map(nAry(1, 'get_class'), $items);   // [...]
+ * map('get_class', $items); // Error: get_class expected at most 1 parameter but 2 were given
+ * map(nAry(1, 'get_class'), $items); // [...]
  * ```
  *
  * @param integer $arity
@@ -896,7 +1153,7 @@ function omitBy()
  * 
  * ```
  * $sum = pack('array_sum');
- * $sum(1, 2, 3);   // 6
+ * $sum(1, 2, 3); // 6
  * ```
  *
  * @param callable $function
@@ -908,6 +1165,11 @@ function pack()
 }
 /**
  * Partial application
+ * 
+ * ```
+ * $prepend1 = partial('array_merge', [1]);
+ * $prepend1([2, 3]); // [1, 2, 3]
+ * ```
  *
  * @param callable $function
  * @param mixed ...$partialArgs
@@ -936,6 +1198,10 @@ function pick()
  * Filters `$items` that pass the specified `$function`.
  * This function is equivalent to `filter`
  * 
+ * ```
+ * pickBy(head, [[0, 1], [2, 3], [4, 5]]); // [[2, 3], [4, 5]]
+ * ```
+ * 
  * @param callable $function
  * @param iterable $items
  * @return array|iterable
@@ -946,6 +1212,10 @@ function pickBy()
 }
 /**
  * Function piping. Equivalent to composing with reversed order.
+ * 
+ * ```
+ * pipe(counter, head)(3); // 3
+ * ```
  *
  * @param callable[] ...$functions
  * @return callable
@@ -956,6 +1226,13 @@ function pipe()
 }
 /**
  * Attempts to get property `$property` from object `$object`.
+ * Works with magic properties too.
+ * 
+ * ```
+ * $object = new \stdClass();
+ * $object->a = 1;
+ * prop('a', $object); // 1
+ * ```
  *
  * @param string $property
  * @param object $object
@@ -967,6 +1244,15 @@ function prop()
 }
 /**
  * Attempts to get property `$property` from object `$object`, but returns `$else` when the property is not set or is null.
+ * 
+ * ```
+ * $object = new \stdClass();
+ * $object->a = 1;
+ * $object->b = null;
+ * propOr('a', 'foo', $object); // 1
+ * propOr('b', 'foo', $object); // 'foo'
+ * propOr('c', 'foo', $object); // 'foo'
+ * ```
  *
  * @param string $property
  * @param object $object
@@ -978,11 +1264,15 @@ function propOr()
 }
 /**
  * Array reducing, a.k.a. foldl.
+ * 
+ * ```
+ * reduce(pack('array_sum'), 100, [1, 2, 3]); // 106
+ * ```
  *
  * @param callable $function reducer function
  * @param mixed $initial initial value
  * @param iterable $items
- * @return array|iterable
+ * @return mixed
  */
 function reduce()
 {
@@ -990,6 +1280,10 @@ function reduce()
 }
 /**
  * Returns the first item in `$items` for which `$callback($item)` is truthy
+ * 
+ * ```
+ * search(function($value) { return $value > 0; }, [-1, 0, 1, 2]); // 1
+ * ```
  *
  * @param callable $callback
  * @param iterable $items
@@ -1001,7 +1295,11 @@ function search()
 }
 /**
  * Returns a slice of `$items`, beginning at `$start` and of length `$length`.
- *
+ * 
+ * ```
+ * slice(1, 3, range(0, 5)); // [1 => 1, 2 => 2, 3 => 3]
+ * ```
+ * 
  * @param integer $start
  * @param number $length
  * @param iterable $items
@@ -1014,6 +1312,24 @@ function slice()
 /**
  * Sorts `$items`. Note that return type will be array regardless of `$items`,
  * and the array will be sorted in place, since we use php's `usort`
+ * 
+ * ```
+ * $sortByName = function($a, $b) {
+ *     return $a['name'] <=> $b['name'];
+ * };
+ * $sorted = sort($sortByName, [
+ *     ['name' => 'Pete', 'age' => 30],
+ *     ['name' => 'Carl', 'age' => 25],
+ * ]);
+ * ```
+ * 
+ * Results in:
+ * ```
+ * [
+ *     ['name' => 'Carl', 'age' => 25],
+ *     ['name' => 'Pete', 'age' => 30],
+ * ]
+ * ```
  *
  * @param callable $comparator function that takes 2 values and returns an integer -1, 0, 1
  * @param iterable $items
@@ -1026,16 +1342,20 @@ function sort()
 /**
  * Similar to sort, but using a function that returns a value to use as comparison for each item.
  * 
+ * ```
  * sortBy(index('age'), [
  *     ['name' => 'Pete', 'age' => 30],
  *     ['name' => 'Carl', 'age' => 25],
  * ]);
+ * ```
  * 
  * Would result in:
+ * ```
  * [
  *     ['name' => 'Carl', 'age' => 25],
  *     ['name' => 'Pete', 'age' => 30],
  * ]
+ * ```
  *
  * @param callable $function function that takes an item and returns a value that can be compared with php's spaceship operator <=>
  * @param iterable $items
@@ -1047,6 +1367,13 @@ function sortBy()
 }
 /**
  * Applies the spaceship operator on its two arguments
+ * 
+ * ```
+ * spaceship(1, 3); // -1
+ * spaceship(1, 1); // 0
+ * spaceship(3, 1); // 1
+ * spaceship('b', 'a'); // 1
+ * ```
  *
  * @param mixed $a
  * @param mixed $b
@@ -1058,6 +1385,10 @@ function spaceship()
 }
 /**
  * Takes items from `$items` until `$function($item)` yields false
+ * 
+ * ```
+ * takeWhile(identity, [3, 2, 1, 0, 1, 2, 3])); // [3, 2, 1]
+ * ```
  *
  * @param callable $function
  * @param iterable $items
@@ -1091,7 +1422,7 @@ function toIterator()
  * From associative iterable to a list of pairs.
  * 
  * ```
- * fromPairs(['a' => 1, 'b' => 2]); // [['a', 1], ['b', 2]]
+ * toPairs(['a' => 1, 'b' => 2]); // [['a', 1], ['b', 2]]
  * ```
  * 
  * This is the inverse of `toPairs`.
@@ -1140,6 +1471,10 @@ function useWith()
 }
 /**
  * Values of an iterable
+ * 
+ * ```
+ * values(['a' => 1, 'b' => 2]); // [1, 2]
+ * ```
  *
  * @param iterable $items
  * @return array|iterable
@@ -1150,6 +1485,11 @@ function values()
 }
 /**
  * Zips one or more iterables
+ * 
+ * ```
+ * zip([1, 2], [3, 4]); // [[1, 3], [2, 4]]
+ * head(zip(counter(1), counter(2), counter(3))); // [1, 2, 3]
+ * ```
  *
  * @param iterable $first
  * @param iterable[] ...$rest

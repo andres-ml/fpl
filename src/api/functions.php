@@ -5,6 +5,10 @@ namespace Aml\Fpl\functions;
 /**
  * Returns a function that negates the result of calling its argument.
  * 
+ * ```
+ * $isEven = function($x) { return $x % 2 === 0; };
+ * $isOdd = complement($isEven);
+ * ```
  * @param callable $function
  * @return callable
  */
@@ -17,6 +21,10 @@ function complement($function) : callable
 
 /**
  * Function composition
+ * 
+ * ```
+ * compose(last, slice(1, 3), counter)(10); // 13
+ * ```
  * 
  * @param callable[] $function
  * @return callable
@@ -90,6 +98,11 @@ function curryN(int $N, $function) : callable
 
 /**
  * Flips the first two arguments of a function
+ * 
+ * ```
+ * $prepend = flip('array_merge');
+ * $prepend([1], [2], [3]]); // [2, 1, 3]
+ * ```
  *
  * @param callable $function
  * @return callable
@@ -125,8 +138,8 @@ function invoker(string $method, ...$args) : callable
  * Transforms a function into a fixed arity.
  * 
  * ```
- * map('get_class', $items);            // Error: get_class expected at most 1 parameter but 2 were given
- * map(nAry(1, 'get_class'), $items);   // [...]
+ * map('get_class', $items); // Error: get_class expected at most 1 parameter but 2 were given
+ * map(nAry(1, 'get_class'), $items); // [...]
  * ```
  *
  * @param integer $arity
@@ -145,7 +158,7 @@ function nAry(int $arity, callable $function) : callable
  * 
  * ```
  * $sum = pack('array_sum');
- * $sum(1, 2, 3);   // 6
+ * $sum(1, 2, 3); // 6
  * ```
  *
  * @param callable $function
@@ -160,6 +173,11 @@ function pack($function) : callable
 
 /**
  * Partial application
+ * 
+ * ```
+ * $prepend1 = partial('array_merge', [1]);
+ * $prepend1([2, 3]); // [1, 2, 3]
+ * ```
  *
  * @param callable $function
  * @param mixed ...$partialArgs
@@ -174,6 +192,10 @@ function partial($function, ...$partialArgs) : callable
 
 /**
  * Function piping. Equivalent to composing with reversed order.
+ * 
+ * ```
+ * pipe(counter, head)(3); // 3
+ * ```
  *
  * @param callable[] ...$functions
  * @return callable

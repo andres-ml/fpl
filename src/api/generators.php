@@ -3,8 +3,13 @@
 namespace Aml\Fpl\functions;
 
 /**
- * Generates integers from `$from` to `$to` with a step of `$step`.
+ * Generates integers from `$from` (included) to `$to` (excluded) with a step of `$step`.
  * Similar to range() but as a generator.
+ * 
+ * ```
+ * counter();   // 0, 1, 2....
+ * counter(1, 10, 3);  // 1, 4, 7
+ * ```
  *
  * @param integer $from
  * @param integer $to
