@@ -1,4 +1,4 @@
-#### `all($callback, iterable $items) : bool`
+#### `all(callable $callback, iterable $items) : bool`
 
 Returns whether every `$item` in `$items` returns a truthy value for `$callback($item)`.
 You can use `identity` to filter by the items themselves.
@@ -7,7 +7,7 @@ all(identity, [true, 1]); // true
 all(head, [[1, 2], [0, 1]]); // false
 ```
 #
-#### `any($callback, iterable $items) : bool`
+#### `any(callable $callback, iterable $items) : bool`
 
 Returns whether any `$item` in `$items` returns a truthy value for `$callback($item)`.
 You can use `identity` to filter by the items themselves.
@@ -22,7 +22,7 @@ Groups items in chunks of size `$size`. Note that keys are lost in the process.
 chunk(2, [0, 1, 2]); // [[0, 1], [2]]
 ```
 #
-#### `complement($function) : callable`
+#### `complement(callable $function) : callable`
 
 Returns a function that negates the result of calling its argument.
 ```php
@@ -54,7 +54,7 @@ counter();   // 0, 1, 2....
 counter(1, 10, 3);  // 1, 4, 7
 ```
 #
-#### `curry($function) : callable`
+#### `curry(callable $function) : callable`
 
 Returns the curried version of a function.
 Once all non-optional, non-variadic parameters have been provided, the function will be called;
@@ -71,7 +71,7 @@ $curried(1, 2, 3);   // 6
 $curried(1, 2)(3);   // error! calling 3(3)
 ```
 #
-#### `curryN(int $N, $function) : callable`
+#### `curryN(int $N, callable $function) : callable`
 
 Curries exactly `$N` parameters of the given function:
 ```php
@@ -84,14 +84,14 @@ $curried(1, 2, 3);       // callable
 $curried(1, 2, 3, 4);    // 10
 ```
 #
-#### `dropWhile($function, iterable $items) : iterable`
+#### `dropWhile(callable $function, iterable $items) : iterable`
 
 Drops items from `$items` until `$function($item)` is false.
 ```php
 dropWhile(identity, [0, 1, 2, 0]); // [1, 2, 0]
 ```
 #
-#### `each($callback, iterable $items) : iterable`
+#### `each(callable $callback, iterable $items) : iterable`
 
 Runs a callback over each item in `$items`.
 Returns the same `$items` iterable, which might be useful for chaining.
@@ -104,7 +104,7 @@ each($addToNumber, [1, 2, 3]); // [1, 2, 3]
 $number; // 10
 ```
 #
-#### `filter($function, iterable $items) : iterable`
+#### `filter(callable $function, iterable $items) : iterable`
 
 Filters items that do not return a truthy value for `$function`
 ```php
@@ -121,7 +121,7 @@ flatten(1, $array); // [1, 2, [3, 4]]
 flatten(INF, $array); // [1, 2, 3, 4]
 ```
 #
-#### `flip($function) : callable`
+#### `flip(callable $function) : callable`
 
 Flips the first two arguments of a function
 ```php
@@ -137,7 +137,7 @@ fromPairs([['a', 1], ['b', 2]]); // ['a' => 1, 'b' => 2]
 ```
 This is the inverse of `toPairs`.
 #
-#### `groupBy($grouper, iterable $items) : iterable`
+#### `groupBy(callable $grouper, iterable $items) : iterable`
 
 Groups each item `$item` in `$items` by the value provided by `$grouper($item)`.
 ```php
@@ -216,7 +216,7 @@ last([1, 2, 3]); // 3
 last(counter(4, 6)); // 5
 ```
 #
-#### `map($function, iterable $items) : iterable`
+#### `map(callable $function, iterable $items) : iterable`
 
 Maps `$items` with `$function`
 ```php
@@ -254,7 +254,7 @@ Would result in:
 ]
 ```
 #
-#### `pack($function) : callable`
+#### `pack(callable $function) : callable`
 
 Packs the arguments of a function into an tuple/array
 ```php
@@ -262,7 +262,7 @@ $sum = pack('array_sum');
 $sum(1, 2, 3); // 6
 ```
 #
-#### `partial($function, ...$partialArgs) : callable`
+#### `partial(callable $function, ...$partialArgs) : callable`
 
 Partial application
 ```php
@@ -314,14 +314,14 @@ propOr('b', 'foo', $object); // 'foo'
 propOr('c', 'foo', $object); // 'foo'
 ```
 #
-#### `reduce($function, $initial, iterable $items)`
+#### `reduce(callable $function, $initial, iterable $items)`
 
 Array reducing, a.k.a. foldl.
 ```php
 reduce(pack('array_sum'), 100, [1, 2, 3]); // 106
 ```
 #
-#### `search($callback, iterable $items)`
+#### `search(callable $callback, iterable $items)`
 
 Returns the first item in `$items` for which `$callback($item)` is truthy
 ```php
@@ -335,7 +335,7 @@ Returns a slice of `$items`, beginning at `$start` and of length `$length`.
 slice(1, 3, range(0, 5)); // [1 => 1, 2 => 2, 3 => 3]
 ```
 #
-#### `sort($comparator, iterable $items) : array`
+#### `sort(callable $comparator, iterable $items) : array`
 
 Sorts `$items`. Note that return type will be array regardless of `$items`,
 and the array will be sorted in place, since we use php's `usort`
@@ -356,7 +356,7 @@ Results in:
 ]
 ```
 #
-#### `sortBy($function, iterable $items) : array`
+#### `sortBy(callable $function, iterable $items) : array`
 
 Similar to sort, but using a function that returns a value to use as comparison for each item.
 ```php
@@ -383,7 +383,7 @@ spaceship(3, 1); // 1
 spaceship('b', 'a'); // 1
 ```
 #
-#### `takeWhile($function, iterable $items) : iterable`
+#### `takeWhile(callable $function, iterable $items) : iterable`
 
 Takes items from `$items` until `$function($item)` yields false
 ```php
@@ -406,7 +406,7 @@ toPairs(['a' => 1, 'b' => 2]); // [['a', 1], ['b', 2]]
 ```
 This is the inverse of `toPairs`.
 #
-#### `unpack($function) : callable`
+#### `unpack(callable $function) : callable`
 
 Unpacks/spreads arguments of a function
 ```php
@@ -417,7 +417,7 @@ $words = compose(
 $words(['a sentence', 'some other sentence']); // ['a', 'sentence', 'some', 'other', 'sentence']
 ```
 #
-#### `useWith(array $argCallbacks, $function) : callable`
+#### `useWith(array $argCallbacks, callable $function) : callable`
 
 Wraps a function `$function` so that it's called with transformed arguments, as defined
 by the `$argCallbacks` array.

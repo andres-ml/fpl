@@ -12,7 +12,7 @@ namespace Aml\Fpl\functions;
  * @param callable $function
  * @return callable
  */
-function complement($function) : callable
+function complement(callable $function) : callable
 {
     return function(...$args) use($function) {
         return !call_user_func_array($function, $args);
@@ -60,7 +60,7 @@ function compose(...$functions) : callable
  * @param callable $function
  * @return callable
  */
-function curry($function) : callable
+function curry(callable $function) : callable
 {
     $fixedArguments = array_filter((new \ReflectionFunction($function))->getParameters(), function($parameter) {
         return !$parameter->isOptional() && !$parameter->isVariadic();
@@ -86,7 +86,7 @@ function curry($function) : callable
  * @param callable $function
  * @return callable
  */
-function curryN(int $N, $function) : callable
+function curryN(int $N, callable $function) : callable
 {
     return function(...$args) use($N, $function) {
         if (\count($args) < $N) {
@@ -107,7 +107,7 @@ function curryN(int $N, $function) : callable
  * @param callable $function
  * @return callable
  */
-function flip($function) : callable
+function flip(callable $function) : callable
 {
     return function($a, $b, ...$args) use($function) {
         return call_user_func($function, $b, $a, ...$args);
@@ -164,7 +164,7 @@ function nAry(int $arity, callable $function) : callable
  * @param callable $function
  * @return callable
  */
-function pack($function) : callable
+function pack(callable $function) : callable
 {
     return function(...$args) use($function) {
         return call_user_func($function, $args);
@@ -183,7 +183,7 @@ function pack($function) : callable
  * @param mixed ...$partialArgs
  * @return callable
  */
-function partial($function, ...$partialArgs) : callable
+function partial(callable $function, ...$partialArgs) : callable
 {
     return function(...$args) use($function, $partialArgs) {
         return call_user_func_array($function, array_merge($partialArgs, $args));
@@ -219,7 +219,7 @@ function pipe(...$functions) : callable
  * @param callable $function
  * @return callable
  */
-function unpack($function) : callable
+function unpack(callable $function) : callable
 {
     return partial('call_user_func_array', $function);
 }
@@ -237,7 +237,7 @@ function unpack($function) : callable
  * @param callable $function
  * @return callable
  */
-function useWith(array $argCallbacks, $function) : callable
+function useWith(array $argCallbacks, callable $function) : callable
 {
     return function(...$args) use($argCallbacks, $function) {
         $modifyArgument = function($arg, $index) use($argCallbacks) {

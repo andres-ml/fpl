@@ -32,7 +32,7 @@ function _arrayOrIterator(iterable $base, callable $generator) : iterable
  * @param iterable $items
  * @return boolean
  */
-function all($callback, iterable $items) : bool
+function all(callable $callback, iterable $items) : bool
 {
     return !any(complement($callback), $items);
 }
@@ -49,7 +49,7 @@ function all($callback, iterable $items) : bool
  * @param iterable $items
  * @return boolean
  */
-function any($callback, iterable $items) : bool
+function any(callable $callback, iterable $items) : bool
 {
     foreach ($items as $item) {
         if ($callback($item)) {
@@ -92,7 +92,7 @@ function chunk(int $size, iterable $items) : iterable
  * @param iterable $items
  * @return array|iterable
  */
-function dropWhile($function, iterable $items) : iterable
+function dropWhile(callable $function, iterable $items) : iterable
 {
     return _arrayOrIterator($items, function($items) use($function) {
         $dropped = false;
@@ -123,7 +123,7 @@ function dropWhile($function, iterable $items) : iterable
  * @param iterable $items
  * @return array|iterable
  */
-function each($callback, iterable $items) : iterable
+function each(callable $callback, iterable $items) : iterable
 {
     foreach ($items as $item) {
         $callback($item);
@@ -173,7 +173,7 @@ function flatten($depth, iterable $items) : iterable
  * @param iterable $items
  * @return array|iterable
  */
-function filter($function, iterable $items) : iterable
+function filter(callable $function, iterable $items) : iterable
 {
     return _arrayOrIterator($items, function($items) use($function) {
         foreach ($items as $key => $value) {
@@ -233,7 +233,7 @@ function fromPairs(iterable $items) : iterable
  * @param iterable $items
  * @return array|iterable
  */
-function groupBy($grouper, iterable $items) : iterable
+function groupBy(callable $grouper, iterable $items) : iterable
 {
     $grouped = [];
     foreach ($items as $key => $value) {
@@ -313,7 +313,7 @@ function last(iterable $items)
  * @param iterable $items
  * @return array|iterable
  */
-function map($function, iterable $items) : iterable
+function map(callable $function, iterable $items) : iterable
 {
     return _arrayOrIterator($items, function($items) use($function) {
         foreach ($items as $key => $value) {
@@ -416,7 +416,7 @@ function omitBy(callable $function, iterable $items) : iterable
  * @param iterable $items
  * @return mixed
  */
-function reduce($function, $initial, iterable $items)
+function reduce(callable $function, $initial, iterable $items)
 {
     foreach ($items as $item) {
         $initial = $function($initial, $item);
@@ -435,7 +435,7 @@ function reduce($function, $initial, iterable $items)
  * @param iterable $items
  * @return mixed
  */
-function search($callback, iterable $items)
+function search(callable $callback, iterable $items)
 {
     return compose(Fpl\head, Fpl\filter($callback), Fpl\toIterator)($items);
 }
@@ -466,7 +466,7 @@ function search($callback, iterable $items)
  * @param iterable $items
  * @return array
  */
-function sort($comparator, iterable $items) : array
+function sort(callable $comparator, iterable $items) : array
 {
     $array = toArray($items);
     usort($array, $comparator);
@@ -495,7 +495,7 @@ function sort($comparator, iterable $items) : array
  * @param iterable $items
  * @return array
  */
-function sortBy($function, iterable $items) : array
+function sortBy(callable $function, iterable $items) : array
 {
     return Fpl\sort(Fpl\useWith([$function, $function], Fpl\spaceship), $items);
 }
@@ -539,7 +539,7 @@ function slice(int $start, $length, iterable $items) : iterable
  * @param iterable $items
  * @return array|iterable
  */
-function takeWhile($function, iterable $items) : iterable
+function takeWhile(callable $function, iterable $items) : iterable
 {
     return _arrayOrIterator($items, function($items) use($function) {
         foreach ($items as $key => $value) {
