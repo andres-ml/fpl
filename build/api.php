@@ -405,6 +405,14 @@ const lte = 'Aml\\Fpl\\lte';
  * map(head, [[0, 1], [2, 3]]); // [0, 2]
  * ```
  * 
+ * The index is supplied to the callback. If you want to provide a callback
+ * that can't take more than one argument, you can use `nAry`:
+ * 
+ * ```
+ * map('array_sum', [[1, 2], [3, 4]]); // array_sum() expects exactly 1 parameter, 2 given
+ * map(nAry(1, 'array_sum'), [[1, 2], [3, 4]]); // [3, 7]
+ * ```
+ * 
  * @param callable $function
  * @param iterable $items
  * @return array|iterable
@@ -1267,6 +1275,14 @@ function lte()
  * 
  * ```
  * map(head, [[0, 1], [2, 3]]); // [0, 2]
+ * ```
+ * 
+ * The index is supplied to the callback. If you want to provide a callback
+ * that can't take more than one argument, you can use `nAry`:
+ * 
+ * ```
+ * map('array_sum', [[1, 2], [3, 4]]); // array_sum() expects exactly 1 parameter, 2 given
+ * map(nAry(1, 'array_sum'), [[1, 2], [3, 4]]); // [3, 7]
  * ```
  * 
  * @param callable $function
