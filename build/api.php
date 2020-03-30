@@ -745,18 +745,44 @@ const useWith = 'Aml\\Fpl\\useWith';
  */
 const values = 'Aml\\Fpl\\values';
 /**
- * Zips one or more iterables
+ * Zips one or more iterables.
+ * If no arguments are provided, an empty array is returned.
+ * If at least one argument is provided, the result will be an array or an iterator depending
+ * on whether the first argument is an array or an iterator, respectively.
+ * 
+ * The resulting zipped iterable is as short as the shortest input iterator.
+ * 
+ * `zip` is equivalent to `zipWith(function(...$args) { return $args; })`.
  * 
  * ```
- * zip([1, 2], [3, 4]); // [[1, 3], [2, 4]]
+ * zip(); // []
+ * zip([1, 3, 5], [2, 4]); // [[1, 2], [3, 4]]
  * head(zip(counter(1), counter(2), counter(3))); // [1, 2, 3]
  * ```
  *
- * @param iterable $first
  * @param iterable[] ...$rest
  * @return array|iterable
  */
 const zip = 'Aml\\Fpl\\zip';
+/**
+ * Zips one or more iterables with the specified function.
+ * If no arguments are provided, an empty array is returned.
+ * If at least one argument is provided, the result will be an array or an iterator depending
+ * on whether the first argument is an array or an iterator, respectively.
+ * 
+ * The resulting zipped iterable is as short as the shortest input iterator.
+ * 
+ * ```
+ * $sum = function(...$args) { return array_sum($args); }; // alternatively, $sum = pack('array_sum');
+ * zipWith($sum); // []
+ * zipWith($sum, [1, 3, 5], [2, 4, 6], [10, 10]); // [13, 17]
+ * ```
+ *
+ * @param callable $function
+ * @param iterable[] ...$args
+ * @return array|iterable
+ */
+const zipWith = 'Aml\\Fpl\\zipWith';
 /**
  * Returns whether every `$item` in `$items` returns a truthy value for `$callback($item)`.
  * You can use `identity` to filter by the items themselves.
@@ -1658,18 +1684,47 @@ function values()
     return \Aml\Fpl\functions\curry('\\Aml\\Fpl\\functions\\values')(...func_get_args());
 }
 /**
- * Zips one or more iterables
+ * Zips one or more iterables.
+ * If no arguments are provided, an empty array is returned.
+ * If at least one argument is provided, the result will be an array or an iterator depending
+ * on whether the first argument is an array or an iterator, respectively.
+ * 
+ * The resulting zipped iterable is as short as the shortest input iterator.
+ * 
+ * `zip` is equivalent to `zipWith(function(...$args) { return $args; })`.
  * 
  * ```
- * zip([1, 2], [3, 4]); // [[1, 3], [2, 4]]
+ * zip(); // []
+ * zip([1, 3, 5], [2, 4]); // [[1, 2], [3, 4]]
  * head(zip(counter(1), counter(2), counter(3))); // [1, 2, 3]
  * ```
  *
- * @param iterable $first
  * @param iterable[] ...$rest
  * @return array|iterable
  */
 function zip()
 {
     return \Aml\Fpl\functions\curry('\\Aml\\Fpl\\functions\\zip')(...func_get_args());
+}
+/**
+ * Zips one or more iterables with the specified function.
+ * If no arguments are provided, an empty array is returned.
+ * If at least one argument is provided, the result will be an array or an iterator depending
+ * on whether the first argument is an array or an iterator, respectively.
+ * 
+ * The resulting zipped iterable is as short as the shortest input iterator.
+ * 
+ * ```
+ * $sum = function(...$args) { return array_sum($args); }; // alternatively, $sum = pack('array_sum');
+ * zipWith($sum); // []
+ * zipWith($sum, [1, 3, 5], [2, 4, 6], [10, 10]); // [13, 17]
+ * ```
+ *
+ * @param callable $function
+ * @param iterable[] ...$args
+ * @return array|iterable
+ */
+function zipWith()
+{
+    return \Aml\Fpl\functions\curry('\\Aml\\Fpl\\functions\\zipWith')(...func_get_args());
 }

@@ -326,8 +326,18 @@ class ListsTest extends TestCase
      */
     public function testZip() : void
     {
-        $this->assertEquals([[1, 3], [2, 4]], zip([1, 2], [3, 4]));
+        $this->assertEquals([[1, 2], [3, 4]], zip([1, 3, 5], [2, 4]));
         $this->assertEquals([1, 2, 3], head(zip(counter(1), counter(2), counter(3))));
+    }
+
+    /**
+     * @return void
+     */
+    public function testZipWith() : void
+    {
+        $sum = pack('array_sum');
+        $this->assertEquals([], zipWith($sum));
+        $this->assertEquals([13, 17], zipWith($sum, [1, 3, 5], [2, 4, 6], [10, 10]));
     }
 
 }

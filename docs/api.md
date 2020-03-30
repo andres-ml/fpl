@@ -482,10 +482,29 @@ Values of an iterable
 values(['a' => 1, 'b' => 2]); // [1, 2]
 ```
 #
-#### `zip(iterable $first, ...$rest) : iterable`
+#### `zip(...$args) : iterable`
 
-Zips one or more iterables
+Zips one or more iterables.
+If no arguments are provided, an empty array is returned.
+If at least one argument is provided, the result will be an array or an iterator depending
+on whether the first argument is an array or an iterator, respectively.
+The resulting zipped iterable is as short as the shortest input iterator.
+`zip` is equivalent to `zipWith(function(...$args) { return $args; })`.
 ```php
-zip([1, 2], [3, 4]); // [[1, 3], [2, 4]]
+zip(); // []
+zip([1, 3, 5], [2, 4]); // [[1, 2], [3, 4]]
 head(zip(counter(1), counter(2), counter(3))); // [1, 2, 3]
+```
+#
+#### `zipWith(callable $function, ...$args) : iterable`
+
+Zips one or more iterables with the specified function.
+If no arguments are provided, an empty array is returned.
+If at least one argument is provided, the result will be an array or an iterator depending
+on whether the first argument is an array or an iterator, respectively.
+The resulting zipped iterable is as short as the shortest input iterator.
+```php
+$sum = function(...$args) { return array_sum($args); }; // alternatively, $sum = pack('array_sum');
+zipWith($sum); // []
+zipWith($sum, [1, 3, 5], [2, 4, 6], [10, 10]); // [13, 17]
 ```

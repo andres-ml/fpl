@@ -616,28 +616,65 @@ function values(iterable $items) : iterable
 }
 
 /**
- * Zips one or more iterables
+ * Zips one or more iterables.
+ * If no arguments are provided, an empty array is returned.
+ * If at least one argument is provided, the result will be an array or an iterator depending
+ * on whether the first argument is an array or an iterator, respectively.
+ * 
+ * The resulting zipped iterable is as short as the shortest input iterator.
+ * 
+ * `zip` is equivalent to `zipWith(function(...$args) { return $args; })`.
  * 
  * ```
- * zip([1, 2], [3, 4]); // [[1, 3], [2, 4]]
+ * zip(); // []
+ * zip([1, 3, 5], [2, 4]); // [[1, 2], [3, 4]]
  * head(zip(counter(1), counter(2), counter(3))); // [1, 2, 3]
  * ```
  *
- * @param iterable $first
  * @param iterable[] ...$rest
  * @return array|iterable
  */
-function zip(iterable $first, ...$rest) : iterable
+function zip(...$args) : iterable
 {
-    return _arrayOrIterator($first, function($first) use($rest) {
-        $iterators = Fpl\map(Fpl\toIterator, $rest);
-        foreach ($first as $key => $value) {
-            $row = [$value];
+    return zipWith(pack(Fpl\identity), ...$args);
+}
+
+/**
+ * Zips one or more iterables with the specified function.
+ * If no arguments are provided, an empty array is returned.
+ * If at least one argument is provided, the result will be an array or an iterator depending
+ * on whether the first argument is an array or an iterator, respectively.
+ * 
+ * The resulting zipped iterable is as short as the shortest input iterator.
+ * 
+ * ```
+ * $sum = function(...$args) { return array_sum($args); }; // alternatively, $sum = pack('array_sum');
+ * zipWith($sum); // []
+ * zipWith($sum, [1, 3, 5], [2, 4, 6], [10, 10]); // [13, 17]
+ * ```
+ *
+ * @param callable $function
+ * @param iterable[] ...$args
+ * @return array|iterable
+ */
+function zipWith(callable $function, ...$args) : iterable
+{
+    if (empty($args)) {
+        return [];
+    }
+
+    return _arrayOrIterator($args[0], function($_) use($function, $args) {
+        $iterators = Fpl\map(Fpl\toIterator, $args);
+        while (true) {
+            $row = [];
             foreach ($iterators as $iterator) {
+                if (!$iterator->valid()) {
+                    return;
+                }
                 $row []= $iterator->current();
                 $iterator->next();
             }
-            yield $row;
+            yield $function(...$row);
         }
     });
 }
