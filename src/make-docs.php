@@ -16,7 +16,7 @@ $toMarkdownSnippet = function($function) use($printer) : string
         return $matches;
     };
 
-    $docTextRegex = '/^ \* ([^@\n].*)/m';
+    $docTextRegex = '/^ \*(?: ?$| ([^@\n].*))/m';
     $headerRegex = '/^function (.+)/m';
 
     // extract doc comments
