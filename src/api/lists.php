@@ -2,8 +2,6 @@
 
 namespace Aml\Fpl\functions;
 
-use Aml\Fpl;
-
 /**
  * Given an iterator-returning function $generator and a base object,
  * returns the iterator as is if the base object is also an iterator, or
@@ -24,8 +22,8 @@ function _arrayOrIterator(iterable $base, callable $generator) : iterable
  * You can use `identity` to filter by the items themselves.
  * 
  * ```
- * all(identity, [true, 1]); // true
- * all(head, [[1, 2], [0, 1]]); // false
+ * all(identity(...), [true, 1]); // true
+ * all(head(...), [[1, 2], [0, 1]]); // false
  * ```
  *
  * @param callable $callback
@@ -42,7 +40,7 @@ function all(callable $callback, iterable $items) : bool
  * You can use `identity` to filter by the items themselves.
  * 
  * ```
- * any(identity, [0, 1, 2]); // true
+ * any(identity(...), [0, 1, 2]); // true
  * ```
  *
  * @param callable $callback
@@ -73,11 +71,11 @@ function any(callable $callback, iterable $items) : bool
 function chunk(int $size, iterable $items) : iterable
 {
     return compose(
-        // Fpl\values,
-        Fpl\groupBy(function($item, $key) use ($size) {
+        // values,
+        fn($x) => groupBy(function($item, $key) use ($size) {
             return (int) $key / $size;
-        }),
-        Fpl\values
+        }, $x),
+        values(...)
     )($items);
 }
 
@@ -85,7 +83,7 @@ function chunk(int $size, iterable $items) : iterable
  * Drops items from `$items` until `$function($item)` is false.
  * 
  * ```
- * dropWhile(identity, [0, 1, 2, 0]); // [1, 2, 0]
+ * dropWhile(identity(...), [0, 1, 2, 0]); // [1, 2, 0]
  * ```
  *
  * @param callable $function
@@ -166,7 +164,7 @@ function flatten($depth, iterable $items) : iterable
  * Filters items that do not return a truthy value for `$function`
  * 
  * ```
- * filter(identity, [false, null, 1, 0]); // [1]
+ * filter(identity(...), [false, null, 1, 0]); // [1]
  * ```
  *
  * @param callable $function
@@ -306,7 +304,7 @@ function last(iterable $items)
  * Maps `$items` with `$function`
  * 
  * ```
- * map(head, [[0, 1], [2, 3]]); // [0, 2]
+ * map(head(...), [[0, 1], [2, 3]]); // [0, 2]
  * ```
  * 
  * The index is supplied to the callback. If you want to provide a callback
@@ -354,7 +352,7 @@ function pick(array $keys, iterable $items) : iterable
  * This function is equivalent to `filter`
  * 
  * ```
- * pickBy(head, [[0, 1], [2, 3], [4, 5]]); // [[2, 3], [4, 5]]
+ * pickBy(head(...), [[0, 1], [2, 3], [4, 5]]); // [[2, 3], [4, 5]]
  * ```
  * 
  * @param callable $function
@@ -445,7 +443,7 @@ function reduce(callable $function, $initial, iterable $items)
  */
 function search(callable $callback, iterable $items)
 {
-    return compose(Fpl\head, Fpl\filter($callback), Fpl\toIterator)($items);
+    return compose(head(...), fn($x) => filter($callback, $x), toIterator(...))($items);
 }
 
 /**
@@ -505,7 +503,7 @@ function sort(callable $comparator, iterable $items) : array
  */
 function sortBy(callable $function, iterable $items) : array
 {
-    return Fpl\sort(Fpl\useWith([$function, $function], Fpl\spaceship), $items);
+    return sort(useWith([$function, $function], spaceship(...)), $items);
 }
 
 /**
@@ -516,7 +514,7 @@ function sortBy(callable $function, iterable $items) : array
  * ```
  * 
  * @param integer $start
- * @param number $length
+ * @param integer $length
  * @param iterable $items
  * @return array|iterable
  */
@@ -540,7 +538,7 @@ function slice(int $start, $length, iterable $items) : iterable
  * Takes items from `$items` until `$function($item)` yields false
  * 
  * ```
- * takeWhile(identity, [3, 2, 1, 0, 1, 2, 3])); // [3, 2, 1]
+ * takeWhile(identity(...), [3, 2, 1, 0, 1, 2, 3])); // [3, 2, 1]
  * ```
  *
  * @param callable $function
@@ -644,7 +642,7 @@ function values(iterable $items) : iterable
  */
 function zip(...$args) : iterable
 {
-    return zipWith(pack(Fpl\identity), ...$args);
+    return zipWith(pack(identity(...)), ...$args);
 }
 
 /**
@@ -672,7 +670,7 @@ function zipWith(callable $function, ...$args) : iterable
     }
 
     return _arrayOrIterator($args[0], function($_) use($function, $args) {
-        $iterators = Fpl\map(Fpl\toIterator, $args);
+        $iterators = map(toIterator(...), $args);
         while (true) {
             $row = [];
             foreach ($iterators as $iterator) {

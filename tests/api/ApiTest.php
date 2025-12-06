@@ -27,15 +27,4 @@ class ApiTest extends TestCase
         $this->assertEquals($expected, map()($multiplyBy2)($array));
     }
 
-    /**
-     * Test that function consts are available
-     * 
-     * @return void
-     */
-    public function testConstAvailable() : void
-    {
-        $multiplyBy2 = function($x) { return $x * 2; };
-        $this->assertEquals([2, 4, 6], partial(map, $multiplyBy2)([1, 2, 3]));
-    }
-
 }

@@ -1,6 +1,6 @@
 <?php
 
-use Aml\Fpl;
+use Aml\Fpl\functions;
 use PhpParser\Node\Stmt\Function_;
 use PhpParser\ParserFactory;
 
@@ -11,29 +11,24 @@ use PhpParser\ParserFactory;
  */
 function getApiFunctions() : array
 {
-    $parser = (new ParserFactory)->create(ParserFactory::PREFER_PHP7);
+    $parser = (new ParserFactory)->createForNewestSupportedVersion();
 
     $shouldCopy = function(Function_ $function) {
         $name = (string) $function->name;
         return $name[0] !== '_';
     };
 
-    $fileToStatements = Fpl\compose(
-        Fpl\filter($shouldCopy),
-        Fpl\filter(Fpl\partial(Fpl\flip('is_a'), Function_::class)),
-        Fpl\prop('stmts'),
-        Fpl\index(0),
-        [$parser, 'parse'],
-        'file_get_contents',
-        function($file) {
-            return __DIR__ . "/api/$file";
-        }
-    );
+    $fileToStatements = fn(string $file) => __DIR__ . "/api/$file"
+        |> file_get_contents(...)
+        |> $parser->parse(...)
+        |> (fn($x) => $x[0]->stmts)
+        |> (fn($x) => array_filter($x, fn($item) => is_a($item, Function_::class)))
+        |> (fn($x) => array_filter($x, $shouldCopy));
 
-    return Fpl\compose(
-        Fpl\sortBy(Fpl\prop('name')),
-        Fpl\flatten(1),
-        Fpl\map($fileToStatements),
-        Fpl\slice(2, INF), // skip '.', '..',
-    )(scandir(__DIR__ . '/api'));
+    return __DIR__ . '/api'
+        |> scandir(...)
+        |> (fn($x) => array_slice($x, 2))
+        |> (fn($x) => array_map($fileToStatements, $x))
+        |> (fn($x) => functions\flatten(1, $x))
+        |> (fn($x) => functions\sortBy(fn($x) => $x->name, $x));
 }
