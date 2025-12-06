@@ -5,18 +5,17 @@ require 'reflection.php';
 
 use PhpParser\{
     BuilderFactory,
-    BuilderHelpers,
-    Comment,
     Node\Arg,
     Node\Expr,
-    Node\Const_,
     Node\Name,
     Node\Stmt,
     Node\Stmt\Function_,
+    Node\VariadicPlaceholder,
     PrettyPrinter,
 };
+use PhpParser\Node\Expr\FuncCall;
 
-use Aml\Fpl;
+use function Aml\Fpl\functions\{map, each};
 
 $namespace = 'Aml\Fpl';
 
@@ -25,27 +24,36 @@ $node = $factory
     ->namespace($namespace)
     ->setDocComment('/* This file was automatically generated */');
 
-$functionToCurriedCall = function(Function_ $function) use($namespace, $factory) {
-    $curryCall = $factory->funcCall(
-        $factory->funcCall("\\$namespace\\functions\\curry", ["\\$namespace\\functions\\$function->name"]),
+$functionToCurriedCall = function(Function_ $function) use( $factory) {
+    $curryCall = new FuncCall(
+        new FuncCall(
+            new Name("functions\\curry"),
+            [
+                new FuncCall(
+                    new Name("functions\\$function->name"),
+                    [new VariadicPlaceholder()]
+                )
+            ]
+        ),
         [
-            new Arg(new Expr\FuncCall(new Name('func_get_args')), false, true)
-        ]);
+            new Arg(
+                new Expr\FuncCall(
+                    new Name('func_get_args')
+                ),
+                false,
+                true
+            )
+        ]
+    );
     return $factory->function((string) $function->name)
         ->addStmt(new Stmt\Return_($curryCall))
         ->setDocComment($function->getDocComment() ?: '');
 };
 
-$functionToConst = function(Function_ $function) use($namespace) {
-    $path = "$namespace\\$function->name";
-    $const = new Stmt\Const_([new Const_($function->name, BuilderHelpers::normalizeValue($path))]);
-    $const->setDocComment($function->getDocComment() ?: new Comment\Doc(''));
-    return $const;
-};
 
-$functions = getApiFunctions();
-Fpl\each(Fpl\compose([$node, 'addStmt'], $functionToConst), $functions);
-Fpl\each(Fpl\compose([$node, 'addStmt'], $functionToCurriedCall), $functions);
+getApiFunctions()
+    |> (fn($x) => map($functionToCurriedCall, $x))
+    |> (fn($x) => each($node->addStmt(...), $x));
 
 $code = (new PrettyPrinter\Standard)->prettyPrintFile([$node->getNode()]);
 file_put_contents(__DIR__ . '/../' . $argv[1], $code);

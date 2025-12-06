@@ -2,8 +2,6 @@
 
 namespace Aml\Fpl\functions;
 
-use Aml\Fpl;
-
 /**
  * Returns a function that negates the result of calling its argument.
  * 
@@ -25,7 +23,7 @@ function complement(callable $function) : callable
  * Function composition
  * 
  * ```
- * compose(last, slice(1, 3), counter)(10); // 13
+ * compose(last(...), slice(1, 3), counter(...))(10); // 13
  * ```
  * 
  * @param callable[] $function
@@ -151,7 +149,7 @@ function invoker(string $method, ...$args) : callable
 function nAry(int $arity, callable $function) : callable
 {
     return function(...$args) use($arity, $function) {
-        return call_user_func_array($function, Fpl\slice(0, $arity, $args));
+        return call_user_func_array($function, slice(0, $arity, $args));
     };
 }
 
@@ -245,6 +243,6 @@ function useWith(array $argCallbacks, callable $function) : callable
         $modifyArgument = function($arg, $index) use($argCallbacks) {
             return call_user_func($argCallbacks[$index], $arg);
         };
-        return call_user_func_array($function, Fpl\map($modifyArgument, $args));
+        return call_user_func_array($function, map($modifyArgument, $args));
     };
 }

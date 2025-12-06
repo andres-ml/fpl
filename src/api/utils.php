@@ -3,10 +3,10 @@
 namespace Aml\Fpl\functions;
 
 /**
- * Instantiates/constructs an instance of `$class` with the specified arguments.
+ * Instantiates/construct(...),s an instance of `$class` with the specified arguments.
  *
  * ```
- * $makeArrayObject = partial(construct, \ArrayObject::class);
+ * $makeArrayObject = partial(construct(...), \ArrayObject::class);
  * $makeArrayObject(['a' => 1])->offsetExists('a'); // true
  * ```
  * 
@@ -24,7 +24,7 @@ function construct($class, ...$args)
  * 
  * Useful as a placeholder filter; e.g.:
  * ```
- * any(identity, [0, 1, 2]); // true
+ * any(identity(...), [0, 1, 2]); // true
  * ```
  *
  * @param mixed $item

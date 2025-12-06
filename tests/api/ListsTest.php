@@ -12,10 +12,10 @@ class ListsTest extends TestCase
      */
     public function testAll() : void
     {
-        $this->assertEquals(true, all(identity, [true, 1, 'a']));
-        $this->assertEquals(false, all(identity, [false, 1, 'a']));
-        $this->assertEquals(false, all(identity, [true, 0, 'a']));
-        $this->assertEquals(false, all(identity, [true, 1, '']));
+        $this->assertEquals(true, all(identity(...), [true, 1, 'a']));
+        $this->assertEquals(false, all(identity(...), [false, 1, 'a']));
+        $this->assertEquals(false, all(identity(...), [true, 0, 'a']));
+        $this->assertEquals(false, all(identity(...), [true, 1, '']));
 
         $notNull = function($value) {
             return $value !== null;
@@ -50,7 +50,7 @@ class ListsTest extends TestCase
      */
     public function testDropWhile() : void
     {
-        $this->assertEquals([0, 1, 2, 3], values(dropWhile(identity, [3, 2, 1, 0, 1, 2, 3])));
+        $this->assertEquals([0, 1, 2, 3], values(dropWhile(identity(...), [3, 2, 1, 0, 1, 2, 3])));
 
         $lowerThan5 = function($x) {
             return $x < 5;
@@ -80,10 +80,10 @@ class ListsTest extends TestCase
         $this->assertEquals([1, 2, [3, 4]], flatten(1, [1, [2, [3, 4]]]));
         $this->assertEquals([1, 2, 3, 4], flatten(INF, [1, [2, [3, 4]]]));
         $this->assertEquals([0, 0, 1, 1], compose(
-            toArray,
+            toArray(...),
             flatten(1),
             slice(0, 2),
-            zip,
+            zip(...),
         )(counter(), counter()));
     }
 
@@ -169,7 +169,7 @@ class ListsTest extends TestCase
      */
     public function testMap() : void
     {
-        $this->assertEquals([1, 3], map(head, [[1, 2], [3, 4]]));
+        $this->assertEquals([1, 3], map(head(...), [[1, 2], [3, 4]]));
         $multiplyBy2 = function($x) {
             return $x * 2;
         };
@@ -257,7 +257,7 @@ class ListsTest extends TestCase
      */
     public function testSortBy() : void
     {
-        $this->assertEquals([1, 2, 3], sortBy(identity, [2, 1, 3]));
+        $this->assertEquals([1, 2, 3], sortBy(identity(...), [2, 1, 3]));
         $reversed = function($x) {
             return -$x;
         };
@@ -278,7 +278,7 @@ class ListsTest extends TestCase
      */
     public function testTakeWhile() : void
     {
-        $this->assertEquals([3, 2, 1], takeWhile(identity, [3, 2, 1, 0, 1, 2, 3]));
+        $this->assertEquals([3, 2, 1], takeWhile(identity(...), [3, 2, 1, 0, 1, 2, 3]));
 
         $lowerThan5 = function($x) {
             return $x < 5;

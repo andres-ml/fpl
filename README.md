@@ -3,11 +3,28 @@
 This library provides a series of curried, data-last functions commonly used within the functional programming paradigm.
 
 ```php
-use function Aml\Fpl\{compose, partial};
-use const Aml\Fpl\{last};
+use function Aml\Fpl\{compose, partial, last};
 
-$lastWord = compose(last, partial('explode', ' '));
+$lastWord = compose(last(...), partial(explode(...), ' '));
 $lastWord('some words in a sentence'); // 'sentence'
+```
+
+The new PHP 8.5 pipe operator and the recent variadic placeholder make this library less necessary, but you still may find it useful if you dislike the boilerplate and the lack of partial application.
+```php
+// idiomatic php
+'some words in a BUG sentence'
+    |> (fn($x) => explode(' ', $x))
+    |> (fn($x) => array_filter($x, fn(string $word) => $word !== 'BUG'))
+    |> (fn($x) => explode(' ', $x));
+    // 'some words in a sentence'
+
+// with this library
+use function Aml\Fpl\{partial as _, filter};
+'some words in a BUG sentence'
+    |> _(explode(...), ' ')
+    |> filter(fn(string $word) => $word !== 'BUG')
+    |> _(implode(...), ' ');
+    // 'some words in a sentence'
 ```
 
 ## API
@@ -18,25 +35,7 @@ $lastWord('some words in a sentence'); // 'sentence'
 composer require andres-ml/fpl
 ```
 
-## Function or const
-As we can see above, due to how PHP works, we need a separate `use` statement if we want to pass a function as a parameter. We have two ways to circumvent that behavior:
-
-* Use the namespace
-```php
-use Aml\Fpl;
-
-$lastWord = Fpl\compose(Fpl\last, Fpl\partial('explode', ' '));
-$lastWord('some words in a sentence'); // 'sentence'
-```
-* Make use of automatic currying. This is valid only for functions that have at least 1 fixed argument; otherwise calling the function would resolve it.
-```php
-use function Aml\Fpl\{compose, partial, last};
-
-// note that we use 'last()' instead of just 'last'
-$lastWord = compose(last(), partial('explode', ' '));
-$lastWord('some words in a sentence'); // 'sentence'
-```
-
+## Non-curried functions
 If you want, you can use the original function definitions instead. Note that these are not curried and don't have their corresponding `const` versions.
 
 ```php
