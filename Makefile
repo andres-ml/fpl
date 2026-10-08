@@ -1,6 +1,6 @@
-.PHONY: code test docs
+.PHONY: build test docs
 
-code:
+build:
 	php src/build.php build/api.php
 
 test:
