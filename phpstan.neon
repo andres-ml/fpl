@@ -1,0 +1,11 @@
+parameters:
+    level: 5
+    paths:
+        - src
+        - build
+        - tests
+    ignoreErrors:
+        # generated wrappers take ...$args but keep the original @param tags for documentation
+        -
+            identifier: parameter.notFound
+            path: build/api.php

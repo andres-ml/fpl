@@ -26,7 +26,7 @@ function complement(callable $function) : callable
  * compose(last(...), slice(1, 3), counter(...))(10); // 13
  * ```
  * 
- * @param callable[] $function
+ * @param callable[] ...$functions
  * @return callable
  */
 function compose(...$functions) : callable

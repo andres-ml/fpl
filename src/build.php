@@ -45,9 +45,11 @@ $functionToCurriedCall = function(Function_ $function) use( $factory, $curriedDo
         new FuncCall(
             new Name("functions\\curry"),
             [
-                new FuncCall(
-                    new Name("functions\\$function->name"),
-                    [new VariadicPlaceholder()]
+                new Arg(
+                    new FuncCall(
+                        new Name("functions\\$function->name"),
+                        [new VariadicPlaceholder()]
+                    )
                 )
             ]
         ),
@@ -71,4 +73,4 @@ getApiFunctions()
     |> (fn($x) => each($node->addStmt(...), $x));
 
 $code = (new PrettyPrinter\Standard)->prettyPrintFile([$node->getNode()]);
-file_put_contents(__DIR__ . '/../' . $argv[1], $code);
+file_put_contents(__DIR__ . '/../' . $_SERVER['argv'][1], $code);

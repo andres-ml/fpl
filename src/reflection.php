@@ -2,6 +2,7 @@
 
 use Aml\Fpl\functions;
 use PhpParser\Node\Stmt\Function_;
+use PhpParser\Node\Stmt\Namespace_;
 use PhpParser\ParserFactory;
 
 /**
@@ -21,7 +22,7 @@ function getApiFunctions() : array
     $fileToStatements = fn(string $file) => __DIR__ . "/api/$file"
         |> file_get_contents(...)
         |> $parser->parse(...)
-        |> (fn($x) => $x[0]->stmts)
+        |> (fn(?array $x) => $x[0] instanceof Namespace_ ? $x[0]->stmts : [])
         |> (fn($x) => array_filter($x, fn($item) => is_a($item, Function_::class)))
         |> (fn($x) => array_filter($x, $shouldCopy));
 

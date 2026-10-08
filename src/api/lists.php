@@ -295,6 +295,7 @@ function last(iterable $items)
         return $items[count($items) - 1];
     }
     else {
+        $last = null;
         foreach ($items as $last);
         return $last;
     }
@@ -335,7 +336,7 @@ function map(callable $function, iterable $items) : iterable
  * pick(['age'], ['age' => 30, 'name' => 'Pete']); // ['age' => 30]
  * ```
  *
- * @param array $indices
+ * @param array $keys
  * @param iterable $items
  * @return array|iterable
  */
@@ -637,7 +638,7 @@ function values(iterable $items) : iterable
  * head(zip(counter(1), counter(2), counter(3))); // [1, 2, 3]
  * ```
  *
- * @param iterable[] ...$rest
+ * @param iterable[] ...$args
  * @return array|iterable
  */
 function zip(...$args) : iterable

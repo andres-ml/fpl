@@ -60,7 +60,7 @@ function gt(...$args)
  * ```
  *
  * @param integer $from
- * @param integer $to
+ * @param integer|float $to
  * @param integer $step
  * @return iterable
  */
@@ -75,7 +75,7 @@ function counter(...$args)
  * compose(last(...), slice(1, 3), counter(...))(10); // 13
  * ```
  * 
- * @param callable[] $function
+ * @param callable[] ...$functions
  * @return callable
  */
 function compose(...$args)
@@ -680,7 +680,7 @@ function map(...$args)
  * pick(['age'], ['age' => 30, 'name' => 'Pete']); // ['age' => 30]
  * ```
  *
- * @param array $indices
+ * @param array $keys
  * @param iterable $items
  * @return callable|array|iterable
  */
@@ -928,7 +928,7 @@ function values(...$args)
  * head(zip(counter(1), counter(2), counter(3))); // [1, 2, 3]
  * ```
  *
- * @param iterable[] ...$rest
+ * @param iterable[] ...$args
  * @return array|iterable
  */
 function zip(...$args)

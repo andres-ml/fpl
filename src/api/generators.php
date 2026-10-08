@@ -12,7 +12,7 @@ namespace Aml\Fpl\functions;
  * ```
  *
  * @param integer $from
- * @param integer $to
+ * @param integer|float $to
  * @param integer $step
  * @return iterable
  */
