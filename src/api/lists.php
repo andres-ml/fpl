@@ -73,7 +73,7 @@ function chunk(int $size, iterable $items) : iterable
     return compose(
         // values,
         fn($x) => groupBy(function($item, $key) use ($size) {
-            return (int) $key / $size;
+            return intdiv($key, $size);
         }, $x),
         values(...)
     )($items);
