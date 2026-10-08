@@ -2,7 +2,6 @@
     "name": "andres-ml/fpl",
     "description": "Functional PHP library",
     "keywords": ["functional", "php"],
-    "version": "1.0.0",
     "type": "library",
     "license": "MIT",
     "authors": [
