@@ -44,7 +44,7 @@ function construct()
  *
  * @param mixed $cmp
  * @param mixed $value
- * @return boolean
+ * @return callable|boolean
  */
 function gt()
 {
@@ -108,7 +108,7 @@ function identity()
  *
  * @param callable $callback
  * @param iterable $items
- * @return boolean
+ * @return callable|boolean
  */
 function all()
 {
@@ -124,7 +124,7 @@ function all()
  *
  * @param mixed $cmp
  * @param mixed $value
- * @return boolean
+ * @return callable|boolean
  */
 function gte()
 {
@@ -156,7 +156,7 @@ function index()
  *
  * @param callable $callback
  * @param iterable $items
- * @return boolean
+ * @return callable|boolean
  */
 function any()
 {
@@ -172,7 +172,7 @@ function any()
  *
  * @param mixed $cmp
  * @param mixed $value
- * @return boolean
+ * @return callable|boolean
  */
 function lt()
 {
@@ -230,7 +230,7 @@ function indexOr()
  *
  * @param mixed $cmp
  * @param mixed $value
- * @return boolean
+ * @return callable|boolean
  */
 function lte()
 {
@@ -245,7 +245,7 @@ function lte()
  *
  * @param integer $size
  * @param iterable $items
- * @return array|iterable
+ * @return callable|array|iterable
  */
 function chunk()
 {
@@ -261,7 +261,7 @@ function chunk()
  *
  * @param number $cmp
  * @param number $value
- * @return boolean
+ * @return callable|boolean
  */
 function eq()
 {
@@ -316,7 +316,7 @@ function curryN()
  *
  * @param callable $function
  * @param iterable $items
- * @return array|iterable
+ * @return callable|array|iterable
  */
 function dropWhile()
 {
@@ -331,7 +331,7 @@ function dropWhile()
  * ```
  *
  * @param mixed $cmp
- * @return boolean
+ * @return callable|boolean
  */
 function not()
 {
@@ -384,7 +384,7 @@ function flip()
  *
  * @param mixed $a
  * @param mixed $b
- * @return integer
+ * @return callable|integer
  */
 function spaceship()
 {
@@ -405,7 +405,7 @@ function spaceship()
  * 
  * @param callable $callback
  * @param iterable $items
- * @return array|iterable
+ * @return callable|array|iterable
  */
 function each()
 {
@@ -440,7 +440,7 @@ function invoker()
  *
  * @param number $depth
  * @param iterable $items
- * @return array|iterable
+ * @return callable|array|iterable
  */
 function flatten()
 {
@@ -486,7 +486,7 @@ function pack()
  *
  * @param callable $function
  * @param iterable $items
- * @return array|iterable
+ * @return callable|array|iterable
  */
 function filter()
 {
@@ -518,7 +518,7 @@ function partial()
  * This is the inverse of `toPairs`.
  *
  * @param iterable $items
- * @return array|iterable
+ * @return callable|array|iterable
  */
 function fromPairs()
 {
@@ -582,7 +582,7 @@ function unpack()
  * 
  * @param callable $grouper
  * @param iterable $items
- * @return array|iterable
+ * @return callable|array|iterable
  */
 function groupBy()
 {
@@ -628,7 +628,7 @@ function head()
  * ```
  * 
  * @param iterable $items
- * @return array|iterable
+ * @return callable|array|iterable
  */
 function keys()
 {
@@ -666,7 +666,7 @@ function last()
  * 
  * @param callable $function
  * @param iterable $items
- * @return array|iterable
+ * @return callable|array|iterable
  */
 function map()
 {
@@ -681,7 +681,7 @@ function map()
  *
  * @param array $indices
  * @param iterable $items
- * @return array|iterable
+ * @return callable|array|iterable
  */
 function pick()
 {
@@ -697,7 +697,7 @@ function pick()
  * 
  * @param callable $function
  * @param iterable $items
- * @return array|iterable
+ * @return callable|array|iterable
  */
 function pickBy()
 {
@@ -712,7 +712,7 @@ function pickBy()
  *
  * @param array $indices
  * @param iterable $items
- * @return array|iterable
+ * @return callable|array|iterable
  */
 function omit()
 {
@@ -737,7 +737,7 @@ function omit()
  *
  * @param callable $function
  * @param iterable $items
- * @return array|iterable
+ * @return callable|array|iterable
  */
 function omitBy()
 {
@@ -798,7 +798,7 @@ function search()
  *
  * @param callable $comparator function that takes 2 values and returns an integer -1, 0, 1
  * @param iterable $items
- * @return array
+ * @return callable|array
  */
 function sort()
 {
@@ -824,7 +824,7 @@ function sort()
  *
  * @param callable $function function that takes an item and returns a value that can be compared with php's spaceship operator <=>
  * @param iterable $items
- * @return array
+ * @return callable|array
  */
 function sortBy()
 {
@@ -840,7 +840,7 @@ function sortBy()
  * @param integer $start
  * @param integer $length
  * @param iterable $items
- * @return array|iterable
+ * @return callable|array|iterable
  */
 function slice()
 {
@@ -855,7 +855,7 @@ function slice()
  *
  * @param callable $function
  * @param iterable $items
- * @return array|iterable
+ * @return callable|array|iterable
  */
 function takeWhile()
 {
@@ -865,7 +865,7 @@ function takeWhile()
  * Iterable to array
  *
  * @param iterable $items
- * @return array
+ * @return callable|array
  */
 function toArray()
 {
@@ -875,7 +875,7 @@ function toArray()
  * Iterable to iterator
  *
  * @param iterable $items
- * @return iterable
+ * @return callable|iterable
  */
 function toIterator()
 {
@@ -891,7 +891,7 @@ function toIterator()
  * This is the inverse of `toPairs`.
  *
  * @param iterable $items
- * @return array|iterable
+ * @return callable|array|iterable
  */
 function toPairs()
 {
@@ -905,7 +905,7 @@ function toPairs()
  * ```
  *
  * @param iterable $items
- * @return array|iterable
+ * @return callable|array|iterable
  */
 function values()
 {
@@ -950,7 +950,7 @@ function zip()
  *
  * @param callable $function
  * @param iterable[] ...$args
- * @return array|iterable
+ * @return callable|array|iterable
  */
 function zipWith()
 {

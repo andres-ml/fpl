@@ -24,7 +24,23 @@ $node = $factory
     ->namespace($namespace)
     ->setDocComment('/* This file was automatically generated */');
 
-$functionToCurriedCall = function(Function_ $function) use( $factory) {
+// naive curried mixed type of either the final type or callable
+$curriedDocComment = function(Function_ $function) : string {
+    $docComment = (string) $function->getDocComment();
+    $requiredParams = array_filter($function->params, fn($param) => !$param->default && !$param->variadic);
+    if (!$requiredParams) {
+        return $docComment;
+    }
+    return preg_replace_callback('/@return\s+(\S+)/', function($match) {
+        $types = explode('|', $match[1]);
+        if (array_intersect(['callable', 'mixed'], $types)) {
+            return $match[0];
+        }
+        return '@return callable|' . $match[1];
+    }, $docComment);
+};
+
+$functionToCurriedCall = function(Function_ $function) use( $factory, $curriedDocComment) {
     $curryCall = new FuncCall(
         new FuncCall(
             new Name("functions\\curry"),
@@ -47,7 +63,7 @@ $functionToCurriedCall = function(Function_ $function) use( $factory) {
     );
     return $factory->function((string) $function->name)
         ->addStmt(new Stmt\Return_($curryCall))
-        ->setDocComment($function->getDocComment() ?: '');
+        ->setDocComment($curriedDocComment($function));
 };
 
 
