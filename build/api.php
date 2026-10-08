@@ -13,9 +13,9 @@ namespace Aml\Fpl;
  * @param callable $function
  * @return callable
  */
-function complement()
+function complement(...$args)
 {
-    return functions\curry(functions\complement(...))(...func_get_args());
+    return functions\curry(functions\complement(...))(...$args);
 }
 /**
  * Instantiates/construct(...),s an instance of `$class` with the specified arguments.
@@ -29,9 +29,9 @@ function complement()
  * @param mixed[] ...$args
  * @return mixed an instance of $class
  */
-function construct()
+function construct(...$args)
 {
-    return functions\curry(functions\construct(...))(...func_get_args());
+    return functions\curry(functions\construct(...))(...$args);
 }
 /**
  * `>` operator
@@ -46,9 +46,9 @@ function construct()
  * @param mixed $value
  * @return callable|boolean
  */
-function gt()
+function gt(...$args)
 {
-    return functions\curry(functions\gt(...))(...func_get_args());
+    return functions\curry(functions\gt(...))(...$args);
 }
 /**
  * Generates integers from `$from` (included) to `$to` (excluded) with a step of `$step`.
@@ -64,9 +64,9 @@ function gt()
  * @param integer $step
  * @return iterable
  */
-function counter()
+function counter(...$args)
 {
-    return functions\curry(functions\counter(...))(...func_get_args());
+    return functions\curry(functions\counter(...))(...$args);
 }
 /**
  * Function composition
@@ -78,9 +78,9 @@ function counter()
  * @param callable[] $function
  * @return callable
  */
-function compose()
+function compose(...$args)
 {
-    return functions\curry(functions\compose(...))(...func_get_args());
+    return functions\curry(functions\compose(...))(...$args);
 }
 /**
  * Returns its sole argument as is.
@@ -93,9 +93,9 @@ function compose()
  * @param mixed $item
  * @return mixed
  */
-function identity()
+function identity(...$args)
 {
-    return functions\curry(functions\identity(...))(...func_get_args());
+    return functions\curry(functions\identity(...))(...$args);
 }
 /**
  * Returns whether every `$item` in `$items` returns a truthy value for `$callback($item)`.
@@ -110,9 +110,9 @@ function identity()
  * @param iterable $items
  * @return callable|boolean
  */
-function all()
+function all(...$args)
 {
-    return functions\curry(functions\all(...))(...func_get_args());
+    return functions\curry(functions\all(...))(...$args);
 }
 /**
  * `>=` operator
@@ -126,9 +126,9 @@ function all()
  * @param mixed $value
  * @return callable|boolean
  */
-function gte()
+function gte(...$args)
 {
-    return functions\curry(functions\gte(...))(...func_get_args());
+    return functions\curry(functions\gte(...))(...$args);
 }
 /**
  * Accesses `$array` at its position `$index`.
@@ -142,9 +142,9 @@ function gte()
  * @param array|\ArrayAccess $array
  * @return mixed
  */
-function index()
+function index(...$args)
 {
-    return functions\curry(functions\index(...))(...func_get_args());
+    return functions\curry(functions\index(...))(...$args);
 }
 /**
  * Returns whether any `$item` in `$items` returns a truthy value for `$callback($item)`.
@@ -158,9 +158,9 @@ function index()
  * @param iterable $items
  * @return callable|boolean
  */
-function any()
+function any(...$args)
 {
-    return functions\curry(functions\any(...))(...func_get_args());
+    return functions\curry(functions\any(...))(...$args);
 }
 /**
  * `<` operator
@@ -174,9 +174,9 @@ function any()
  * @param mixed $value
  * @return callable|boolean
  */
-function lt()
+function lt(...$args)
 {
-    return functions\curry(functions\lt(...))(...func_get_args());
+    return functions\curry(functions\lt(...))(...$args);
 }
 /**
  * Returns the curried version of a function.
@@ -200,9 +200,9 @@ function lt()
  * @param callable $function
  * @return callable
  */
-function curry()
+function curry(...$args)
 {
-    return functions\curry(functions\curry(...))(...func_get_args());
+    return functions\curry(functions\curry(...))(...$args);
 }
 /**
  * Accesses `$array` at its position `$index`, but returns `$else` when the index is not set or is null.
@@ -217,9 +217,9 @@ function curry()
  * @param array|\ArrayAccess $array
  * @return mixed
  */
-function indexOr()
+function indexOr(...$args)
 {
-    return functions\curry(functions\indexOr(...))(...func_get_args());
+    return functions\curry(functions\indexOr(...))(...$args);
 }
 /**
  * `<=` operator
@@ -233,9 +233,9 @@ function indexOr()
  * @param mixed $value
  * @return callable|boolean
  */
-function lte()
+function lte(...$args)
 {
-    return functions\curry(functions\lte(...))(...func_get_args());
+    return functions\curry(functions\lte(...))(...$args);
 }
 /**
  * Groups items in chunks of size `$size`. Note that keys are lost in the process.
@@ -248,9 +248,9 @@ function lte()
  * @param iterable $items
  * @return callable|array|iterable
  */
-function chunk()
+function chunk(...$args)
 {
-    return functions\curry(functions\chunk(...))(...func_get_args());
+    return functions\curry(functions\chunk(...))(...$args);
 }
 /**
  * `===` operator
@@ -264,9 +264,9 @@ function chunk()
  * @param number $value
  * @return callable|boolean
  */
-function eq()
+function eq(...$args)
 {
-    return functions\curry(functions\eq(...))(...func_get_args());
+    return functions\curry(functions\eq(...))(...$args);
 }
 /**
  * Attempts to get property `$property` from object `$object`.
@@ -282,9 +282,9 @@ function eq()
  * @param object $object
  * @return mixed
  */
-function prop()
+function prop(...$args)
 {
-    return functions\curry(functions\prop(...))(...func_get_args());
+    return functions\curry(functions\prop(...))(...$args);
 }
 /**
  * Curries exactly `$N` parameters of the given function:
@@ -304,9 +304,9 @@ function prop()
  * @param callable $function
  * @return callable
  */
-function curryN()
+function curryN(...$args)
 {
-    return functions\curry(functions\curryN(...))(...func_get_args());
+    return functions\curry(functions\curryN(...))(...$args);
 }
 /**
  * Drops items from `$items` until `$function($item)` is false.
@@ -319,9 +319,9 @@ function curryN()
  * @param iterable $items
  * @return callable|array|iterable
  */
-function dropWhile()
+function dropWhile(...$args)
 {
-    return functions\curry(functions\dropWhile(...))(...func_get_args());
+    return functions\curry(functions\dropWhile(...))(...$args);
 }
 /**
  * `!` operator
@@ -334,9 +334,9 @@ function dropWhile()
  * @param mixed $cmp
  * @return callable|boolean
  */
-function not()
+function not(...$args)
 {
-    return functions\curry(functions\not(...))(...func_get_args());
+    return functions\curry(functions\not(...))(...$args);
 }
 /**
  * Attempts to get property `$property` from object `$object`, but returns `$else` when the property is not set or is null.
@@ -354,9 +354,9 @@ function not()
  * @param object $object
  * @return mixed
  */
-function propOr()
+function propOr(...$args)
 {
-    return functions\curry(functions\propOr(...))(...func_get_args());
+    return functions\curry(functions\propOr(...))(...$args);
 }
 /**
  * Flips the first two arguments of a function
@@ -369,9 +369,9 @@ function propOr()
  * @param callable $function
  * @return callable
  */
-function flip()
+function flip(...$args)
 {
-    return functions\curry(functions\flip(...))(...func_get_args());
+    return functions\curry(functions\flip(...))(...$args);
 }
 /**
  * Applies the spaceship operator on its two arguments
@@ -387,9 +387,9 @@ function flip()
  * @param mixed $b
  * @return callable|integer
  */
-function spaceship()
+function spaceship(...$args)
 {
-    return functions\curry(functions\spaceship(...))(...func_get_args());
+    return functions\curry(functions\spaceship(...))(...$args);
 }
 /**
  * Runs a callback over each item in `$items`.
@@ -408,9 +408,9 @@ function spaceship()
  * @param iterable $items
  * @return callable|array|iterable
  */
-function each()
+function each(...$args)
 {
-    return functions\curry(functions\each(...))(...func_get_args());
+    return functions\curry(functions\each(...))(...$args);
 }
 /**
  * Returns a callable that will invoke `$method` on its sole argument, with the specified `$args`
@@ -425,9 +425,9 @@ function each()
  * @param mixed[] ...$args
  * @return callable
  */
-function invoker()
+function invoker(...$args)
 {
-    return functions\curry(functions\invoker(...))(...func_get_args());
+    return functions\curry(functions\invoker(...))(...$args);
 }
 /**
  * Flattens an iterable up to depth `$depth`. Keys are not preserved.
@@ -443,9 +443,9 @@ function invoker()
  * @param iterable $items
  * @return callable|array|iterable
  */
-function flatten()
+function flatten(...$args)
 {
-    return functions\curry(functions\flatten(...))(...func_get_args());
+    return functions\curry(functions\flatten(...))(...$args);
 }
 /**
  * Transforms a function into a fixed arity.
@@ -459,9 +459,9 @@ function flatten()
  * @param callable $function
  * @return callable
  */
-function nAry()
+function nAry(...$args)
 {
-    return functions\curry(functions\nAry(...))(...func_get_args());
+    return functions\curry(functions\nAry(...))(...$args);
 }
 /**
  * Packs the arguments of a function into an tuple/array
@@ -474,9 +474,9 @@ function nAry()
  * @param callable $function
  * @return callable
  */
-function pack()
+function pack(...$args)
 {
-    return functions\curry(functions\pack(...))(...func_get_args());
+    return functions\curry(functions\pack(...))(...$args);
 }
 /**
  * Filters items that do not return a truthy value for `$function`
@@ -489,9 +489,9 @@ function pack()
  * @param iterable $items
  * @return callable|array|iterable
  */
-function filter()
+function filter(...$args)
 {
-    return functions\curry(functions\filter(...))(...func_get_args());
+    return functions\curry(functions\filter(...))(...$args);
 }
 /**
  * Partial application
@@ -505,9 +505,9 @@ function filter()
  * @param mixed ...$partialArgs
  * @return callable
  */
-function partial()
+function partial(...$args)
 {
-    return functions\curry(functions\partial(...))(...func_get_args());
+    return functions\curry(functions\partial(...))(...$args);
 }
 /**
  * Builds an associative iterable based on an iterable of pairs.
@@ -521,9 +521,9 @@ function partial()
  * @param iterable $items
  * @return callable|array|iterable
  */
-function fromPairs()
+function fromPairs(...$args)
 {
-    return functions\curry(functions\fromPairs(...))(...func_get_args());
+    return functions\curry(functions\fromPairs(...))(...$args);
 }
 /**
  * Function piping. Equivalent to composing with reversed order.
@@ -535,9 +535,9 @@ function fromPairs()
  * @param callable[] ...$functions
  * @return callable
  */
-function pipe()
+function pipe(...$args)
 {
-    return functions\curry(functions\pipe(...))(...func_get_args());
+    return functions\curry(functions\pipe(...))(...$args);
 }
 /**
  * Unpacks/spreads arguments of a function
@@ -553,9 +553,9 @@ function pipe()
  * @param callable $function
  * @return callable
  */
-function unpack()
+function unpack(...$args)
 {
-    return functions\curry(functions\unpack(...))(...func_get_args());
+    return functions\curry(functions\unpack(...))(...$args);
 }
 /**
  * Groups each item `$item` in `$items` by the value provided by `$grouper($item)`.
@@ -585,9 +585,9 @@ function unpack()
  * @param iterable $items
  * @return callable|array|iterable
  */
-function groupBy()
+function groupBy(...$args)
 {
-    return functions\curry(functions\groupBy(...))(...func_get_args());
+    return functions\curry(functions\groupBy(...))(...$args);
 }
 /**
  * Wraps a function `$function` so that it's called with transformed arguments, as defined
@@ -602,9 +602,9 @@ function groupBy()
  * @param callable $function
  * @return callable
  */
-function useWith()
+function useWith(...$args)
 {
-    return functions\curry(functions\useWith(...))(...func_get_args());
+    return functions\curry(functions\useWith(...))(...$args);
 }
 /**
  * Returns the first element in `$items`, if any
@@ -617,9 +617,9 @@ function useWith()
  * @param iterable $items
  * @return mixed
  */
-function head()
+function head(...$args)
 {
-    return functions\curry(functions\head(...))(...func_get_args());
+    return functions\curry(functions\head(...))(...$args);
 }
 /**
  * Returns the keys of `$items`
@@ -631,9 +631,9 @@ function head()
  * @param iterable $items
  * @return callable|array|iterable
  */
-function keys()
+function keys(...$args)
 {
-    return functions\curry(functions\keys(...))(...func_get_args());
+    return functions\curry(functions\keys(...))(...$args);
 }
 /**
  * Returns the last item in `$items`, if any
@@ -646,9 +646,9 @@ function keys()
  * @param iterable $items
  * @return mixed
  */
-function last()
+function last(...$args)
 {
-    return functions\curry(functions\last(...))(...func_get_args());
+    return functions\curry(functions\last(...))(...$args);
 }
 /**
  * Maps `$items` with `$function`
@@ -669,9 +669,9 @@ function last()
  * @param iterable $items
  * @return callable|array|iterable
  */
-function map()
+function map(...$args)
 {
-    return functions\curry(functions\map(...))(...func_get_args());
+    return functions\curry(functions\map(...))(...$args);
 }
 /**
  * Filters `$items` by keys that belong in `$keys`.
@@ -684,9 +684,9 @@ function map()
  * @param iterable $items
  * @return callable|array|iterable
  */
-function pick()
+function pick(...$args)
 {
-    return functions\curry(functions\pick(...))(...func_get_args());
+    return functions\curry(functions\pick(...))(...$args);
 }
 /**
  * Filters `$items` that pass the specified `$function`.
@@ -700,9 +700,9 @@ function pick()
  * @param iterable $items
  * @return callable|array|iterable
  */
-function pickBy()
+function pickBy(...$args)
 {
-    return functions\curry(functions\pickBy(...))(...func_get_args());
+    return functions\curry(functions\pickBy(...))(...$args);
 }
 /**
  * Filters `$items` by keys that do NOT belong in `$keys`.
@@ -715,9 +715,9 @@ function pickBy()
  * @param iterable $items
  * @return callable|array|iterable
  */
-function omit()
+function omit(...$args)
 {
-    return functions\curry(functions\omit(...))(...func_get_args());
+    return functions\curry(functions\omit(...))(...$args);
 }
 /**
  * Filters `$items` by those who do not pass `$function`.
@@ -740,9 +740,9 @@ function omit()
  * @param iterable $items
  * @return callable|array|iterable
  */
-function omitBy()
+function omitBy(...$args)
 {
-    return functions\curry(functions\omitBy(...))(...func_get_args());
+    return functions\curry(functions\omitBy(...))(...$args);
 }
 /**
  * Array reducing, a.k.a. foldl.
@@ -756,9 +756,9 @@ function omitBy()
  * @param iterable $items
  * @return mixed
  */
-function reduce()
+function reduce(...$args)
 {
-    return functions\curry(functions\reduce(...))(...func_get_args());
+    return functions\curry(functions\reduce(...))(...$args);
 }
 /**
  * Returns the first item in `$items` for which `$callback($item)` is truthy
@@ -771,9 +771,9 @@ function reduce()
  * @param iterable $items
  * @return mixed
  */
-function search()
+function search(...$args)
 {
-    return functions\curry(functions\search(...))(...func_get_args());
+    return functions\curry(functions\search(...))(...$args);
 }
 /**
  * Sorts `$items`. Note that return type will be array regardless of `$items`,
@@ -801,9 +801,9 @@ function search()
  * @param iterable $items
  * @return callable|array
  */
-function sort()
+function sort(...$args)
 {
-    return functions\curry(functions\sort(...))(...func_get_args());
+    return functions\curry(functions\sort(...))(...$args);
 }
 /**
  * Similar to sort, but using a function that returns a value to use as comparison for each item.
@@ -827,9 +827,9 @@ function sort()
  * @param iterable $items
  * @return callable|array
  */
-function sortBy()
+function sortBy(...$args)
 {
-    return functions\curry(functions\sortBy(...))(...func_get_args());
+    return functions\curry(functions\sortBy(...))(...$args);
 }
 /**
  * Returns a slice of `$items`, beginning at `$start` and of length `$length`.
@@ -843,9 +843,9 @@ function sortBy()
  * @param iterable $items
  * @return callable|array|iterable
  */
-function slice()
+function slice(...$args)
 {
-    return functions\curry(functions\slice(...))(...func_get_args());
+    return functions\curry(functions\slice(...))(...$args);
 }
 /**
  * Takes items from `$items` until `$function($item)` yields false
@@ -858,9 +858,9 @@ function slice()
  * @param iterable $items
  * @return callable|array|iterable
  */
-function takeWhile()
+function takeWhile(...$args)
 {
-    return functions\curry(functions\takeWhile(...))(...func_get_args());
+    return functions\curry(functions\takeWhile(...))(...$args);
 }
 /**
  * Iterable to array
@@ -868,9 +868,9 @@ function takeWhile()
  * @param iterable $items
  * @return callable|array
  */
-function toArray()
+function toArray(...$args)
 {
-    return functions\curry(functions\toArray(...))(...func_get_args());
+    return functions\curry(functions\toArray(...))(...$args);
 }
 /**
  * Iterable to iterator
@@ -878,9 +878,9 @@ function toArray()
  * @param iterable $items
  * @return callable|iterable
  */
-function toIterator()
+function toIterator(...$args)
 {
-    return functions\curry(functions\toIterator(...))(...func_get_args());
+    return functions\curry(functions\toIterator(...))(...$args);
 }
 /**
  * From associative iterable to a list of pairs.
@@ -894,9 +894,9 @@ function toIterator()
  * @param iterable $items
  * @return callable|array|iterable
  */
-function toPairs()
+function toPairs(...$args)
 {
-    return functions\curry(functions\toPairs(...))(...func_get_args());
+    return functions\curry(functions\toPairs(...))(...$args);
 }
 /**
  * Values of an iterable
@@ -908,9 +908,9 @@ function toPairs()
  * @param iterable $items
  * @return callable|array|iterable
  */
-function values()
+function values(...$args)
 {
-    return functions\curry(functions\values(...))(...func_get_args());
+    return functions\curry(functions\values(...))(...$args);
 }
 /**
  * Zips one or more iterables.
@@ -931,9 +931,9 @@ function values()
  * @param iterable[] ...$rest
  * @return array|iterable
  */
-function zip()
+function zip(...$args)
 {
-    return functions\curry(functions\zip(...))(...func_get_args());
+    return functions\curry(functions\zip(...))(...$args);
 }
 /**
  * Zips one or more iterables with the specified function.
@@ -953,7 +953,7 @@ function zip()
  * @param iterable[] ...$args
  * @return callable|array|iterable
  */
-function zipWith()
+function zipWith(...$args)
 {
-    return functions\curry(functions\zipWith(...))(...func_get_args());
+    return functions\curry(functions\zipWith(...))(...$args);
 }

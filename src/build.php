@@ -53,15 +53,14 @@ $functionToCurriedCall = function(Function_ $function) use( $factory, $curriedDo
         ),
         [
             new Arg(
-                new Expr\FuncCall(
-                    new Name('func_get_args')
-                ),
+                new Expr\Variable('args'),
                 false,
                 true
             )
         ]
     );
     return $factory->function((string) $function->name)
+        ->addParam($factory->param('args')->makeVariadic())
         ->addStmt(new Stmt\Return_($curryCall))
         ->setDocComment($curriedDocComment($function));
 };
