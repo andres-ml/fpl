@@ -242,6 +242,38 @@ function groupBy(callable $grouper, iterable $items) : iterable
 }
 
 /**
+ * Indexes each item `$item` in `$items` by the value provided by `$indexer($item)`.
+ * If several items share the same index, the last one is kept.
+ *
+ * ```
+ * $indexed = indexBy(index('name'), [
+ *      ['name' => 'Pete', 'age' => 30],
+ *      ['name' => 'Carl', 'age' => 25],
+ * ]);
+ * ```
+ *
+ * Results in the following array:
+ * ```
+ * [
+ *  'Pete' => ['name' => 'Pete', 'age' => 30],
+ *  'Carl' => ['name' => 'Carl', 'age' => 25],
+ * ]
+ * ```
+ *
+ * @param callable $indexer
+ * @param iterable $items
+ * @return array|iterable
+ */
+function indexBy(callable $indexer, iterable $items) : iterable
+{
+    $indexed = [];
+    foreach ($items as $key => $value) {
+        $indexed[$indexer($value, $key)] = $value;
+    }
+    return $indexed;
+}
+
+/**
  * Returns the first element in `$items`, if any
  * 
  * ```

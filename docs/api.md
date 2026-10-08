@@ -399,6 +399,27 @@ $mergeFirst2([1,2,3,4], [5,6,7,8]);  // [1,2,5,6]
 ```
 
 #
+#### `indexBy(callable $indexer, iterable $items): iterable`
+
+Indexes each item `$item` in `$items` by the value provided by `$indexer($item)`.
+If several items share the same index, the last one is kept.
+
+```php
+$indexed = indexBy(index('name'), [
+     ['name' => 'Pete', 'age' => 30],
+     ['name' => 'Carl', 'age' => 25],
+]);
+```
+
+Results in the following array:
+```php
+[
+ 'Pete' => ['name' => 'Pete', 'age' => 30],
+ 'Carl' => ['name' => 'Carl', 'age' => 25],
+]
+```
+
+#
 #### `head(iterable $items)`
 
 Returns the first element in `$items`, if any

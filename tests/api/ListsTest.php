@@ -139,6 +139,23 @@ class ListsTest extends TestCase
     /**
      * @return void
      */
+    public function testIndexBy() : void
+    {
+        $indexed = indexBy(index('name'), [
+             ['name' => 'Pete', 'age' => 30],
+             ['name' => 'Carl', 'age' => 25],
+             ['name' => 'Pete', 'age' => 31],
+        ]);
+        $expected = [
+            'Pete' => ['name' => 'Pete', 'age' => 31],
+            'Carl' => ['name' => 'Carl', 'age' => 25],
+        ];
+        $this->assertEquals($expected, $indexed);
+    }
+
+    /**
+     * @return void
+     */
     public function testHead() : void
     {
         $this->assertEquals(1, head([1, 2]));

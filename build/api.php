@@ -607,6 +607,33 @@ function useWith(...$args)
     return functions\curry(functions\useWith(...))(...$args);
 }
 /**
+ * Indexes each item `$item` in `$items` by the value provided by `$indexer($item)`.
+ * If several items share the same index, the last one is kept.
+ *
+ * ```
+ * $indexed = indexBy(index('name'), [
+ *      ['name' => 'Pete', 'age' => 30],
+ *      ['name' => 'Carl', 'age' => 25],
+ * ]);
+ * ```
+ *
+ * Results in the following array:
+ * ```
+ * [
+ *  'Pete' => ['name' => 'Pete', 'age' => 30],
+ *  'Carl' => ['name' => 'Carl', 'age' => 25],
+ * ]
+ * ```
+ *
+ * @param callable $indexer
+ * @param iterable $items
+ * @return callable|array|iterable
+ */
+function indexBy(...$args)
+{
+    return functions\curry(functions\indexBy(...))(...$args);
+}
+/**
  * Returns the first element in `$items`, if any
  * 
  * ```
