@@ -63,7 +63,7 @@ function index($index, $array)
  * @param mixed $index
  * @param mixed $else
  * @param array|\ArrayAccess $array
- * @return void
+ * @return mixed
  */
 function indexOr($index, $else, $array)
 {

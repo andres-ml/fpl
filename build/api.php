@@ -214,7 +214,7 @@ function curry()
  * @param mixed $index
  * @param mixed $else
  * @param array|\ArrayAccess $array
- * @return void
+ * @return mixed
  */
 function indexOr()
 {
