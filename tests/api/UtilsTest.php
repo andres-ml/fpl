@@ -78,11 +78,10 @@ class UtilsTest extends TestCase
 class ClassWithMagicProperty
 {
 
-    public function __construct($name, $value)
-    {
-        $this->name = $name;
-        $this->value = $value;
-    }
+    public function __construct(
+        protected string $name,
+        protected mixed $value
+    ) {}
 
     public function __get($name) {
         if ($name === $this->name) {
