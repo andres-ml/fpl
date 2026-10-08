@@ -182,6 +182,7 @@ function lt()
  * Returns the curried version of a function.
  * Once all non-optional, non-variadic parameters have been provided, the function will be called;
  * if you need to curry optional or variadic parameters you must use curryN and specify the number of parameters.
+ * Calling a curried function with no arguments throws an `ArgumentCountError`; use `$curried(...)` if you need a callable.
  * 
  * ```
  * $add2AndMore = function($a, $b, ...$rest) {
@@ -189,7 +190,7 @@ function lt()
  * };
  * 
  * $curried = curry($add2AndMore);
- * $curried()(1)(2);    // 3
+ * $curried(...)(1)(2); // 3
  * $curried(1)(2);      // 3
  * $curried(1, 2);      // 3
  * $curried(1, 2, 3);   // 6

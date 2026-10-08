@@ -41,7 +41,7 @@ class FunctionsTest extends TestCase
         };
 
         $curried = curry($add2OrMore);
-        $this->assertIsCallable($curried());
+        $this->assertIsCallable($curried(...));
         $this->assertIsCallable($curried(1));
         $this->assertEquals(3, $curried(1, 2));
         $this->assertEquals(6, $curried(1, 2, 3));
@@ -57,7 +57,7 @@ class FunctionsTest extends TestCase
         };
 
         $curried = curryN(3, $add2OrMore);
-        $this->assertIsCallable($curried());
+        $this->assertIsCallable($curried(...));
         $this->assertIsCallable($curried(1));
         $this->assertIsCallable($curried(1, 2));
         $this->assertEquals(6, $curried(1, 2, 3));

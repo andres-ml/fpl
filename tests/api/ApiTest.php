@@ -24,7 +24,18 @@ class ApiTest extends TestCase
         $expected = [2, 4, 6];
         $this->assertEquals($expected, map($multiplyBy2, $array));
         $this->assertEquals($expected, map($multiplyBy2)($array));
-        $this->assertEquals($expected, map()($multiplyBy2)($array));
+        $this->assertEquals($expected, map(...)($multiplyBy2)($array));
+    }
+
+    /**
+     * Test that calling a curried function with no arguments throws
+     * 
+     * @return void
+     */
+    public function testNoArgumentsCallThrows() : void
+    {
+        $this->expectException(\ArgumentCountError::class);
+        map();
     }
 
 }
