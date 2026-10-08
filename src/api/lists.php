@@ -324,7 +324,7 @@ function keys(iterable $items) : iterable
 function last(iterable $items)
 {
     if (is_array($items)) {
-        return $items[count($items) - 1];
+        return $items ? $items[array_key_last($items)] : null;
     }
     else {
         $last = null;

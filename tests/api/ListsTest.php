@@ -179,6 +179,8 @@ class ListsTest extends TestCase
     {
         $this->assertEquals(2, last([1, 2]));
         $this->assertEquals(2, last(counter(1, 3)));
+        $this->assertEquals(2, last(['a' => 1, 'b' => 2]));
+        $this->assertEquals(null, last([]));
     }
 
     /**
