@@ -242,7 +242,7 @@ class ListsTest extends TestCase
      */
     public function testReduce() : void
     {
-        $sum = pack('array_sum');
+        $sum = pack(array_sum(...));
         $this->assertEquals(6, reduce($sum, 0, [1, 2, 3]));
         $this->assertEquals(7, reduce($sum, 1, [1, 2, 3]));
     }
@@ -354,7 +354,7 @@ class ListsTest extends TestCase
      */
     public function testZipWith() : void
     {
-        $sum = pack('array_sum');
+        $sum = pack(array_sum(...));
         $this->assertEquals([], zipWith($sum));
         $this->assertEquals([13, 17], zipWith($sum, [1, 3, 5], [2, 4, 6], [10, 10]));
     }

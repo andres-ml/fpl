@@ -362,7 +362,7 @@ function propOr(...$args)
  * Flips the first two arguments of a function
  * 
  * ```
- * $prepend = flip('array_merge');
+ * $prepend = flip(array_merge(...));
  * $prepend([1], [2], [3]]); // [2, 1, 3]
  * ```
  *
@@ -451,8 +451,8 @@ function flatten(...$args)
  * Transforms a function into a fixed arity.
  * 
  * ```
- * map('get_class', $items); // Error: get_class expected at most 1 parameter but 2 were given
- * map(nAry(1, 'get_class'), $items); // [...]
+ * map(get_class(...), $items); // Error: get_class expected at most 1 parameter but 2 were given
+ * map(nAry(1, get_class(...)), $items); // [...]
  * ```
  *
  * @param integer $arity
@@ -467,7 +467,7 @@ function nAry(...$args)
  * Packs the arguments of a function into an tuple/array
  * 
  * ```
- * $sum = pack('array_sum');
+ * $sum = pack(array_sum(...));
  * $sum(1, 2, 3); // 6
  * ```
  *
@@ -497,7 +497,7 @@ function filter(...$args)
  * Partial application
  * 
  * ```
- * $prepend1 = partial('array_merge', [1]);
+ * $prepend1 = partial(array_merge(...), [1]);
  * $prepend1([2, 3]); // [1, 2, 3]
  * ```
  *
@@ -544,8 +544,8 @@ function pipe(...$args)
  * 
  * ```
  * $words = compose(
- *     unpack('array_merge'),
- *     map(nAry(1, partial('explode', ' ')))
+ *     unpack(array_merge(...)),
+ *     map(nAry(1, partial(explode(...), ' ')))
  * );
  * $words(['a sentence', 'some other sentence']); // ['a', 'sentence', 'some', 'other', 'sentence']
  * ```
@@ -594,7 +594,7 @@ function groupBy(...$args)
  * by the `$argCallbacks` array.
  * 
  * ```
- * $mergeFirst2 = useWith([slice(0, 2), slice(0, 2)], 'array_merge');
+ * $mergeFirst2 = useWith([slice(0, 2), slice(0, 2)], array_merge(...));
  * $mergeFirst2([1,2,3,4], [5,6,7,8]);  // [1,2,5,6]
  * ```
  * 
@@ -688,8 +688,8 @@ function last(...$args)
  * that can't take more than one argument, you can use `nAry`:
  * 
  * ```
- * map('array_sum', [[1, 2], [3, 4]]); // array_sum() expects exactly 1 parameter, 2 given
- * map(nAry(1, 'array_sum'), [[1, 2], [3, 4]]); // [3, 7]
+ * map(array_sum(...), [[1, 2], [3, 4]]); // array_sum() expects exactly 1 parameter, 2 given
+ * map(nAry(1, array_sum(...)), [[1, 2], [3, 4]]); // [3, 7]
  * ```
  * 
  * @param callable $function
@@ -775,7 +775,7 @@ function omitBy(...$args)
  * Array reducing, a.k.a. foldl.
  * 
  * ```
- * reduce(pack('array_sum'), 100, [1, 2, 3]); // 106
+ * reduce(pack(array_sum(...)), 100, [1, 2, 3]); // 106
  * ```
  *
  * @param callable $function reducer function
@@ -971,7 +971,7 @@ function zip(...$args)
  * The resulting zipped iterable is as short as the shortest input iterator.
  * 
  * ```
- * $sum = function(...$args) { return array_sum($args); }; // alternatively, $sum = pack('array_sum');
+ * $sum = function(...$args) { return array_sum($args); }; // alternatively, $sum = pack(array_sum(...));
  * zipWith($sum); // []
  * zipWith($sum, [1, 3, 5], [2, 4, 6], [10, 10]); // [13, 17]
  * ```

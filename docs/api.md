@@ -235,7 +235,7 @@ propOr('c', 'foo', $object); // 'foo'
 Flips the first two arguments of a function
 
 ```php
-$prepend = flip('array_merge');
+$prepend = flip(array_merge(...));
 $prepend([1], [2], [3]]); // [2, 1, 3]
 ```
 
@@ -295,8 +295,8 @@ flatten(INF, $array); // [1, 2, 3, 4]
 Transforms a function into a fixed arity.
 
 ```php
-map('get_class', $items); // Error: get_class expected at most 1 parameter but 2 were given
-map(nAry(1, 'get_class'), $items); // [...]
+map(get_class(...), $items); // Error: get_class expected at most 1 parameter but 2 were given
+map(nAry(1, get_class(...)), $items); // [...]
 ```
 
 #
@@ -305,7 +305,7 @@ map(nAry(1, 'get_class'), $items); // [...]
 Packs the arguments of a function into an tuple/array
 
 ```php
-$sum = pack('array_sum');
+$sum = pack(array_sum(...));
 $sum(1, 2, 3); // 6
 ```
 
@@ -324,7 +324,7 @@ filter(identity(...), [false, null, 1, 0]); // [1]
 Partial application
 
 ```php
-$prepend1 = partial('array_merge', [1]);
+$prepend1 = partial(array_merge(...), [1]);
 $prepend1([2, 3]); // [1, 2, 3]
 ```
 
@@ -355,8 +355,8 @@ Unpacks/spreads arguments of a function
 
 ```php
 $words = compose(
-    unpack('array_merge'),
-    map(nAry(1, partial('explode', ' ')))
+    unpack(array_merge(...)),
+    map(nAry(1, partial(explode(...), ' ')))
 );
 $words(['a sentence', 'some other sentence']); // ['a', 'sentence', 'some', 'other', 'sentence']
 ```
@@ -394,7 +394,7 @@ Wraps a function `$function` so that it's called with transformed arguments, as 
 by the `$argCallbacks` array.
 
 ```php
-$mergeFirst2 = useWith([slice(0, 2), slice(0, 2)], 'array_merge');
+$mergeFirst2 = useWith([slice(0, 2), slice(0, 2)], array_merge(...));
 $mergeFirst2([1,2,3,4], [5,6,7,8]);  // [1,2,5,6]
 ```
 
@@ -461,8 +461,8 @@ The index is supplied to the callback. If you want to provide a callback
 that can't take more than one argument, you can use `nAry`:
 
 ```php
-map('array_sum', [[1, 2], [3, 4]]); // array_sum() expects exactly 1 parameter, 2 given
-map(nAry(1, 'array_sum'), [[1, 2], [3, 4]]); // [3, 7]
+map(array_sum(...), [[1, 2], [3, 4]]); // array_sum() expects exactly 1 parameter, 2 given
+map(nAry(1, array_sum(...)), [[1, 2], [3, 4]]); // [3, 7]
 ```
 
 #
@@ -518,7 +518,7 @@ Would result in:
 Array reducing, a.k.a. foldl.
 
 ```php
-reduce(pack('array_sum'), 100, [1, 2, 3]); // 106
+reduce(pack(array_sum(...)), 100, [1, 2, 3]); // 106
 ```
 
 #
@@ -651,7 +651,7 @@ on whether the first argument is an array or an iterator, respectively.
 The resulting zipped iterable is as short as the shortest input iterator.
 
 ```php
-$sum = function(...$args) { return array_sum($args); }; // alternatively, $sum = pack('array_sum');
+$sum = function(...$args) { return array_sum($args); }; // alternatively, $sum = pack(array_sum(...));
 zipWith($sum); // []
 zipWith($sum, [1, 3, 5], [2, 4, 6], [10, 10]); // [13, 17]
 ```

@@ -67,7 +67,7 @@ class FunctionsTest extends TestCase
      */
     public function testFlip() : void
     {
-        $prepend = flip('array_merge');
+        $prepend = flip(array_merge(...));
         $this->assertEquals([2, 1, 3], $prepend([1], [2], [3]));
     }
 
@@ -98,7 +98,7 @@ class FunctionsTest extends TestCase
      */
     public function testPack() : void
     {
-        $sum = pack('array_sum');
+        $sum = pack(array_sum(...));
         $this->assertEquals(6, $sum(1, 2, 3));
     }
 
@@ -107,7 +107,7 @@ class FunctionsTest extends TestCase
      */
     public function testPartial() : void
     {
-        $prepend1 = partial('array_merge', [1]);
+        $prepend1 = partial(array_merge(...), [1]);
         $this->assertEquals([1, 2, 3], $prepend1([2, 3]));
     }
 
@@ -128,8 +128,8 @@ class FunctionsTest extends TestCase
     public function testUnpack() : void
     {
         $words = compose(
-            unpack('array_merge'),
-            map(nAry(1, partial('explode', ' ')))
+            unpack(array_merge(...)),
+            map(nAry(1, partial(explode(...), ' ')))
         );
         $this->assertEquals(['a', 'sentence', 'some', 'other', 'sentence'], $words(['a sentence', 'some other sentence']));
     }

@@ -344,8 +344,8 @@ function last(iterable $items)
  * that can't take more than one argument, you can use `nAry`:
  * 
  * ```
- * map('array_sum', [[1, 2], [3, 4]]); // array_sum() expects exactly 1 parameter, 2 given
- * map(nAry(1, 'array_sum'), [[1, 2], [3, 4]]); // [3, 7]
+ * map(array_sum(...), [[1, 2], [3, 4]]); // array_sum() expects exactly 1 parameter, 2 given
+ * map(nAry(1, array_sum(...)), [[1, 2], [3, 4]]); // [3, 7]
  * ```
  * 
  * @param callable $function
@@ -447,7 +447,7 @@ function omitBy(callable $function, iterable $items) : iterable
  * Array reducing, a.k.a. foldl.
  * 
  * ```
- * reduce(pack('array_sum'), 100, [1, 2, 3]); // 106
+ * reduce(pack(array_sum(...)), 100, [1, 2, 3]); // 106
  * ```
  *
  * @param callable $function reducer function
@@ -687,7 +687,7 @@ function zip(...$args) : iterable
  * The resulting zipped iterable is as short as the shortest input iterator.
  * 
  * ```
- * $sum = function(...$args) { return array_sum($args); }; // alternatively, $sum = pack('array_sum');
+ * $sum = function(...$args) { return array_sum($args); }; // alternatively, $sum = pack(array_sum(...));
  * zipWith($sum); // []
  * zipWith($sum, [1, 3, 5], [2, 4, 6], [10, 10]); // [13, 17]
  * ```
